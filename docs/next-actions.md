@@ -20,13 +20,13 @@ The next critical task is to update the app, website language, checkout flow, an
 |---|---|
 | It removes commercial confusion and prevents trust-damaging mixed messaging | Site copy, Stripe products, checkout behavior, and CRM messaging all match |
 
-## 3. Implement and verify the approved intake model and file support
+## 3. Preserve the approved program-page intake layout and verify file support
 
-The product should now align to the approved intake structure: headcount-first as the default, custom program as an advanced toggle, and custom program taking precedence when entered. At the same time, the upload flow should support PDF, JPG, PNG, GIF, WEBP, screenshots, and phone photos.
+The live product already reflects the approved intake structure on the program page: **Headcount** appears first, with **Custom Program** beside it as an available option. The work here is therefore to preserve that layout, confirm that custom program entries still take precedence when entered, and verify that the upload flow supports PDF, JPG, PNG, GIF, WEBP, screenshots, and phone photos.
 
 | Why this matters | Definition of progress |
 |---|---|
-| It makes the app match the actual approved workflow and reduces user friction | The intake UX and backend handling reflect the dual-mode model and the approved file list |
+| It keeps the app aligned to the actual approved workflow while avoiding unnecessary UI churn | The existing intake UX remains intact, precedence logic works correctly, and the approved file list is verified in the product |
 
 ## 4. Run full end-to-end testing with PDF verification included
 
@@ -46,4 +46,4 @@ At the end of the week, Stephen should decide whether the app is ready to move t
 
 ## Summary
 
-The next five actions now form a straight line: rebuild the space-planning logic, align pricing and trial behavior, align intake and file support, test everything end to end, and then make a launch-readiness decision. The project no longer needs more strategic branching. It needs disciplined execution.
+The next five actions now form a straight line: rebuild the space-planning logic, align pricing and trial behavior, preserve the approved intake layout while verifying file support, test everything end to end, and then make a launch-readiness decision. The project no longer needs more strategic branching. It needs disciplined execution.

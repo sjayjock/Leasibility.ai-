@@ -106,7 +106,7 @@ Stephen does not need to invent a new prompt style every time. He can reuse simp
 
 ### Example 2: Feature add
 
-> Pull the latest from sjayjock/Leasibility.ai and review docs/current-state.md, docs/next-actions.md, and docs/decisions.md. Then implement the dual-mode intake flow with headcount first as default and custom program as an advanced toggle. Test it, commit, push, and update current-state.md and next-actions.md.
+> Pull the latest from sjayjock/Leasibility.ai and review docs/current-state.md, docs/next-actions.md, and docs/decisions.md. Then preserve or implement the dual-mode intake flow with Headcount shown first and Custom Program beside it as an available option. Test it, commit, push, and update current-state.md and next-actions.md.
 
 ### Example 3: Testing chat
 

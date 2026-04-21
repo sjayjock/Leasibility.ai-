@@ -32,7 +32,7 @@ The current app baseline is the archived application code reviewed in the reposi
 | Program logic | All scenarios aim at the same tenant program |
 | Intake model | Dual-mode |
 | Default intake path | Headcount-first |
-| Advanced intake path | Custom program toggle |
+| Advanced intake path | Custom Program option beside Headcount |
 | File support | PDF, JPG, PNG, GIF, WEBP, screenshots, phone photos |
 | Layout strategy | Hybrid structured truth + AI image presentation + fallback |
 | Launch posture | Upload-first, scanning optional |
@@ -63,7 +63,8 @@ The product should currently be treated as **near-launch but not yet launch-alig
 |---|---|
 | Core app exists | Yes |
 | Pricing and trial alignment complete | Not yet |
-| Approved intake/file-support model fully aligned | Not yet |
+| Program-page intake layout aligned | Yes, Headcount is first and Custom Program is beside it |
+| Full file-support alignment verified | Not yet |
 | Space-planning rebuild complete | Not yet |
 | Full testing complete | Not yet |
 | PDF export considered part of launch scope | Yes |
@@ -71,7 +72,7 @@ The product should currently be treated as **near-launch but not yet launch-alig
 
 ## Working Instruction for This Week
 
-The project should now be approached as a controlled revision sprint. The team does not need more major strategic exploration. It needs to align the running app to the approved baseline, rebuild the space-planning logic, update billing and trial behavior, implement the approved intake and file-support rules, and complete full end-to-end testing.
+The project should now be approached as a controlled revision sprint. The team does not need more major strategic exploration. It needs to align the running app to the approved baseline, rebuild the space-planning logic, update billing and trial behavior, preserve the approved program-page intake layout, confirm file-support rules, and complete full end-to-end testing.
 
 ## Bottom Line
 

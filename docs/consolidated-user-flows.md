@@ -48,14 +48,14 @@ The main call to action remains **create a new project**.
 
 ## Flow 4: Project Intake
 
-The approved intake model is dual-mode, but the product should present the simplest path first.
+The approved intake model is dual-mode, but the product should present the preferred path first while keeping the alternative immediately visible.
 
 | Intake mode | Approved flow behavior |
 |---|---|
-| Headcount mode | Default first path shown to the user |
-| Custom program mode | Advanced toggle for more precise requirements |
+| Headcount mode | First option shown to the user on the page |
+| Custom program mode | Adjacent option shown beside Headcount for more precise requirements |
 
-The user should begin with the headcount-first experience by default. If the user chooses to enter a custom room program, that custom input becomes the controlling program definition and supersedes headcount.
+The user should begin with the Headcount-first experience visually, while still seeing Custom Program as a direct option beside it. If the user chooses to enter a custom room program, that custom input becomes the controlling program definition and supersedes headcount.
 
 ## Flow 5: File Submission
 
@@ -121,6 +121,6 @@ The app should support repeated project creation and ongoing project review. Ove
 
 The approved user-flow principle is simple:
 
-> The default path should be easy, upload-first, and headcount-first, while still allowing more advanced custom-program work when the broker needs it.
+> The default path should be easy, upload-first, and Headcount-first, while still showing Custom Program beside it when the broker needs a more precise room definition.
 
 That principle now governs intake, analysis, billing, and launch positioning across the app.

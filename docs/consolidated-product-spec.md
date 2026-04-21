@@ -62,14 +62,14 @@ All three scenarios must aim for the **same tenant program**. The scenario diffe
 
 ## Intake Model
 
-The approved intake model is **dual-mode**, with a strong preference for simplicity in the default path.
+The approved intake model is **dual-mode**, with a clear visual preference for the Headcount path while keeping the Custom Program path immediately available.
 
 | Intake path | Product behavior |
 |---|---|
-| Headcount mode | Default first path for most users |
-| Custom program mode | Advanced toggle for users with precise room requirements |
+| Headcount mode | First option shown on the page for most users |
+| Custom program mode | Adjacent option shown beside Headcount for precise room requirements |
 
-If a user enters a custom program, the custom program supersedes headcount as the controlling input. This preserves an easy default workflow while still supporting more exact deal requirements when necessary.
+If a user enters a custom program, the custom program supersedes headcount as the controlling input. This preserves a clear default emphasis while still keeping the alternative immediately visible on the page.
 
 ## File Intake
 
@@ -131,7 +131,7 @@ The first major product task is not a marketing rewrite or pricing experiment. I
 |---|---|
 | Space-planning logic rebuild | It is the highest product-credibility risk |
 | Pricing/trial alignment | It affects launch conversion and billing trust |
-| Dual-mode intake implementation | It resolves a major product-design decision |
+| Preserve approved dual-mode intake layout | It keeps the existing approved program-page structure intact while related logic is verified |
 | File-format support alignment | It reduces user friction in the real workflow |
 | Full testing | It determines launch readiness |
 

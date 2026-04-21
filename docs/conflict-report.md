@@ -18,7 +18,7 @@ This file no longer exists to keep decisions open. Its new purpose is to show **
 | 4 | Trial structure | 14-day, card-required, $0 at signup, auto-convert after trial |
 | 5 | Scenario model | Hybrid: visible construction-impact scenarios plus workplace strategy as upstream input |
 | 6 | Program consistency | All scenarios aim at the same program |
-| 7 | Intake model | Dual-mode with headcount first by default and custom program as advanced toggle |
+| 7 | Intake model | Dual-mode with Headcount shown first and Custom Program beside it as an available option |
 | 8 | File formats | PDF, JPG, PNG, GIF, WEBP, screenshots, phone photos |
 | 9 | Layout strategy | Hybrid deterministic or structured truth with AI image presentation and fallback |
 | 10 | Fidelity rule | Preserve perimeter and key building elements; allow more interior freedom as impact increases |
@@ -47,7 +47,7 @@ The product now has a stable interpretation: visible construction-impact scenari
 
 ### Intake and file support
 
-The app now has a fixed launch posture: headcount-first default intake, custom program as an advanced path, and broad practical upload support.
+The app now has a fixed launch posture: **Headcount** appears first on the program page, **Custom Program** sits beside it as an available option, and the product continues to support broad practical upload inputs. The direction from Conflict 7 should therefore focus on preserving this approved live layout rather than changing it into an advanced-toggle pattern.
 
 ### Technical direction
 

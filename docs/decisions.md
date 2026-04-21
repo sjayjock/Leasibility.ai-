@@ -20,7 +20,7 @@ The technical direction is also now defined. The product will use a **hybrid lay
 | 4 | Trial policy | 14-day, card-required trial with $0 charged at signup and auto-conversion after trial |
 | 5 | Scenario model | Hybrid: visible construction-impact scenarios, workplace strategy as upstream input |
 | 6 | Program consistency | All scenarios aim for the same program, varying by intervention and cost |
-| 7 | Intake model | Dual-mode intake, with headcount first by default and custom program as an advanced toggle |
+| 7 | Intake model | Dual-mode intake, with Headcount shown first and Custom Program beside it as an available option |
 | 8 | Accepted file formats | PDF, JPG, PNG, GIF, WEBP, screenshots, and phone photos |
 | 9 | Layout strategy | Hybrid: deterministic or structured scenario truth with AI image presentation and fallback safety |
 | 10 | Fidelity rules | Preserve perimeter, stairs, elevators, core elements, window locations, and entry doors/egress; allow more interior freedom as impact increases |
@@ -80,10 +80,10 @@ The intake flow will support two modes.
 
 | Intake path | Final decision |
 |---|---|
-| Headcount mode | Default first path |
-| Custom program mode | Advanced toggle |
+| Headcount mode | First option shown on the page |
+| Custom program mode | Adjacent option shown beside Headcount |
 
-If custom program values are entered, the custom program supersedes headcount as the controlling input. Headcount-first remains the preferred launch UX because it keeps the default path simple.
+The program page should present **Headcount** first, with **Custom Program** immediately beside it as an available option. If custom program values are entered, the custom program supersedes headcount as the controlling input. This keeps the preferred path visually first without hiding the custom path behind an advanced-toggle pattern.
 
 ### File Intake Policy
 
