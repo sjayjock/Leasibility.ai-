@@ -2,139 +2,139 @@
 
 ## Product Definition
 
-Leasibility.ai is a **broker-first commercial real-estate feasibility platform** designed to help tenant-rep and office-leasing brokers evaluate a space quickly enough to influence a live deal. Across nearly all iterations, the durable promise is the same: a broker should be able to turn an existing floor plan and a tenant program into **decision-ready test-fit scenarios, budget guidance, schedule expectations, and exportable client materials** in minutes instead of days or weeks.
+Leasibility.ai is a **broker-first office-feasibility application** that is already built in meaningful form but still requires revision before launch. It is not a blank concept, and it is not a finished launch product. The approved product stage is therefore: **built, but in need of focused revision and testing before launch**.
 
-The repository contains multiple generations of this concept, but the latest archived application provides the clearest product backbone. This consolidated specification therefore treats the archived app snapshot as the current structural baseline, while incorporating later business and technical revisions where they clarify intent.
+The product’s job is to help a broker take an existing office-space opportunity and quickly answer whether the space works, what level of build-out it may require, what it may cost, how long it may take, and how to present those answers in a client-ready format.
 
-## Core User and Job-to-Be-Done
+## Product Baseline
 
-The primary user is an **individual tenant-rep broker or small brokerage team** handling office leasing deals. The core job-to-be-done is to answer feasibility questions before the competition does: whether the space works, how it could be laid out, what level of intervention is required, what it may cost, and how long it may take.
+The archived application code is now the canonical implementation baseline. Earlier planning documents remain useful as historical context, and rebuild prompts remain useful as guidance for improvements, but they no longer compete with the archived app code as equal sources of truth.
 
-| User segment | Priority | Primary need |
-|---|---|---|
-| Tenant-rep and office-leasing brokers | Primary | Rapid deal support during tours and early negotiations |
-| Small brokerage teams | Secondary | Shared workflows, team packaging, branded outputs |
-| Large brokerages / corporate real-estate teams | Tertiary | Enterprise controls, integrations, analytics |
-| Architects / consultants | Adjacent | Potential future users or partners, but not the primary launch user |
-
-## Consolidated Product Scope
-
-The product should be understood as six connected layers rather than a single feature.
-
-| Layer | Consolidated scope |
+| Product baseline question | Approved answer |
 |---|---|
-| Funnel and acquisition | Landing page, demo flow, branded start page, onboarding survey |
-| Account and identity | Authentication, broker profile, branding assets |
-| Project intake | New project wizard, floor-plan upload/scan, tenant program capture |
-| Analysis engine | Three scenarios with layout, room program, budget, schedule, and narrative output |
-| Deliverables | In-app project detail, PDF export, public/shareable reports where supported |
-| Monetization and retention | Stripe plans, trial, billing portal, referrals, lifecycle automation |
+| Is the product still pre-build? | No |
+| Is the product launch-ready as-is? | No |
+| What is the base implementation reference? | The archived app code |
+| What is the role of rebuild prompts? | Improvement guidance |
+| What is the role of older planning docs? | Historical reference |
 
-## Canonical Core Workflow
+## Primary User
 
-The latest app evidence supports the following canonical workflow.
+The primary user remains the **tenant-rep or office-leasing broker** who needs faster feasibility answers during real deal activity. Secondary expansion users include small brokerage teams and later larger brokerage organizations.
 
-1. A prospect lands on the marketing site and is encouraged to run a sample deal or start a trial.
-2. The user enters a branded start/onboarding flow and creates an account.
-3. The user selects or is routed into a pricing/trial path.
-4. The user reaches the dashboard and creates a new project.
-5. The user enters property details and tenant-program information.
-6. The user uploads or scans a floor plan.
-7. The app runs the analysis engine and generates three scenarios.
-8. The user reviews scenario layouts, budgets, schedules, and summaries.
-9. The user exports a report, shares the result, or continues managing projects and billing.
+## Core Product Promise
 
-## Functional Requirements
+The product promise is to give the broker a fast, structured answer to five practical questions.
 
-### 1. Marketing and Pre-Product Experience
-
-The product should maintain a conversion-oriented public experience with a **sample deal/demo path**, a **branded start page**, and a **post-signup onboarding survey**. Later documents show that the public site is not just informational; it is part of the product-led-growth motion and should be treated as an integrated acquisition system.
-
-### 2. Authentication and Broker Identity
-
-The app should support sign-in, redirection back into the correct app state, and a broker profile that stores at minimum the user’s identifying data and brand assets used for reports. Broker branding is important because the product’s output is not merely analytical; it is also a client-facing sales asset.
-
-### 3. Project Creation and Intake
-
-The project-intake flow should allow a broker to create a new project with property name, square footage, location/market, industry, headcount or program inputs, and a floor-plan asset. The latest app evidence supports a wizard-style intake flow with stepwise progression and support for either direct upload or a scan/mobile capture experience.
-
-The repository contains disagreement about the exact programming inputs. The consolidated spec resolves that by supporting **both** of the following modes.
-
-| Programming mode | Consolidated requirement |
+| Broker question | Product answer |
 |---|---|
-| Headcount-based mode | User enters headcount, industry, and optionally workplace strategy guidance |
-| Custom program mode | User specifies required room quantities and the engine adds ancillary/support spaces |
+| Can this space work? | Scenario-based feasibility view |
+| What does the plan look like? | Structured layout truth with AI image presentation |
+| What will it likely cost? | Budget range and breakdown |
+| How long will it take? | Schedule range and phased timeline |
+| How do I present this? | PDF export and client-facing deliverables |
 
-This dual-mode model best reconciles the later rebuild notes with the current app’s custom-program parsing logic.
+## Canonical Scenario Model
 
-### 4. File Intake
+Stephen approved the **hybrid scenario model**. This means the visible scenario framework shown to the user remains the construction-impact model, while workplace strategy influences programming upstream.
 
-The later technical direction strongly argues that floor-plan intake should not be artificially narrow. The consolidated requirement is that the platform should accept **standard image formats and PDF floor plans**, with graceful processing rather than brittle rejection. Broader document/CAD support can remain a future extension, but the app should at minimum support the common real-world broker workflow of photos, screenshots, JPG/PNG, and PDF plans.
+### Visible user-facing scenarios
 
-### 5. Analysis Output
-
-The platform should always produce **exactly three scenarios**, because this is the most stable contract across the latest archived app and the downstream reporting system. However, the repository contains two competing conceptual models for what those three scenarios mean. The consolidated specification resolves that tension as follows:
-
-| Dimension | Consolidated decision |
+| Scenario | Meaning |
 |---|---|
-| Scenario framework | Use **construction-impact scenarios** as the visible output model |
-| Visible scenario names | Light Refresh, Moderate Build-Out, Full Transformation |
-| Optional upstream strategy input | Workplace strategy may inform the room mix, but it should not replace the three visible output scenarios |
+| Light Refresh | Minimal-intervention scenario |
+| Moderate Build-Out | Mid-level intervention scenario |
+| Full Transformation | Highest-intervention scenario |
 
-This preserves compatibility with the current implementation while still incorporating the more strategic programming concepts from the rebuild notes.
+### Upstream workplace-strategy role
 
-### 6. Scenario Contents
+Workplace strategy is still part of the product, but it is not the visible scenario system. Instead, it acts as an **input that influences the room program and planning logic before the three visible scenarios are generated**.
 
-Each scenario should contain the following output components.
+## Program Consistency Rule
 
-| Output component | Requirement |
+All three scenarios must aim for the **same tenant program**. The scenario differences should come from intervention level, cost profile, and allowable interior change, not from representing entirely different tenant requirements.
+
+| Product rule | Approved decision |
 |---|---|
-| Scenario label and impact level | Required |
-| Efficiency / usable-space metric | Required |
-| Room breakdown | Required |
-| Layout representation | Required |
-| Budget range and category breakdown | Required |
-| Schedule range and phased timeline | Required |
-| Narrative summary for the broker/client | Required |
+| Can one scenario reduce the tenant program while another expands it? | No, not as the default logic |
+| What varies across scenarios? | Intervention level, interior flexibility, cost, and timeline |
+| What should remain stable? | The target tenant program |
 
-### 7. Reporting and Sharing
+## Intake Model
 
-The app should support **in-app review**, **PDF export**, and **shareable external report views** where the share infrastructure is complete. The reporting layer is a core product function because the output is intended to travel into deal conversations, not remain confined to the app dashboard.
+The approved intake model is **dual-mode**, with a strong preference for simplicity in the default path.
 
-### 8. Billing and Access Control
-
-The product should gate premium usage through Stripe-backed plans, support a trial period, enforce usage limits where the entry plan requires them, and provide self-serve billing management. Because the repository’s pricing values conflict, pricing numbers are defined separately in `docs/consolidated-pricing.md`, but the feature model below reflects the intended packaging logic.
-
-| Packaging logic | Consolidated requirement |
+| Intake path | Product behavior |
 |---|---|
-| Starter / entry tier | Limited monthly analyses, core workflow access |
-| Professional tier | Higher or unlimited project volume, full report/export value |
-| Team tier | Team-oriented packaging, shared workflows, brand controls, future collaboration extensions |
-| Enterprise | High-touch custom packaging, integrations, analytics, support |
+| Headcount mode | Default first path for most users |
+| Custom program mode | Advanced toggle for users with precise room requirements |
 
-### 9. Growth and Retention Features
+If a user enters a custom program, the custom program supersedes headcount as the controlling input. This preserves an easy default workflow while still supporting more exact deal requirements when necessary.
 
-Later app snapshots show that referrals, join pages, changelog/onboarding touches, and CRM handoff were part of the broader operating plan. These should be considered **secondary but real product features**, not random experiments. They support the PLG-to-sales expansion strategy documented elsewhere in the repo.
+## File Intake
 
-## Non-Functional Requirements
+The launch product should accept a practical set of broker-friendly file types rather than forcing narrow file purity.
 
-The repository makes clear that product quality is judged not only by whether the app runs, but by whether its outputs are **credible in a broker-client setting**. The consolidated non-functional requirements are therefore:
-
-| Area | Consolidated expectation |
+| Accepted input types | Approved launch set |
 |---|---|
-| Output credibility | Floor plans, budgets, and schedules must be believable enough for live deal discussion |
-| Speed | Analysis must feel fast enough to preserve the promise of “answers before anyone else” |
-| Brandability | Reports must support broker branding |
-| Mobile/field readiness | Intake and usage should work during tours and out-of-office workflows |
-| Consistency | Pricing, copy, scenarios, and feature packaging must be aligned across app, docs, and funnel |
-| Trust | Legal pages, billing clarity, and data-handling posture must support real commercial usage |
+| Documents | PDF |
+| Images | JPG, PNG, GIF, WEBP |
+| Practical real-world inputs | Screenshots and phone photos |
 
-## Major Product Risks
+This policy supports actual brokerage behavior, where the source plan is often imperfect or comes from an email attachment, screenshot, or photographed plan set.
 
-The largest product risk is still the **space-planning output quality**. Multiple documents state that the current deterministic/SVG approach is not sufficiently architectural or realistic. Even where AI image generation was later introduced, the repo still shows unresolved concern about whether the rendered layouts truly respect uploaded plan geometry, core elements, walls, circulation, and room-program fidelity.
+## Layout and Rendering Model
 
-The second major risk is **source-of-truth drift**. Pricing, scenario logic, and feature packaging changed repeatedly without a synchronized documentation update. The product can only launch cleanly once one canonical specification is approved and reflected consistently in code and collateral.
+The approved product behavior is a **hybrid layout model**.
 
-## Final Consolidated Product Position
+| Layer | Product role |
+|---|---|
+| Structured scenario data | Authoritative truth |
+| Deterministic or rule-based planning logic | Core spatial reasoning layer |
+| AI image generation | Polished customer-facing floor-plan presentation |
+| Fallback behavior | Keeps the workflow functioning when presentation generation fails |
 
-Leasibility.ai should be treated as a **rapid-feasibility, broker-decision platform**, not merely a floor-plan generator. Its MVP/launch product is the combination of intake, scenario generation, budget/schedule guidance, and branded reporting. The app already contains enough surrounding billing and funnel machinery to support that position, but it needs one finalized spec so the business, product, and code layers stop diverging.
+This model is important because Leasibility.ai is not merely an image generator. It is a structured feasibility tool that also needs presentation-quality output.
+
+## Plan Fidelity Requirements
+
+Generated plans must preserve key building constraints. The product may vary interior interventions more aggressively as scenario impact rises, but it should not behave as if the building shell is fully disposable.
+
+| Building element | Fidelity expectation |
+|---|---|
+| Perimeter | Preserve |
+| Stairs | Preserve |
+| Elevators | Preserve |
+| Core elements | Preserve |
+| Window locations | Preserve |
+| Entry doors / primary and secondary egress | Preserve |
+| Interior partitions | Increasing freedom as scenario impact increases |
+
+## Launch Workflow Position
+
+The approved launch posture is **upload-first**, not scan-first. Mobile or field-scanning language can remain part of the broader story, but scanning is optional for launch rather than the defining technical dependency.
+
+## Reporting and Sharing
+
+PDF export is treated as launch-ready. Public-share functionality remains in progress unless it is verified directly in the running source tree.
+
+| Output path | Approved current-state interpretation |
+|---|---|
+| PDF export | Launch-ready |
+| Public share/report links | In progress unless verified |
+
+## Product Priorities for the Immediate Rebuild Window
+
+The first major product task is not a marketing rewrite or pricing experiment. It is one more serious attempt to rebuild the space-planning logic through Claude Code while keeping the archived app as the baseline system.
+
+| Immediate priority | Why it comes first |
+|---|---|
+| Space-planning logic rebuild | It is the highest product-credibility risk |
+| Pricing/trial alignment | It affects launch conversion and billing trust |
+| Dual-mode intake implementation | It resolves a major product-design decision |
+| File-format support alignment | It reduces user friction in the real workflow |
+| Full testing | It determines launch readiness |
+
+## Final Product Position
+
+Leasibility.ai should now be understood as a **built but not yet launch-aligned broker workflow product**. The product baseline is clear, the scenario model is clear, the intake model is clear, the file policy is clear, and the layout strategy is clear. The next step is no longer figuring out what the product is. The next step is revising and testing the app so the implementation matches the approved definition.

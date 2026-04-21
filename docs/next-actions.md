@@ -1,49 +1,49 @@
 # Next Actions
 
-## Critical-Path Priorities
+## Immediate Priority
 
-The repository review makes clear that the project does not primarily suffer from a lack of ideas. It suffers from **unresolved executive choices** across pricing, product definition, and technical direction. The next five tasks below are therefore arranged in the order that most efficiently reduces ambiguity and unlocks clean execution.
+The strategic conflicts are now resolved. The project’s next actions should therefore focus on **execution against the approved baseline**, not on further high-level debate. The work this week should move the archived app from a built-but-misaligned state to a tested, launch-ready state if the quality bar is met.
 
-## 1. Approve the canonical commercial model
+## 1. Rebuild the space-planning logic on top of the archived app baseline
 
-Stephen should approve one final pricing and trial model and explicitly retire the others. Until this is done, the site copy, checkout, annual-plan logic, CRM automation, and billing code will continue to drift. The fastest path is to approve one document as final, then align the code and funnel to it in one pass.
+The first and most important task is one more serious rebuild attempt of the space-planning logic through Claude Code. This is the approved engineering path before hiring a development team. The rebuild should preserve the archived app as the base system while improving the planning quality, fidelity handling, and hybrid deterministic-plus-AI rendering behavior.
 
-| Deliverable | Why it is critical |
+| Why this is first | Definition of progress |
 |---|---|
-| Final approved pricing/trial decision | It controls checkout, messaging, entitlements, and conversion logic |
+| It is the highest product-credibility risk | The planning engine produces stronger scenario truth, better fidelity to the uploaded plan, and usable fallback behavior |
 
-## 2. Approve the canonical scenario and intake model
+## 2. Align pricing, checkout, and trial behavior to the approved commercial model
 
-The product still has unresolved tension between workplace-strategy scenarios and construction-impact scenarios, and between headcount-based and custom-program intake. Stephen should approve the hybrid model recommended in the consolidated docs: visible outputs remain **Light Refresh / Moderate Build-Out / Full Transformation**, while the intake flow supports both **headcount** and **custom program** modes, with workplace strategy as an optional upstream modifier.
+The next critical task is to update the app, website language, checkout flow, and billing configuration so they all reflect the same approved model: Starter $99, Professional $149, Team $149 per user, Enterprise Contact Us, and a 14-day card-required trial with $0 charged at signup and auto-conversion after trial.
 
-| Deliverable | Why it is critical |
+| Why this is critical | Definition of progress |
 |---|---|
-| Final approved product behavior for scenario generation and intake | It determines the app’s most important UX and analysis logic |
+| It removes commercial confusion and prevents trust-damaging mixed messaging | Site copy, Stripe products, checkout behavior, and CRM messaging all match |
 
-## 3. Freeze one technical baseline and stop parallel versioning
+## 3. Implement and verify the approved intake model and file support
 
-The repository should stop treating ZIP archives, rebuild prompts, and implementation fragments as co-equal sources of truth. Stephen should designate one canonical implementation baseline, preferably the latest archived app snapshot plus these new consolidated docs, and treat everything else as historical reference. This is the only reliable way to prevent further spec drift.
+The product should now align to the approved intake structure: headcount-first as the default, custom program as an advanced toggle, and custom program taking precedence when entered. At the same time, the upload flow should support PDF, JPG, PNG, GIF, WEBP, screenshots, and phone photos.
 
-| Deliverable | Why it is critical |
+| Why this matters | Definition of progress |
 |---|---|
-| One named canonical source tree and documentation baseline | It converts the project from archive chaos into a maintainable product program |
+| It makes the app match the actual approved workflow and reduces user friction | The intake UX and backend handling reflect the dual-mode model and the approved file list |
 
-## 4. Resolve the floor-plan engine strategy and quality bar
+## 4. Run full end-to-end testing with PDF verification included
 
-The single biggest product risk is still the test-fit output itself. Stephen should approve whether launch uses a deterministic engine, AI-image rendering, or the recommended hybrid model in which structured scenario data remains authoritative and rendered floor-plan imagery serves as the presentation layer. That decision should also define the fidelity rule for existing-condition plans and the accepted file types for launch.
+The project should treat testing as a critical launch gate, not a cleanup task. Testing should verify the full journey from signup and trial behavior through project intake, analysis generation, scenario review, PDF export, and billing logic.
 
-| Deliverable | Why it is critical |
+| Why this matters | Definition of progress |
 |---|---|
-| Final engine/rendering decision and launch-quality standard | It governs product credibility and customer trust |
+| The product is already built; reliability is now as important as feature completeness | The full user path works and PDF export is verified as launch-ready |
 
-## 5. Execute a one-pass alignment sprint across code, funnel, and collateral
+## 5. Make a final go/no-go decision on launch readiness after the rebuild week
 
-After the four decisions above are made, the next critical path is a short alignment sprint that updates plan definitions, trial logic, pricing page copy, onboarding, checkout, CRM automations, app labels, and the core product spec so they all match. The point is not to add more features first. The point is to eliminate contradictions so the product can be evaluated and launched as one coherent system.
+At the end of the week, Stephen should decide whether the app is ready to move toward deployment or whether it needs external development help. That decision should be based on the quality of the rebuilt space-planning logic, the consistency of pricing and trial behavior, and the results of end-to-end testing.
 
-| Deliverable | Why it is critical |
+| Why this is important | Definition of progress |
 |---|---|
-| One synchronized update across app behavior, billing, copy, and documentation | It turns strategic decisions into an operational launch baseline |
+| It prevents indefinite iteration without a decision point | The team has a clear judgment on whether the current app meets the launch bar |
 
 ## Summary
 
-If these five tasks are completed in order, the project will move from a repository full of overlapping versions into a manageable and launchable product program. If they are not completed in order, additional feature work will likely create more drift rather than more progress.
+The next five actions now form a straight line: rebuild the space-planning logic, align pricing and trial behavior, align intake and file support, test everything end to end, and then make a launch-readiness decision. The project no longer needs more strategic branching. It needs disciplined execution.

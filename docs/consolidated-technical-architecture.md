@@ -2,171 +2,171 @@
 
 ## Architectural Summary
 
-The repository shows a product that evolved through multiple technical phases without a single canonical architecture document. The latest archived app snapshot, the standalone layout-module package, the interface-contract document, and later rebuild prompts together reveal the current architecture more clearly than any one source alone.
+Leasibility.ai now has a defined architectural baseline. The **archived application code** is the canonical implementation reference. Rebuild prompts remain useful as guidance for improvements, but they no longer function as parallel sources of truth. Older planning documents remain historical reference only.
 
-The most accurate consolidated reading is that Leasibility.ai is a **web application with a modern React frontend, a TypeScript/Node backend, a relational data layer, Stripe billing, object storage for uploaded assets, and an AI-driven scenario-generation pipeline**. The largest unresolved architectural issue is the **space-planning/rendering subsystem**, where the repo contains overlapping deterministic, SVG, AI-image, and hybrid approaches.
+The product is best understood as a modern web application with a React frontend, a TypeScript/Node backend, structured scenario generation, billing integration, upload handling, reporting, and a layout/rendering subsystem that is being actively improved before launch.
 
-## Current Stack Baseline
+## Canonical Baseline Rule
 
-The latest archived application package indicates the following core stack.
+| Architecture-governance question | Approved answer |
+|---|---|
+| What is the implementation source of truth? | Archived app code |
+| What is the role of rebuild prompts? | Improvement guidance |
+| What is the role of older planning docs? | Historical reference |
+| Is the app being rebuilt from scratch? | No |
+| Is the app being revised from an existing baseline? | Yes |
 
-| Layer | Consolidated architecture |
+This governance rule is important because the repository previously mixed implementation snapshots and speculative redesign instructions without a stable hierarchy.
+
+## System Stack
+
+The latest archived application remains the stack baseline.
+
+| Layer | Baseline architecture |
 |---|---|
 | Frontend | Vite + React + TypeScript |
-| UI/state/query | React, TanStack Query, tRPC client, component libraries |
 | Backend | Express + tRPC on Node/TypeScript |
-| Database layer | Drizzle ORM with MySQL-compatible database |
+| Data layer | Drizzle ORM with MySQL-compatible database |
 | Billing | Stripe |
-| File storage | S3-compatible storage for uploads and assets |
-| AI services | LLM-driven scenario generation plus AI image generation |
-| Reporting | Server-side PDF generation/export |
+| Storage | S3-style object storage |
+| Reporting | PDF generation/export |
+| AI layer | Structured scenario generation with image-based layout presentation |
 
-## System Domains
+## Core Product Architecture
 
-The app should be understood as a set of cooperating domains rather than a single monolith of undifferentiated logic.
+The application can be understood as six connected subsystems.
 
-| Domain | Responsibility |
+| Subsystem | Role |
 |---|---|
-| Marketing and funnel | Public site, demo, start page, onboarding survey |
+| Public funnel | Landing, start flow, onboarding, and trial entry |
 | Identity and account | Authentication, user state, broker profile |
-| Project intake | New-project flow, file upload/scan, program capture |
-| Analysis engine | Scenario generation, program interpretation, cost and schedule logic |
-| Rendering and reporting | In-app scenario display, share view, PDF export |
-| Monetization | Plan definitions, checkout, billing portal, trial/usage enforcement |
-| Growth loops | Referrals, share flows, notifications, CRM handoff |
+| Project intake | Project creation, headcount/custom program input, file upload |
+| Analysis engine | Scenario generation, budgeting, scheduling, spatial logic |
+| Reporting | Project detail, PDF export, and share surfaces where verified |
+| Monetization | Checkout, trial management, subscription state, billing portal |
 
-## Core Analysis Data Flow
+## Approved Intake Architecture
 
-The most stable architecture in the repository is the analysis flow itself. The latest backend and interface-contract materials imply the following pipeline.
+The intake layer now has a clear product rule: it is **dual-mode**, but it defaults to the simplest path.
 
-1. A user creates or updates a project record.
-2. The user uploads or scans a floor plan.
-3. The backend assembles project metadata such as property name, square footage, headcount, industry, market, floor-plan URL, and optional program notes/custom program metadata.
-4. The analysis engine generates exactly three scenarios.
-5. Scenario results are written to the database.
-6. The frontend project-detail view, public share view, and PDF export all consume those stored scenarios.
-
-This architecture is important because the interface-contract document shows that the system already depends on a **stable scenario output shape**. That contract is one of the best foundations available for future cleanup.
-
-## Canonical Scenario Contract
-
-The current technical baseline should keep the following contract intact.
-
-| Contract element | Consolidated requirement |
+| Intake element | Approved architecture behavior |
 |---|---|
-| Scenario count | Exactly 3 |
-| Visible labels | Light Refresh, Moderate Build-Out, Full Transformation |
-| Stored data | Metrics, room breakdown, layout representation, budget, schedule, summary |
-| Downstream consumers | Project-detail page, shared-report page, PDF export |
+| Default program input | Headcount-first |
+| Advanced program input | Custom program toggle |
+| Precedence rule | Custom program supersedes headcount when entered |
+| Launch file posture | Upload-first |
+| Launch scan posture | Scanning optional |
 
-The contract document is especially valuable because it separates the **shape of the output** from the **internal implementation**. That means the engine can be improved without forcing a full reporting rewrite, as long as the output schema remains stable.
+## Approved File Support
 
-## Project Intake Architecture
+The platform should accept the following launch input types.
 
-The intake layer currently appears to support a wizard-style project creation flow and a backend mutation pattern that persists project metadata before or alongside analysis. The repository also shows later pressure to broaden accepted file formats and support more flexible programming modes.
-
-The consolidated architecture should therefore support the following intake inputs.
-
-| Input area | Consolidated technical expectation |
+| File or image type | Launch status |
 |---|---|
-| Property metadata | Property name, size, location/market, floor number and related context |
-| Tenant program | Headcount-based mode and custom-program mode |
-| Floor-plan assets | Images and PDFs at minimum |
-| Program modifiers | Optional workplace-strategy guidance or exact room counts |
+| PDF | Supported |
+| JPG | Supported |
+| PNG | Supported |
+| GIF | Supported |
+| WEBP | Supported |
+| Screenshots | Supported |
+| Phone photos | Supported |
 
-## Current Scenario Engine Architecture
+The architectural principle here is practical broker usability. The system should support the formats brokers actually have available during deal work.
 
-The scenario engine in the latest app snapshot combines several responsibilities inside the same analysis subsystem.
+## Approved Scenario Architecture
 
-| Engine responsibility | Current-state reading |
+The visible scenario system remains the construction-impact framework.
+
+| Visible scenario | Architectural role |
 |---|---|
-| Program interpretation | LLM or logic-driven room/program generation |
-| Scenario framing | Three construction-impact scenarios |
-| Cost modeling | Market-sensitive benchmark tables and cost breakdowns |
-| Schedule modeling | Impact-level-based schedule ranges and phases |
-| Layout rendering | AI-generated image output with SVG fallback |
-| Narrative output | Scenario summaries for user/client interpretation |
+| Light Refresh | Low-impact scenario |
+| Moderate Build-Out | Mid-impact scenario |
+| Full Transformation | High-impact scenario |
 
-This architecture is functionally rich, but it also reveals why the engine became unstable as a design surface: too many conceptual decisions were changing at once.
+Workplace strategy is not removed from the architecture. It is repositioned as an **upstream input to programming logic** rather than as the visible scenario output system.
 
-## The Space-Planning / Rendering Conflict
+## Program Consistency Rule
 
-The repository contains four overlapping technical approaches to layout generation.
+All scenarios should target the **same tenant program**. The engine should not treat the three scenarios as three unrelated programs. Instead, the engine should use the same core program target while varying intervention level, budget, schedule, and interior flexibility.
 
-| Approach | Where it appears | Strength | Weakness |
-|---|---|---|---|
-| Simple SVG layout generation | Earlier app logic and rebuild complaints | Deterministic and lightweight | Not visually or architecturally credible enough |
-| Deterministic standalone layout module | Extracted `leasibility-layout-module-v1` | Transparent logic, inspectable geometry, stable API | Admitted limitations: row-based packing, weak adjacency, poor corridor logic |
-| AI image generation | Later app snapshot and rebuild prompts | Visually stronger, more presentation-ready | Can hide architectural uncertainty behind rendered images |
-| Hybrid image + fallback | Latest archived `aiEngine.ts` | Operational resilience | Still leaves unresolved question of what is truly authoritative |
+This decision simplifies the system conceptually and makes the outputs easier to compare and explain.
 
-The consolidated architecture should therefore adopt a **hybrid truth model**:
+## Approved Layout Strategy
 
-1. A deterministic or schema-grounded scenario structure remains the source of record.
-2. The rendered layout image is the presentation layer, not the sole source of truth.
-3. Any image rendering must continue to map back to a structured scenario output used by dashboard, share pages, and PDF export.
+The most important technical decision is the approved **hybrid layout model**.
 
-## Standalone Layout Module Assessment
-
-The extracted layout-module package is useful because it documents the deterministic planning engine in isolation. It also candidly documents its own shortcomings.
-
-| Module characteristic | Consolidated reading |
+| Layer | Final architectural role |
 |---|---|
-| Current placement model | Row-based packing with heuristic scoring |
-| Corridor generation | Central spine plus optional cross-corridor |
-| Room zoning | Simple perimeter vs interior logic |
-| Known limitations | Weak adjacency, no reserved large-room zones, no true entry-anchored circulation, no overlap-resolution pass |
-| Strategic value | Good foundation for deterministic reasoning, but not sufficient alone for high-confidence architectural output |
+| Structured scenario data | Source of truth |
+| Deterministic or rule-based planning logic | Spatial reasoning foundation |
+| AI image generation | Customer-facing visual presentation |
+| Fallback safety | Operational resilience if presentation generation fails |
 
-The module should therefore be treated as **an engine prototype or geometry substrate**, not as the finished source of architectural truth.
+This means Leasibility.ai should not become a pure image-generation system. The app still needs structured scenario data that can be stored, tested, exported, and rendered consistently across the product.
 
-## Billing and Access Architecture
+## Fidelity Rules for Generated Plans
 
-Billing is tightly integrated into the app’s backend behavior. The current technical architecture includes plan definitions, checkout handling, billing management, trial logic, and subscription-aware access control. The root `stripeWebhook.ts` further suggests that subscription state also affects referral crediting and external automation.
+The platform now has a clear spatial-preservation rule. Certain building elements are non-negotiable and must remain preserved across generated scenarios.
 
-This means billing changes are architectural changes, not copy edits. Pricing drift between docs and code therefore creates real implementation risk.
-
-## Reporting Architecture
-
-The reporting system appears to depend on persisted scenario objects and renders them in at least three contexts.
-
-| Consumer | Architectural role |
+| Element | Required fidelity |
 |---|---|
-| Project detail view | Authenticated in-app scenario review |
-| Shared report view | Public or semi-public shareable result view |
-| PDF router/export | Branded portable report generation |
+| Perimeter | Preserve |
+| Stairs | Preserve |
+| Elevators | Preserve |
+| Core elements | Preserve |
+| Window locations | Preserve |
+| Entry doors / primary and secondary egress | Preserve |
+| Interior change freedom | Increase as impact level rises |
 
-Because the reporting layer already depends on stored scenario data, preserving the scenario schema is the most important architecture-stability principle available in the current codebase.
+The engine may allow more interior modification as it moves from Light Refresh to Full Transformation, but it should not behave as if it can invent an entirely new outer shell or ignore code-relevant circulation realities.
 
-## Current Technical Debt
+## Launch Output Architecture
 
-The repository shows significant but understandable technical debt caused by rapid iteration.
+The reporting and delivery architecture is now clarified.
 
-### Source-of-truth fragmentation
-
-The same product decision appears in multiple places: planning docs, revision notes, rebuild prompts, archived app code, and root production files. There is no single authoritative architecture document in the repo outside of what this consolidation now provides.
-
-### Engine responsibility overload
-
-The analysis engine currently appears to carry program interpretation, scenario logic, layout rendering, budgets, schedules, and narrative generation in one broad subsystem. That makes change management harder and amplifies regressions.
-
-### Archive-based development history
-
-The real application history is stored mostly as ZIP snapshots instead of one clean living source tree. This makes diffing, ownership, and confidence harder than they should be.
-
-## Recommended Target Architecture
-
-The consolidated target architecture should preserve what is already strong while reducing ambiguity.
-
-| Architectural decision | Recommendation |
+| Output path | Approved status |
 |---|---|
-| Frontend/backend/data stack | Keep the current React + Express/tRPC + Drizzle/MySQL structure |
-| Scenario contract | Keep exactly three scenarios and the current downstream schema contract |
-| Programming inputs | Support both headcount-based and custom-program modes |
-| Rendering strategy | Use structured scenario data as truth; rendered images remain a presentation layer |
-| Engine design | Separate program generation, spatial planning, cost/schedule modeling, and rendering into clearer modules over time |
-| Repository hygiene | Move from document/ZIP archive sprawl toward one maintained source tree and versioned docs |
+| PDF export | Launch-ready |
+| Public-share/report links | Still in progress unless verified in the running codebase |
 
-## Final Architectural Conclusion
+This means PDF export should be included in launch-quality testing, while share links should be treated cautiously until verified.
 
-Leasibility.ai already has the outline of a real application architecture. The main problem is not absence of structure; it is **overlapping technical directions without a single executive decision about which one is canonical**. The strongest foundation now is the combination of the latest archived app snapshot and the explicit scenario interface contract. Future technical work should protect that contract, modularize the engine, and stop architecture drift at the pricing, workflow, and rendering layers.
+## Billing and Trial Architecture
+
+The technical architecture must also align to the approved billing model.
+
+| Billing rule | Required technical behavior |
+|---|---|
+| Existing Stripe account | Remains in use |
+| Product/pricing objects | Must be updated to new approved pricing |
+| Trial type | 14-day card-required |
+| Immediate billing event | $0 charge at signup |
+| Conversion behavior | Auto-convert after trial unless canceled |
+
+This is not merely a content update. It affects checkout, Stripe configuration, app copy, and CRM alignment.
+
+## Immediate Engineering Path
+
+Stephen has chosen one more serious attempt at rebuilding the space-planning logic through Claude Code before hiring a development team. Technically, this means the first major workstream is an improvement effort **against the existing archived baseline**, not a greenfield rewrite.
+
+| Engineering choice | Architectural implication |
+|---|---|
+| Claude Code rebuild attempt | Improve the current engine path rather than replacing the entire platform |
+| Dev-team hiring later if needed | Preserves a fallback path if quality remains insufficient |
+| Archived baseline retained | Protects existing product structure and integrations |
+
+## Architectural Priority Order
+
+The approved near-term technical priority order is now clear.
+
+| Priority | Technical focus |
+|---:|---|
+| 1 | Rebuild or significantly improve the space-planning logic |
+| 2 | Align pricing, checkout, and 14-day card-required trial behavior |
+| 3 | Implement or confirm dual-mode intake |
+| 4 | Ensure approved file-format support works reliably |
+| 5 | Run full end-to-end testing, with PDF verification included |
+
+## Final Technical Conclusion
+
+Leasibility.ai no longer lacks architectural direction. The architecture is now governed by one baseline, one scenario model, one intake model, one fidelity rule-set, and one launch posture. The main technical challenge is execution quality: the team must now make the approved architecture real in the running app and verify that it performs reliably before launch.

@@ -2,100 +2,101 @@
 
 ## Purpose
 
-This document consolidates every pricing model found in the repository into a single decision-ready view. It does **not** assume that the currently coded pricing is the correct commercial strategy. Instead, it distinguishes between **implemented pricing**, **latest requested pricing**, and **earlier planning variants**, then recommends a canonical direction for Stephen to approve.
+This document defines the **approved commercial model** for Leasibility.ai. Earlier pricing variants in the repository are now historical only. Stephen has selected the **March 23 revision-note model** as the canonical pricing and trial framework, and all website copy, checkout behavior, billing configuration, and CRM messaging should align to this document.
 
-## Executive Conclusion
+## Executive Summary
 
-The repository currently contains **four materially different pricing states**. The latest app snapshot has one set of plans wired into code. The March 21 project summary recommends another. The March 23 testing/revision notes define a later “final confirmed” structure that directly contradicts the code. Earlier business-plan documents add yet another variant, including a weekly-trial concept.
+Leasibility.ai will launch with a four-part commercial structure: **Starter**, **Professional**, **Team**, and **Enterprise**. The Team plan is explicitly **per-user**, not a flat office tier. The trial is a **14-day card-required trial** with **$0 charged at signup** and **automatic conversion to paid** at the end of the trial unless the user cancels.
 
-The cleanest path forward is to adopt the **latest requested business model as the canonical commercial offer**, while clearly documenting that the **codebase still reflects an older billing structure** and must be updated before launch.
+The annual offer is also fixed. The annual view should be framed as a **20% discount**, and the product experience should encourage annual conversion through clear copy and a consistent checkout path.
 
-## Pricing Versions Found in the Repository
+## Canonical Pricing Table
 
-| Version source | Starter / entry plan | Professional | Team | Enterprise | Trial | Annual logic |
-|---|---|---|---|---|---|---|
-| Early business-plan variant | $99/mo | Not clearly separated in the same way | Team/custom concepts appear later | Enterprise/custom | Weekly trial concept appears in early materials | $899/yr appears in one early framing |
-| Pre-build requirements / analysis phase | Entry offer still fluid | $149/mo | $129/user/mo | Custom | 14-day trial discussed | Annual discount not fully settled |
-| March 21 project summary | Not clearly named as Starter | $149/mo / $1,299/yr | $129/user/mo / $1,099/user/yr | Custom | 14-day no-card trial recommended | Annual pricing explicitly recommended |
-| Latest archived code | Starter $99/mo / $996/yr | $199/mo / $1,992/yr | $149/mo / $1,492/yr | Not primary in code path | 7-day trial | Roughly monthly × 12 with minor discounting logic |
-| March 23 revision notes | Starter $99/mo / $990/yr | $149/mo / $1,490/yr | $149/user/mo / $1,490/user/yr | Contact Us | 14-day trial | 20% annual discount; annual should be default view |
+| Plan | Monthly price | Annual price | Commercial meaning |
+|---|---:|---:|---|
+| Starter | $99/mo | $990/yr | Entry plan for individual users |
+| Professional | $149/mo | $1,490/yr | Core paid plan for active individual brokers |
+| Team | $149/user/mo | $1,490/user/yr | Per-user plan for brokerage teams |
+| Enterprise | Contact Us | Contact Us | Custom sales-led plan |
 
-## What the Code Currently Implements
+## Pricing Rules
 
-The latest archived billing configuration shows a monetization structure that is already wired into product behavior. The active code path treats pricing as an operational reality, not just a planning exercise. The app currently appears to enforce a **Starter**, **Professional**, and **Team** plan system, with plan-gated usage logic and billing automation downstream.
+The following rules are now fixed and should be treated as operational requirements.
 
-| Code-implemented plan | Current implemented reading |
+| Rule | Approved decision |
 |---|---|
-| Starter | $99 per month, annual equivalent coded separately, usage limits enforced |
-| Professional | $199 per month, annual equivalent coded separately |
-| Team | $149 per month, annual equivalent coded separately |
-| Trial | 7 days in code |
-| Entitlement logic | Plan enforcement and billing portal behavior appear integrated |
+| Pricing baseline | March 23 revision notes are canonical |
+| Team-plan structure | Per-user pricing |
+| Annual discount | 20% |
+| Existing Stripe direction | Update the existing connected Stripe products; do not create a new Stripe account |
+| Messaging requirement | Website, checkout, and CRM must all say the same thing |
 
-This matters because the code does not merely display prices. It also shapes **trial messaging**, **checkout behavior**, **upgrade paths**, and likely **CRM automation**. Changing pricing therefore requires coordinated updates across the product and funnel.
+## Trial Policy
 
-## What the Latest Business Revision Requests
+The trial flow is part of the commercial model and is now fully defined.
 
-The latest pricing instruction in the repository is materially different from the implemented code. It asks for a lower Professional monthly price, a per-user Team structure, a longer trial, stronger annual-plan emphasis, and a placeholder Enterprise tier.
-
-| Recommended target model from latest revision notes | Value |
+| Trial stage | Required behavior |
 |---|---|
-| Starter monthly | $99/mo |
-| Starter annual | $990/yr |
-| Professional monthly | $149/mo |
-| Professional annual | $1,490/yr |
-| Team monthly | $149/user/mo |
-| Team annual | $1,490/user/yr |
-| Enterprise | Contact Us |
-| Trial | 14 days |
-| Annual discount framing | 20% off / “2 months free” |
-| Pricing-page default | Annual toggle on by default |
+| At signup | User enters a card |
+| Immediate billing event | $0 charged immediately |
+| Trial duration | 14 days |
+| End of trial | Auto-converts to paid unless canceled |
+| Copy alignment | No conflicting language across site, checkout, onboarding, or CRM |
 
-This later revision is the most launch-oriented pricing direction in the repo because it ties pricing directly to conversion mechanics, checkout order, default annual framing, and lifecycle emails.
+This means Leasibility.ai is **not** using a no-card trial and is **not** using the older 7-day implementation found in archived code. Any references to those older flows should be updated or treated as superseded.
 
-## Major Pricing Conflicts
+## Packaging Logic
 
-### 1. Professional plan price
+The plan structure should support both self-serve entry and expansion into brokerage teams.
 
-The code implements **$199/month**, while multiple later business documents recommend **$149/month**. This is the cleanest pricing contradiction in the repository.
+| Plan | Packaging role | Expected user type |
+|---|---|---|
+| Starter | Low-friction entry | New or occasional individual broker |
+| Professional | Main individual monetization tier | Active broker using the platform consistently |
+| Team | Seat-based expansion | Small brokerage team or office |
+| Enterprise | Custom contract path | Larger brokerage or corporate opportunity |
 
-### 2. Team plan semantics
+The Team plan’s per-user structure is strategically important because it supports a more natural office-expansion motion than a flat plan would.
 
-Some documents define Team as **per-user pricing**, while the code reads more like a **flat plan tier**. This is not a copy tweak. It changes packaging, billing objects, entitlements, and sales motion.
+## Annual-Plan Positioning
 
-### 3. Trial length and checkout posture
+Annual pricing should not be treated as a passive billing interval toggle. It should be treated as part of the conversion strategy.
 
-The code reflects a **7-day trial**, while later business strategy strongly recommends **14 days**. Some documents also imply different card requirements or no-card assumptions. Trial policy therefore remains unresolved at the commercial level.
+| Annual-plan requirement | Approved direction |
+|---|---|
+| Discount framing | 20% off |
+| Default posture | Encourage annual selection clearly |
+| Checkout clarity | Make it obvious how annual pricing compares with monthly |
+| Messaging consistency | Keep the same savings language everywhere |
 
-### 4. Annual pricing philosophy
+The product does not need to keep the older inconsistent annual numbers found in prior planning documents or in archived code. Those values are now historical reference only.
 
-The implemented annual pricing looks like a coded price table. The later revision notes insist on a deliberate conversion strategy: **20% annual discount**, **annual shown first**, and **“2 months free” framing**. This means the repo disagrees not just on numbers, but on **pricing psychology and funnel strategy**.
+## Implications for Existing Stripe Configuration
 
-### 5. Enterprise positioning
+Stephen has explicitly chosen to keep the **existing connected Stripe account** and update the existing pricing configuration rather than opening a new billing environment. This means the implementation task is a **pricing migration/alignment task**, not a platform-replacement task.
 
-Enterprise is explicit in later pricing strategy but appears less central in the implemented code path. This suggests launch execution was focused on self-serve tiers first, while business planning still expected a high-touch enterprise lane.
+| Stripe implementation implication | Meaning |
+|---|---|
+| Existing Stripe account remains | Do not create a new account |
+| Existing products/prices must be updated | Remove mismatch with archived pricing configuration |
+| Trial logic must be updated | Replace older 7-day logic with approved 14-day card-required flow |
+| Customer-facing naming must match | No mixed wording between code and checkout |
 
-## Consolidated Recommendation
+## Superseded Pricing Variants
 
-The recommended canonical pricing model is the **March 23 revision-note model**, because it is the latest explicit commercial instruction and is paired with funnel tactics designed to improve conversion and cash collection.
+The following pricing positions should now be treated as superseded.
 
-| Recommended canonical pricing | Value | Rationale |
-|---|---:|---|
-| Starter | $99/mo or $990/yr | Keeps entry accessible while encouraging annual conversion |
-| Professional | $149/mo or $1,490/yr | Aligns with later business guidance and removes the code’s $199 friction point |
-| Team | $149/user/mo or $1,490/user/yr | Preserves expansion upside and supports brokerage-team packaging |
-| Enterprise | Contact Us | Keeps room for high-touch brokerage and corporate sales |
-| Trial | 14 days | Better aligned with multiple strategy docs and product-led conversion logic |
-| Annual framing | 20% off / 2 months free | Consistent with latest conversion-oriented revision notes |
+| Superseded version | Why it is no longer active |
+|---|---|
+| Earlier weekly-trial concepts | Replaced by the approved 14-day card-required trial |
+| Archived code pricing with Professional at $199 | Replaced by the approved $149 Professional plan |
+| Flat Team-tier interpretation | Replaced by explicit per-user Team pricing |
+| Older annual-price variants | Replaced by the approved March 23 pricing set |
 
-## Operational Notes for Implementation
+## Commercial Operating Standard
 
-If this pricing recommendation is approved, the repository should treat the current code as **out of sync with the approved commercial strategy**. The pricing change is not isolated to a single file. It would require synchronized updates to plan definitions, checkout sessions, annual billing identifiers, entitlements, pricing-page copy, onboarding flow, CRM automations, trial banners, lifecycle emails, and any sales collateral.
+From this point forward, pricing should be discussed, implemented, and tested against one simple rule:
 
-## Decision Required from Stephen
+> Leasibility.ai sells **Starter, Professional, Team, and Enterprise**, with **Team priced per user** and a **14-day card-required trial that auto-converts**.
 
-Stephen should explicitly approve **one** canonical pricing model before any further launch work. The highest-confidence decision would be:
-
-> Launch with **Starter $99**, **Professional $149**, **Team $149/user**, **Enterprise Contact Us**, a **14-day trial**, and **20% annual discounting shown by default**.
-
-If Stephen prefers to keep the current coded model, that is still viable, but it should be treated as a deliberate decision to override the later revision documents rather than an accidental default.
+If any file, page, or automation contradicts that rule, it is out of date and should be corrected.

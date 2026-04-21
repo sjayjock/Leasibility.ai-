@@ -2,144 +2,128 @@
 
 ## Executive Position
 
-Leasibility.ai should be positioned as a **broker-first SaaS platform for rapid office-space feasibility analysis**. The consistent strategic thesis across the repository is that tenant-rep and office-leasing brokers lose time, credibility, and deal momentum when they must wait days or weeks for architects, contractors, and fragmented vendor workflows to answer basic feasibility questions. Leasibility.ai exists to compress that process into a broker-ready workflow that produces scenario-based planning, budget guidance, schedule expectations, and client-facing deliverables in one system.
+Leasibility.ai is a **built but not yet launch-aligned software product** for office-feasibility work. The approved business posture is not “pre-build” and not “ship immediately as-is.” It is a narrower and more practical position: the core app exists, but it now needs focused revision, alignment, and testing before launch.
 
-Although the repository contains several business-plan iterations, most of them agree on the core opportunity. Where they differ is in commercial packaging, launch sequencing, technical confidence, and how much of the product was already considered “built” at any given moment.
+The company’s strategic wedge remains clear. Leasibility.ai serves the broker who needs to answer feasibility questions before the traditional architect-contractor workflow can respond. The product exists to give brokers faster, clearer, and more presentable answers about fit, cost, and timing.
 
-## Problem Statement
+## Core Market Problem
 
-The core market problem is not simply that office test fits are slow. The deeper problem is that **brokers need decision support earlier than traditional delivery models can provide it**. During tours, pursuit work, and early negotiations, brokers need to answer whether a space can work, what the tenant can reasonably expect, how much intervention may be required, and whether the opportunity is worth advancing.
+The business opportunity exists because brokers often need answers earlier than the conventional commercial design process can provide them. This timing gap weakens deal momentum, slows decision-making, and creates room for competitors to appear more responsive. Leasibility.ai addresses that gap by turning feasibility, budgeting, and presentation work into a software workflow that can happen much earlier in the deal cycle.
 
-Traditional workflows force those answers to emerge from a fragmented sequence of architects, contractors, landlord inputs, and manual iterations. That introduces delay, cost, uncertainty, and competitive disadvantage. The product’s strategic value lies in shifting this from an outsourced, delayed process into an accessible, software-mediated broker capability.
+## Target Customer
 
-## Target Market
+The target customer remains highly focused.
 
-The strongest market conclusion in the repository is that Leasibility.ai should launch with a **narrow primary ICP** rather than a broad CRE audience.
-
-| Segment | Priority | Why it matters |
+| Customer segment | Strategic priority | Why it matters |
 |---|---|---|
-| Tenant-rep and office-leasing brokers | Primary | Highest pain, strongest urgency, direct tie to deal velocity |
-| Small brokerage teams | Secondary | Natural expansion path from individual users |
-| Large brokerages and corporate real-estate teams | Later-stage | Higher ACV but longer sales cycles |
-| Architects and workplace consultants | Adjacent | Important ecosystem participants, but not the first launch buyer |
+| Tenant-rep and office-leasing brokers | Primary | They feel the pain most directly and benefit most immediately |
+| Small brokerage teams | Secondary | Natural expansion path once individual use is proven |
+| Larger brokerage groups | Later-stage | High-value accounts after the product is stable |
+| Corporate real-estate teams | Later-stage | Strategic revenue path after stronger validation |
 
-The most consistent strategic advice in the repository is to avoid an overly broad launch narrative and instead own the niche of the **broker in the field who needs fast feasibility answers**.
+The business should continue resisting the urge to launch with an overly broad market definition. The strongest commercial entry point is still the broker handling active leasing opportunities.
 
 ## Value Proposition
 
-The durable value proposition can be stated simply.
-
-> Leasibility.ai helps brokers know whether a space works, what it may cost, and how to present options before competitors can assemble the same answers.
-
-This value proposition has four linked dimensions.
+The approved value proposition remains centered on speed, confidence, and presentation.
 
 | Value dimension | Customer meaning |
 |---|---|
-| Speed | Turn days/weeks of coordination into minutes |
-| Confidence | Give brokers defensible planning, cost, and schedule guidance |
-| Sales advantage | Help brokers respond faster and win trust earlier |
-| Client-ready output | Convert analysis into branded reports and shareable deliverables |
+| Speed | Get feasibility answers sooner |
+| Confidence | See scenario, cost, and timing implications clearly |
+| Client readiness | Turn analysis into a deliverable the broker can actually use |
+| Competitive edge | Respond before other brokers can assemble equivalent answers |
 
-## Product Strategy
+## Approved Commercial Model
 
-The product strategy should center on a **single integrated broker workflow** rather than isolated point features. The strongest strategic moat described in the repository is not “AI” by itself. It is the combination of **capture, programming, test fit, budget, schedule, and export/share** in a workflow that supports live deal momentum.
+The pricing strategy is now fixed and should be treated as part of the core business plan rather than as an open question.
 
-The business plan should therefore define the product as an integrated operating surface for the broker, not merely as a floor-plan generator or budget tool.
+| Plan | Monthly | Annual | Strategic role |
+|---|---:|---:|---|
+| Starter | $99/mo | $990/yr | Entry point |
+| Professional | $149/mo | $1,490/yr | Primary individual monetization tier |
+| Team | $149/user/mo | $1,490/user/yr | Expansion into brokerage teams |
+| Enterprise | Contact Us | Contact Us | Sales-led lane |
 
-## Competitive Positioning
+The Team plan is explicitly **per-user**. This matters strategically because it supports a cleaner office-expansion motion than a flat team tier would.
 
-The repository’s business analysis correctly argues that the market is validated and that competition is real. The most direct competitive pressure comes from companies that already automate parts of planning, design, or spatial analysis. The strongest strategic takeaway is that Leasibility.ai should differentiate on **broker-first usability and field readiness**, not on the claim that no competitors exist.
+## Approved Trial Strategy
 
-| Competitive lens | Consolidated position |
+The business has also chosen a clear conversion posture.
+
+| Trial rule | Approved behavior |
 |---|---|
-| Direct rivalry | The market is validated; competitors prove demand rather than invalidate it |
-| Key strategic distinction | Broker-first, mobile/field-ready workflow rather than architect- or landlord-centric tooling |
-| Defensible wedge | Faster early-stage decision support tied to live leasing workflows |
-| Long-term moat | Usage data, workflow integration, brokerage relationships, branded outputs, and later platform integrations |
+| Card requirement | Required at signup |
+| Initial charge | $0 immediately |
+| Trial length | 14 days |
+| Conversion | Auto-converts to paid unless canceled |
 
-## Go-to-Market Strategy
+This decision makes the conversion path clear and operationally measurable. It also removes ambiguity that previously existed between no-card and card-required trial concepts.
 
-The best unified GTM strategy in the repository is a **product-led entry motion supported by credibility-building content and later sales expansion**.
+## Product Strategy as a Business Strategy
 
-### Phase 1: Product-led seeding
+The product’s business model depends on a specific product behavior: the output must be credible enough that a broker trusts it in front of a client. That means the business strategy and technical strategy are tightly linked. If the space-planning output is weak, the go-to-market story breaks. If the output is clear and believable, the product’s differentiation becomes much stronger.
 
-The public site, demo funnel, onboarding survey, and trial motion should be treated as one coordinated system designed to reduce skepticism and encourage first use. Because the product’s promise is highly visual and outcome-based, the demo path is strategically important.
+This is why the business plan should treat the space-planning rebuild as the first critical operating priority rather than just another feature task.
 
-### Phase 2: Content and association-led demand generation
+## Launch Strategy
 
-The marketing prompt materials support a strategy of publishing problem-aware content, use cases, and ads targeted at broker pain points. Industry associations and niche professional channels are credible acquisition vectors because the primary user group is specific and concentrated.
+The approved launch posture is intentionally more disciplined than some earlier ambitions.
 
-### Phase 3: Team and office expansion
-
-Once individual brokers adopt the product, the next step is brokerage-office or small-team expansion. This is where per-user pricing, branded reporting, and team packaging become commercially important.
-
-### Phase 4: Enterprise sales and integrations
-
-Large brokerage groups and corporate real-estate teams become attractive after the product has stronger operational proof, clearer architecture, and higher trust in output quality.
-
-## Revenue Model
-
-The repository clearly points toward a **tiered SaaS subscription model**. The precise numbers conflict across documents, but the commercial structure remains stable.
-
-| Revenue lane | Consolidated business interpretation |
+| Launch question | Approved answer |
 |---|---|
-| Self-serve starter plan | Low-friction entry for individual brokers |
-| Professional plan | Main monetization tier for active practitioners |
-| Team plan | Expansion path into brokerage offices and shared usage |
-| Enterprise/custom | High-touch contracts, integrations, support, analytics |
+| Is mobile scanning the required MVP foundation? | No |
+| Is upload-first acceptable for launch? | Yes |
+| Should field-ready narrative stay in the story? | Yes |
+| Is PDF export considered launch-ready? | Yes |
+| Are public-share features assumed complete? | No, not unless verified |
 
-Pricing specifics are defined separately in `docs/consolidated-pricing.md`, but from a business-plan standpoint the most important point is that the pricing model should reinforce **PLG entry with team-expansion upside**.
+This launch posture reduces technical risk while preserving the product narrative that matters most to brokers.
 
-## Operating Risks
+## Product Differentiation
 
-The repository reveals several business-critical risks that should be explicitly acknowledged.
+Leasibility.ai should continue to differentiate on **workflow advantage**, not just on AI language. The strongest market story is that the app helps the broker move from plan input to decision-ready output in one connected system.
 
-### 1. Technical credibility risk
+The approved scenario structure supports that story well. Users will still see the three construction-impact scenarios—**Light Refresh**, **Moderate Build-Out**, and **Full Transformation**—while workplace strategy influences programming in the background. This gives the product a clear outward story without losing the strategic nuance of different workplace styles.
 
-If the space-planning output is not credible, the product’s brand promise fails. This is the single most important product/business risk because the entire GTM motion depends on users believing the platform can generate meaningful scenarios from real plans.
+## Business Risk Assessment
 
-### 2. Source-of-truth drift
+The business now has clearer decisions, but it still faces several execution risks.
 
-The repo shows repeated divergence between planning documents, revision notes, and implemented code. This creates commercial risk because pricing, feature packaging, and positioning can drift without anyone making an explicit executive decision.
+### 1. Space-planning credibility risk
 
-### 3. Execution-capacity risk
+This remains the largest business risk. The product’s commercial promise depends heavily on output quality.
 
-One business-analysis document explicitly argues that this is not a realistic one-person “AI agent only” build and recommends a small engineering team or specialist agency. Whether or not that exact staffing recommendation is adopted, the strategic point is valid: the core planning engine is a high-complexity system and should be resourced accordingly.
+### 2. Alignment risk
 
-### 4. Launch-discipline risk
+Because the repository accumulated many conflicting versions over time, there is still a risk that pricing, trial copy, app behavior, and CRM messaging drift again unless they are updated in one coordinated pass.
 
-The project accumulated multiple parallel directions at once: pricing revisions, funnel revisions, engine redesigns, and collateral changes. Without a single operating baseline, launch work can continue indefinitely without converging.
+### 3. Launch-readiness risk
 
-## Recommended Strategic Direction
+The existence of a built app does not guarantee launch readiness. The business still needs a focused rebuild-and-test week before claiming readiness.
 
-The consolidated strategic direction is as follows.
+### 4. Execution-resource risk
 
-| Strategic question | Recommended answer |
+Stephen has approved one more serious attempt at rebuilding the space-planning logic through Claude Code before hiring a development team. This is a pragmatic middle path, but it must be treated as a real execution sprint rather than a casual experiment.
+
+## Approved Engineering Path as a Business Decision
+
+The engineering decision is now part of the business plan.
+
+| Engineering choice | Business interpretation |
 |---|---|
-| Primary customer | Tenant-rep / office-leasing broker |
-| Core promise | Instant feasibility, budget, and scenario answers early in the deal |
-| Product wedge | Broker-first, field-ready workflow |
-| Revenue model | Tiered SaaS with self-serve entry and team/enterprise expansion |
-| GTM motion | Demo-led PLG supported by content and later team sales |
-| Primary product focus | Reliable scenario quality and client-ready outputs |
-| Critical operating priority | Eliminate source-of-truth drift between strategy and code |
+| One more Claude Code rebuild attempt | Lowest-friction way to pursue one more major improvement before outside hiring |
+| Dev-team hiring after that if needed | Protects momentum if the rebuild attempt does not reach the quality bar |
+| Archived app as baseline | Avoids drifting into endless reinvention |
 
-## Milestone View
+## Source-of-Truth Governance
 
-A realistic business roadmap should progress through three pragmatic stages.
+The business now has a formal governance rule. The archived app code is the canonical baseline. Rebuild prompts guide improvement work. All other documents are historical reference only. This governance decision is strategically important because it turns the project from a collection of competing narratives into one operating program.
 
-### Stage 1: Canonical launch baseline
+## Immediate Business Objective
 
-Approve one pricing model, one scenario framework, one product spec, and one technical direction. Remove ambiguity before new feature work continues.
+The immediate objective for this week is not to invent a new strategy. It is to convert the existing product into a launch-aligned product by rebuilding the space-planning logic, aligning pricing and trial behavior, implementing the approved intake/file-support changes, and completing full testing.
 
-### Stage 2: Launch and proof of value
+## Final Business Conclusion
 
-Ship a stable broker workflow that can ingest common floor-plan inputs, generate credible three-scenario outputs, and export branded reports. Measure activation, analysis completion, and paid conversion.
-
-### Stage 3: Expansion and defensibility
-
-Add deeper collaboration, compare-properties workflows, richer market data, enterprise integrations, and usage-driven insights once the core output quality is trusted.
-
-## Consolidated Business Plan Conclusion
-
-Leasibility.ai has a coherent and potentially strong business case **if it behaves like one product** rather than a stack of partially reconciled versions. The market problem is real, the ICP is clear, and the GTM wedge is credible. The main requirement now is strategic convergence. The company does not need more parallel versions of the story; it needs one approved commercial narrative, one approved product definition, and one implementation roadmap aligned to both.
+Leasibility.ai has now moved past the hardest strategic problem, which was ambiguity about what it should be. The company now has a fixed commercial model, a fixed launch posture, a fixed product baseline, and a fixed first-priority execution path. The business challenge for the near term is therefore straightforward: align the app to these decisions, test it thoroughly, and determine whether the final quality bar is met before launch.

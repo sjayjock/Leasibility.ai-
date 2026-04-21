@@ -2,214 +2,125 @@
 
 ## Purpose
 
-This document consolidates the user journeys implied by the planning documents, archived application snapshots, pricing strategy materials, and technical contracts. Where the repository conflicts, the flow below favors the **latest implemented app structure** while explicitly preserving later product revisions that should influence the final design.
+This document defines the approved working flows for Leasibility.ai after Stephen’s decisions. The archived app code remains the baseline product structure, but the flows below clarify how the launch version should behave once the app is revised and aligned.
 
-## Primary User Journey
+## Core Flow Summary
 
-The canonical journey is a **broker-led, deal-driven workflow**. A user does not arrive primarily to browse data; they arrive because they need to answer a feasibility question for a real space and a real tenant quickly enough to influence momentum in a deal.
+The product should move a broker through a simple sequence: understand the product, start a trial with a card on file, create a project, upload a plan, run the analysis, review three construction-impact scenarios, export a PDF, and continue using the product through a managed subscription.
 
-| Stage | User intent | Consolidated platform behavior |
-|---|---|---|
-| Discover | Understand what Leasibility.ai does | Public site explains broker-first value proposition and offers demo/trial entry points |
-| Evaluate | Decide whether the product is credible | User can run a sample deal or view outcome-driven messaging before signup |
-| Start | Enter the funnel | Branded start page and onboarding route user toward signup and plan selection |
-| Subscribe / trial | Gain access | User enters trial or paid path tied to pricing logic |
-| Analyze | Create a real project | User creates project, uploads floor plan, defines program, and runs analysis |
-| Review | Compare scenarios | User reviews three scenario outputs with layout, budget, schedule, and narrative |
-| Deliver | Share results with client | User exports PDF and, where supported, shares a report link |
-| Retain / expand | Continue usage and team adoption | User manages billing, referrals, projects, and future team expansion |
-
-## Flow 1: Public Site to Demo
-
-The latest repository direction strongly supports a **demo-first conversion path** rather than pushing every prospect directly into signup. This reflects the belief that the product must be seen before it is understood.
-
-### Canonical flow
-
-1. Prospect lands on the public homepage.
-2. Prospect sees positioning around instant feasibility, speed, and broker advantage.
-3. Prospect chooses either **Run a Sample Deal** or **Start Free Trial**.
-4. If the prospect chooses the sample path, they enter a demo experience with preset scenarios and a soft gate.
-5. After seeing value, the prospect is routed toward signup/trial.
-
-### Product intent
-
-This flow exists to reduce skepticism around the product’s core claim. The repository repeatedly implies that the user must **see a plausible result before committing**.
-
-## Flow 2: Branded Start and Authentication
-
-The archived funnel work indicates that authentication is not meant to feel like a generic software login. It is intended to be a branded bridge between curiosity and account creation.
-
-### Canonical flow
-
-1. User reaches `/start` or an equivalent branded interstitial.
-2. User sees Leasibility branding, value framing, and possibly a choice between demo and signup.
-3. User initiates authentication.
-4. After authentication, the app redirects the user back into the correct downstream experience rather than dropping them into a dead-end or blank state.
-
-### Consolidated requirement
-
-Authentication must preserve **return-path continuity** so that the user lands in the correct next step, especially when entering from pricing, demo, or onboarding contexts.
-
-## Flow 3: Onboarding and Plan Selection
-
-The repository suggests that onboarding is both a qualification step and a conversion step. It is not merely asking for profile data; it is part of the go-to-market system.
-
-| Onboarding element | Consolidated role |
+| Flow stage | Approved launch behavior |
 |---|---|
-| Survey questions | Capture user context and route messaging |
-| CRM/GHL handoff | Feed lead and lifecycle systems |
-| Plan selection | Move user into trial or paid billing path |
-| Trial framing | Reinforce urgency and annual-plan logic where applicable |
+| Discover | User learns the broker-first value proposition |
+| Start | User enters a branded signup/trial path |
+| Trial activation | User adds a card, is charged $0 immediately, and starts a 14-day trial |
+| Project intake | User creates a project and follows the default headcount-first flow |
+| File submission | User uploads a practical plan source such as PDF, image, screenshot, or phone photo |
+| Analysis | System generates three construction-impact scenarios aiming at the same tenant program |
+| Review | User evaluates layout, budget, schedule, and narrative outputs |
+| Deliver | User exports PDF; public share remains secondary unless verified |
+| Continue | User manages billing and keeps working in the app |
 
-### Canonical flow
+## Flow 1: Public Site to Signup
 
-1. User completes a short onboarding survey.
-2. The platform captures firm/use-case context.
-3. The user is routed into plan selection or checkout.
-4. After successful billing/trial activation, the user lands in the app dashboard.
+The public experience should still be organized around credibility and speed. A prospect should understand that Leasibility.ai helps brokers answer feasibility questions faster than the traditional workflow.
 
-## Flow 4: Dashboard to New Project
+The public path should lead naturally into signup or trial initiation. The messaging may still preserve the field-ready narrative, but the launch product should not depend on scan-first behavior to validate its value.
 
-Once inside the product, the dashboard should act as the broker’s working hub. The central action is creating a new feasibility project.
+## Flow 2: Trial Activation
 
-### Canonical flow
+The trial flow is now fully defined and should be implemented consistently everywhere.
 
-1. User lands on dashboard.
-2. User sees project list, recent activity, and a strong CTA to create a new project.
-3. User starts a wizard-style new-project flow.
-4. The system gathers project basics before requiring analysis inputs.
-
-### Consolidated design principle
-
-This step should feel lightweight and fast, because the broker is often under active deal pressure. Any unnecessary friction in project creation weakens the product’s core promise.
-
-## Flow 5: Project Intake and Programming
-
-This is the most important in-product flow and also one of the most conflicted areas in the repository. The consolidated flow resolves those conflicts by allowing **two intake modes** under one umbrella.
-
-### Step structure
-
-| Step | User action | Consolidated requirement |
-|---|---|---|
-| Property basics | Enter property and market context | Capture address/name, square footage, and market data |
-| Program definition | Define tenant needs | Support both headcount mode and custom-program mode |
-| Floor-plan submission | Upload or scan plan | Accept images and PDFs; support mobile-friendly capture |
-| Review and submit | Confirm analysis input | User initiates AI analysis |
-
-### Programming Mode A: Headcount-Based
-
-The user enters total square footage, headcount, and industry, with the option to supply workplace-strategy guidance. The engine then derives a room program that fits the tenant profile.
-
-### Programming Mode B: Custom Program
-
-The user enters exact room quantities, such as workstations, private offices, conference rooms, and huddle rooms. The engine should preserve those explicit counts as closely as possible while adding ancillary/support spaces required for a workable plan.
-
-### Consolidated rule
-
-The product should **not force Stephen to choose between these modes**. The repository evidence supports both, and they serve different broker use cases.
-
-## Flow 6: Floor-Plan Upload and Scan
-
-The repository shows a progression from narrow file handling toward broader real-world acceptance. The consolidated flow therefore assumes that a broker may submit a plan from many different contexts.
-
-### Canonical flow
-
-1. User uploads an image or PDF, or uses a scan/mobile-capture path.
-2. The system stores the source plan.
-3. The analysis pipeline uses that plan as the baseline geometry/reference where possible.
-4. If input quality is weak, the system should fail gracefully rather than reject arbitrarily.
-
-### Consolidated requirement
-
-The upload experience should favor **practical acceptance over purity**. Brokers will often have screenshots, PDFs, phone photos, and imperfect existing plans.
-
-## Flow 7: Analysis Run
-
-Once inputs are complete, the platform enters the core value moment: generating scenarios.
-
-### Canonical flow
-
-1. User clicks analyze.
-2. Backend validates subscription/usage limits.
-3. Backend assembles project context, tenant program, market inputs, and floor-plan reference.
-4. Analysis engine generates exactly three scenarios.
-5. The system stores scenario outputs and returns the project to a completed/results state.
-
-### Consolidated output requirement
-
-Each analysis should return three scenarios with **layout output, room breakdown, budget ranges, schedule ranges, and narrative summary**. The visible labels should remain **Light Refresh**, **Moderate Build-Out**, and **Full Transformation**.
-
-## Flow 8: Scenario Review
-
-The project-detail experience should let the broker compare scenarios quickly and understand tradeoffs without leaving the page.
-
-| Scenario review component | Purpose |
+| Trial step | Required behavior |
 |---|---|
-| Headline efficiency and usable-area metrics | Quick decision support |
-| Layout image or fallback visual | Spatial understanding |
-| Room breakdown | Program validation |
-| Budget range / category table | Cost confidence |
-| Schedule estimate / phases | Timing confidence |
-| Narrative analysis | Sales-ready interpretation |
+| Account creation | User signs up |
+| Billing step | User enters card details at signup |
+| Immediate charge | $0 |
+| Trial duration | 14 days |
+| Trial end behavior | Subscription auto-converts to paid unless canceled |
 
-The review layer is especially important because the platform is meant to help the broker **speak confidently to a client**, not just inspect raw data.
+This trial flow must be reflected identically in site copy, pricing pages, checkout, onboarding language, and CRM automations. There should be no remaining references to a no-card trial or a 7-day trial.
 
-## Flow 9: Report Export and Share
+## Flow 3: Dashboard to New Project
 
-The repository indicates that the output is designed to be portable. The platform therefore needs a clean deliverable path.
+Once inside the app, the user should reach the dashboard and start a new project quickly. The dashboard should continue acting as the user’s working hub, but the product should be optimized for action rather than browsing.
 
-### Canonical flow
+The main call to action remains **create a new project**.
 
-1. User chooses to export or share.
-2. The system generates a branded report, typically as a PDF.
-3. Where sharing is active, the platform creates a public report view or link.
-4. The broker sends the output to a client or uses it directly in the sales process.
+## Flow 4: Project Intake
 
-### Current-state caution
+The approved intake model is dual-mode, but the product should present the simplest path first.
 
-Some repository artifacts suggest the share/report-view system is still partially unfinished. PDF export appears more strongly evidenced than a fully normalized public-sharing flow.
-
-## Flow 10: Billing, Trial, and Upgrade
-
-Billing is not separate from user experience; it sits inside the operating loop of the app.
-
-### Canonical flow
-
-1. User starts on a trial or initial plan.
-2. The dashboard enforces access based on subscription state and usage limits.
-3. If the user approaches expiry or limits, the app surfaces upgrade messaging.
-4. The user can upgrade or manage billing through a self-serve billing page/portal.
-
-### Consolidated requirement
-
-The product should present billing as a **continuation of value**, not a disruption. This is why pricing clarity and trial consistency are critical to the overall UX.
-
-## Flow 11: Referrals and Retention
-
-The later app snapshots show that referrals, join pages, and referral-crediting logic were not accidental extras. They appear to be part of a deliberate growth loop.
-
-### Canonical flow
-
-1. Existing user visits referrals area.
-2. User shares invite link.
-3. Referred prospect lands on a referral-aware join path.
-4. After successful signup/subscription activation, the referrer receives credit.
-
-## Flow 12: Future / Partial Flows
-
-The repo suggests several flows that should be treated as roadmap or partially implemented rather than canonical launch behavior.
-
-| Future or partially evidenced flow | Status reading |
+| Intake mode | Approved flow behavior |
 |---|---|
-| Compare properties side-by-side | Planned / partially scaffolded |
-| Expanded market benchmarking | Planned |
-| Full public link management and detailed view histories | Planned or partially implemented |
-| Enterprise integrations and APIs | Strategic future state |
+| Headcount mode | Default first path shown to the user |
+| Custom program mode | Advanced toggle for more precise requirements |
 
-## Final Consolidated Flow Principle
+The user should begin with the headcount-first experience by default. If the user chooses to enter a custom room program, that custom input becomes the controlling program definition and supersedes headcount.
 
-The entire user journey should optimize for a single behavioral outcome:
+## Flow 5: File Submission
 
-> A broker should be able to move from **interest** to **analysis** to **client-ready output** with minimal friction and high confidence.
+The launch flow is **upload-first**. Scanning can remain optional and can still be discussed in the product story, but it is not the required default flow.
 
-Every major repository conflict ultimately matters because it either strengthens or weakens that journey. This consolidated flow document therefore treats speed, clarity, and broker trust as the product’s governing UX principles.
+| Accepted file inputs | Launch behavior |
+|---|---|
+| PDF | Accepted |
+| JPG / PNG / GIF / WEBP | Accepted |
+| Screenshots | Accepted |
+| Phone photos | Accepted |
+
+The app should favor practical usability. A broker should be able to work with the plan source they actually have, not the idealized source they wish they had.
+
+## Flow 6: Analysis Generation
+
+Once project data and the floor-plan input are complete, the user initiates analysis. The analysis flow must generate exactly three visible scenarios.
+
+| Visible scenario | Product meaning |
+|---|---|
+| Light Refresh | Lowest level of intervention |
+| Moderate Build-Out | Mid-level intervention |
+| Full Transformation | Highest level of intervention |
+
+Workplace strategy may influence programming upstream, but it should not replace these visible scenarios. All three scenarios should aim at the same underlying tenant program. The differences should come from intervention, cost profile, timeline, and interior flexibility.
+
+## Flow 7: Scenario Review
+
+The scenario-review screen should help the broker compare options quickly and confidently.
+
+| Review component | Purpose |
+|---|---|
+| Layout output | Understand how the space could work |
+| Room breakdown | Confirm the tenant program |
+| Budget range and breakdown | Support financial discussion |
+| Schedule range and phases | Support timing discussion |
+| Narrative summary | Support client communication |
+
+The layout output should follow the approved hybrid model: structured scenario truth underneath, AI image presentation for the visible floor plan, and fallback safety where needed.
+
+## Flow 8: Report Delivery
+
+The launch-ready deliverable is the PDF export path.
+
+| Delivery path | Current approved status |
+|---|---|
+| PDF export | Launch-ready |
+| Public report sharing | Still in progress unless verified in running source tree |
+
+The broker should be able to move from scenario review to PDF export cleanly. Public-share functionality should not be assumed to be complete unless it is directly verified in the live codebase.
+
+## Flow 9: Subscription Continuation
+
+After the trial begins, the user should continue working normally during the 14-day period. The product should communicate clearly that the card is already on file and that the plan will convert automatically unless the user cancels.
+
+This means the billing flow should feel like a continuation of product value rather than a surprise event later.
+
+## Flow 10: Ongoing Work Sessions
+
+The app should support repeated project creation and ongoing project review. Over time, the product should encourage users to maintain a reliable rhythm: create project, run analysis, export deliverable, continue usage, and upgrade to team access where needed.
+
+## Final Flow Principle
+
+The approved user-flow principle is simple:
+
+> The default path should be easy, upload-first, and headcount-first, while still allowing more advanced custom-program work when the broker needs it.
+
+That principle now governs intake, analysis, billing, and launch positioning across the app.

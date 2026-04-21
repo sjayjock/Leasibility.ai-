@@ -2,126 +2,111 @@
 
 ## Strategic Summary
 
-The repository supports a go-to-market model built around **product-led evaluation, credibility-first messaging, and later team expansion**. The public-facing assets, onboarding documents, pricing revisions, demo concepts, marketing prompt, and business-analysis report all point toward the same practical reality: Leasibility.ai must be **experienced** to be believed. The GTM system therefore needs to move prospects quickly from curiosity to visible output to trial conversion.
+Leasibility.ai’s go-to-market motion now has a cleaner foundation because the core product decisions are resolved. The product is **already built in meaningful form**, but it needs revision before launch. The GTM challenge is therefore not to sell an idea. It is to present a credible, working product story while the app is aligned to the approved launch decisions.
 
-## Primary GTM Thesis
+The GTM strategy should continue to center on a broker-first promise: Leasibility.ai helps a broker answer whether a space works, what it may cost, and how long it may take **before anyone else does**.
 
-The most effective GTM framing in the repository is not abstract AI language. It is a broker-centric promise that a user can have **every answer before anyone else does**. That framing is stronger than generic “space planning” language because it ties the product directly to competition, responsiveness, and deal momentum.
+## Core GTM Position
 
-| GTM element | Consolidated direction |
+| GTM question | Approved answer |
 |---|---|
-| Primary audience | Tenant-rep and office-leasing brokers |
-| Core message | Know if a space works before the client asks the hard questions |
-| Proof mechanism | Demo/sample deal plus visible scenario outputs |
-| Conversion model | Trial-led SaaS with annual-upfront encouragement |
-| Expansion model | Team adoption, office-wide rollout, later enterprise sales |
+| What is being sold? | A broker-first office-feasibility workflow |
+| What stage is it in? | Built, but being revised before launch |
+| What is the commercial entry? | Trial-led SaaS with card on file |
+| What is the expansion path? | Team and enterprise growth from individual broker adoption |
+| What is the strongest proof mechanism? | A visible product workflow and believable outputs |
 
-## Positioning Statement
+## Messaging Foundation
 
-Leasibility.ai should be positioned as the tool that lets a broker answer **fit, cost, and timeline** questions in one workflow while competitors are still waiting on outside parties. The strategic tone should be confident, urgent, and outcome-focused rather than technical for its own sake.
+The messaging should emphasize three connected ideas.
+
+| Message theme | Meaning |
+|---|---|
+| Speed | The broker gets answers earlier |
+| Confidence | The broker can speak to fit, cost, and timing with more clarity |
+| Competitive advantage | The broker looks more prepared than slower competitors |
+
+The story should avoid over-claiming architectural perfection. Instead, it should promise a faster, more structured feasibility workflow that produces client-ready outputs.
+
+## Launch Narrative
+
+The approved launch posture is **upload-first**. This means the GTM story can still preserve a field-ready or mobile-friendly narrative, but it should not make scanning the only credible way the product works. The simplest launch story is that the broker can upload the plan they already have—PDF, screenshot, image, or phone photo—and move quickly to scenario outputs.
+
+| Narrative area | Approved GTM posture |
+|---|---|
+| Field-ready message | Keep it |
+| Scan-first promise | Do not make it mandatory for launch |
+| Upload-first message | Emphasize it as the practical default |
+| Product proof | Show believable scenario outputs and PDF deliverables |
+
+## Pricing and Trial Story
+
+The commercial story is now fixed and should be presented consistently everywhere.
+
+| GTM element | Approved rule |
+|---|---|
+| Starter | $99/mo or $990/yr |
+| Professional | $149/mo or $1,490/yr |
+| Team | $149/user/mo or $1,490/user/yr |
+| Enterprise | Contact Us |
+| Trial | 14-day, card-required |
+| Immediate signup charge | $0 |
+| Trial conversion | Auto-converts unless canceled |
+| Annual framing | 20% discount |
+
+This means the go-to-market system should stop using any conflicting legacy language about 7-day trials, no-card trials, or flat Team pricing.
 
 ## Funnel Structure
 
-The best available funnel structure in the repository has four stages.
+The best funnel structure remains a simple progression from awareness to proof to conversion to continued usage.
 
-| Funnel stage | Goal | Recommended asset or action |
+| Funnel stage | Goal | GTM behavior |
 |---|---|---|
-| Awareness | Make the problem legible | Problem-aware homepage messaging, ads, short-form content |
-| Proof | Show visible product value | Demo/sample deal flow, scenario preview, outcome screenshots |
-| Conversion | Move user into trial or paid path | Branded start page, onboarding survey, pricing page, checkout |
-| Retention and expansion | Reinforce value and grow account | Trial reminders, annual-plan framing, onboarding sequence, referrals |
+| Awareness | Make the problem feel urgent | Explain the broker pain clearly |
+| Proof | Show believable product value | Demonstrate the workflow and output quality |
+| Conversion | Move user into the approved trial path | Use clear pricing and checkout messaging |
+| Expansion | Grow from individual user to team use | Reinforce office/team value and deliverable quality |
 
-## Messaging Priorities
+## Demo and Proof Strategy
 
-The repository contains many wording variants, but the strongest themes are consistent.
+Because the product’s value is easiest to understand through visible output, the GTM motion should continue using proof-based entry points. The public experience should let a prospect quickly understand what the output looks like and why it matters.
 
-### 1. Speed as competitive advantage
+However, the proof should align with the approved product model. The visible outputs should reflect the three construction-impact scenarios—**Light Refresh**, **Moderate Build-Out**, and **Full Transformation**—rather than promoting conflicting scenario systems.
 
-The product should not merely promise faster workflows. It should promise **faster answers in moments that matter**, especially during tours, live opportunities, and early client conversations.
+## Content and Sales Messaging
 
-### 2. Confidence before commitment
+The content strategy should focus less on abstract AI language and more on broker outcomes.
 
-The messaging should emphasize that the broker can understand whether the space works, what level of intervention it needs, and what cost/timeline range is likely **before** expensive downstream work begins.
-
-### 3. Broker empowerment
-
-The business-analysis report and later website notes both suggest that the story works best when it is framed around the broker’s edge, not around replacing architects outright.
-
-## Acquisition Channels
-
-The repository points to a practical channel mix rather than a broad spray-and-pray approach.
-
-| Channel | Role in GTM |
+| Content angle | GTM role |
 |---|---|
-| Product demo / sample deal | Primary proof and conversion driver |
-| LinkedIn content | High-fit channel for broker education and credibility |
-| Meta ads | Demand generation around speed, budget confidence, and pitch advantage |
-| Email / CRM automations | Trial conversion and onboarding reinforcement |
-| Industry associations | Credibility and concentrated access to the ICP |
-| Referral loop | User-led growth and social proof |
+| Faster feasibility answers | Establish urgency |
+| Better client conversations | Show practical sales value |
+| Cost and timeline visibility | Build trust |
+| Scenario-based clarity | Make the workflow easy to understand |
+| Team use and expansion | Support office growth after initial adoption |
 
-## Demo Strategy
+## Trial Conversion Messaging
 
-The demo is not optional collateral. It is a core GTM asset. The repository repeatedly signals that prospects need to see examples of the scenarios and outputs before they understand the product’s value.
+The trial messaging should be especially clear because the product is using a card-required signup flow.
 
-The demo should therefore do three things well.
-
-| Demo requirement | Why it matters |
+| Trial-message topic | Required GTM guidance |
 |---|---|
-| Show three outputs clearly | Reinforces the platform’s scenario-based promise |
-| Reflect believable use cases | Reduces skepticism |
-| Gate deeper access after value is shown | Supports conversion without killing curiosity |
+| Card on file | Say it clearly |
+| Immediate charge | State that the signup charge is $0 |
+| Trial length | State 14 days consistently |
+| Auto-conversion | Explain it clearly and early |
+| Cancellation expectation | Make it easy to understand |
 
-## Content Strategy
-
-The marketing prompt in the repository supports a structured content program based on problem-story-teach framing. That fits the product because the sales motion requires educating a market that may still rely on manual workflows.
-
-The content strategy should center on the following themes.
-
-| Theme | Example focus |
-|---|---|
-| The current problem | Why brokers lose time waiting on external answers |
-| Use cases | How a broker uses rapid feasibility during real deals |
-| Objection handling | Accuracy, credibility, pricing, and adoption concerns |
-| Conversion urgency | Trial expiry, annual savings, competitive advantage |
-
-## Paid Ads Strategy
-
-The most coherent ad angles found in the repo revolve around three value claims.
-
-| Ad angle | Buyer psychology |
-|---|---|
-| Time Saved | Win on responsiveness and speed |
-| Budget Accuracy | Reduce uncertainty and improve trust |
-| Pitch Winner | Help brokers look more prepared than competitors |
-
-Paid creative should visually show outputs, not generic brand imagery. The product’s differentiator is easiest to understand when prospects can see scenario artifacts or output states.
-
-## Trial and Conversion Strategy
-
-The later pricing revision notes show the most explicit conversion strategy in the repo, and this should guide GTM implementation.
-
-| Conversion lever | Consolidated recommendation |
-|---|---|
-| Trial length | 14 days |
-| Annual framing | Show annual first and frame as 2 months free |
-| Trial urgency email | Trigger before trial expiry |
-| Post-purchase onboarding | Reinforce value quickly and reduce buyer’s remorse |
-
-Even if pricing values change, the GTM principle remains valid: the funnel should encourage users to commit to the product **after they have seen output value but before inertia sets in**.
+This clarity protects trust and reduces the risk of churn caused by confusion rather than product dissatisfaction.
 
 ## Expansion Strategy
 
-After initial self-serve adoption, the business should expand through brokerage teams and office rollouts. Team packaging, shared branding, and stronger report workflows all support that motion. Enterprise sales should come later, once the core output quality and usage story are stronger.
+The expansion path remains straightforward. The product should first win with an individual broker, then expand into team use through the per-user Team model. Enterprise remains a later, higher-touch sales path.
 
-## Brand Risk to Avoid
+## GTM Risk to Manage
 
-The repository explicitly flags a branding concern: the product must appear consistently as **Leasibility.ai** with no third-party brand leakage on customer-facing surfaces. That includes checkout and any visible user-facing collateral.
+The main GTM risk is misalignment between the approved story and the actual product experience. If marketing says one thing, checkout says another, and the app behaves a third way, the product will lose trust quickly. That is why pricing alignment, trial alignment, and scenario-language alignment are part of the go-to-market plan, not separate from it.
 
-## Final GTM Recommendation
+## Final GTM Conclusion
 
-The go-to-market system should be built around a simple progression:
-
-> **See it, trust it, try it, adopt it, expand it.**
-
-That progression best unifies the homepage revisions, demo funnel work, pricing psychology, content plans, ad concepts, and business-strategy documents found throughout the repository.
+Leasibility.ai should go to market as a **credible, broker-first feasibility workflow** that is being refined into launch shape, not as a vague AI concept. The job of the GTM system is to make the product easy to understand, easy to trust, and easy to start—while the app itself remains aligned to the approved pricing, trial, and product decisions.
