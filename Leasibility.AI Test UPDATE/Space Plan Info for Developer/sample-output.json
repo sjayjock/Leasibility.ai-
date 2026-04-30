@@ -1,0 +1,241 @@
+{
+  "rooms": [
+    {
+      "id": "reception-1",
+      "type": "Reception",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "width": 18,
+      "height": 11,
+      "area": 198,
+      "zone": "perimeter"
+    },
+    {
+      "id": "conference-room-1",
+      "type": "Conference Room",
+      "position": {
+        "x": 18,
+        "y": 0
+      },
+      "width": 21,
+      "height": 14,
+      "area": 294,
+      "zone": "perimeter"
+    },
+    {
+      "id": "conference-room-2",
+      "type": "Conference Room",
+      "position": {
+        "x": 54,
+        "y": 0
+      },
+      "width": 21,
+      "height": 14,
+      "area": 294,
+      "zone": "perimeter"
+    },
+    {
+      "id": "huddle-room-1",
+      "type": "Huddle Room",
+      "position": {
+        "x": 18,
+        "y": 14
+      },
+      "width": 11,
+      "height": 9,
+      "area": 99,
+      "zone": "interior"
+    },
+    {
+      "id": "huddle-room-2",
+      "type": "Huddle Room",
+      "position": {
+        "x": 54,
+        "y": 14
+      },
+      "width": 11,
+      "height": 9,
+      "area": 99,
+      "zone": "interior"
+    },
+    {
+      "id": "private-office-1",
+      "type": "Private Office",
+      "position": {
+        "x": 76,
+        "y": 0
+      },
+      "width": 13,
+      "height": 11,
+      "area": 143,
+      "zone": "perimeter"
+    },
+    {
+      "id": "private-office-2",
+      "type": "Private Office",
+      "position": {
+        "x": 0,
+        "y": 12
+      },
+      "width": 13,
+      "height": 11,
+      "area": 143,
+      "zone": "perimeter"
+    },
+    {
+      "id": "private-office-3",
+      "type": "Private Office",
+      "position": {
+        "x": 80,
+        "y": 12
+      },
+      "width": 13,
+      "height": 11,
+      "area": 143,
+      "zone": "perimeter"
+    },
+    {
+      "id": "private-office-4",
+      "type": "Private Office",
+      "position": {
+        "x": 0,
+        "y": 24
+      },
+      "width": 13,
+      "height": 11,
+      "area": 143,
+      "zone": "perimeter"
+    },
+    {
+      "id": "phone-booth-1",
+      "type": "Phone Booth",
+      "position": {
+        "x": 30,
+        "y": 16
+      },
+      "width": 8,
+      "height": 8,
+      "area": 64,
+      "zone": "interior"
+    },
+    {
+      "id": "phone-booth-2",
+      "type": "Phone Booth",
+      "position": {
+        "x": 66,
+        "y": 16
+      },
+      "width": 8,
+      "height": 8,
+      "area": 64,
+      "zone": "interior"
+    },
+    {
+      "id": "phone-booth-3",
+      "type": "Phone Booth",
+      "position": {
+        "x": 14,
+        "y": 24
+      },
+      "width": 8,
+      "height": 8,
+      "area": 64,
+      "zone": "interior"
+    },
+    {
+      "id": "phone-booth-4",
+      "type": "Phone Booth",
+      "position": {
+        "x": 38,
+        "y": 24
+      },
+      "width": 8,
+      "height": 8,
+      "area": 64,
+      "zone": "interior"
+    },
+    {
+      "id": "break-room-1",
+      "type": "Break Room",
+      "position": {
+        "x": 74,
+        "y": 24
+      },
+      "width": 22,
+      "height": 16,
+      "area": 352,
+      "zone": "interior"
+    },
+    {
+      "id": "collaboration-zone-1",
+      "type": "Collaboration Zone",
+      "position": {
+        "x": 4,
+        "y": 46
+      },
+      "width": 25,
+      "height": 16,
+      "area": 400,
+      "zone": "interior"
+    },
+    {
+      "id": "storage-1",
+      "type": "Storage",
+      "position": {
+        "x": 54,
+        "y": 24
+      },
+      "width": 10,
+      "height": 8,
+      "area": 80,
+      "zone": "interior"
+    },
+    {
+      "id": "print-area-1",
+      "type": "Print Area",
+      "position": {
+        "x": 24,
+        "y": 26
+      },
+      "width": 8,
+      "height": 8,
+      "area": 64,
+      "zone": "interior"
+    }
+  ],
+  "corridors": [
+    {
+      "id": "primary-spine",
+      "axis": "horizontal",
+      "x": 0,
+      "y": 40,
+      "width": 100,
+      "height": 5
+    },
+    {
+      "id": "cross-corridor",
+      "axis": "vertical",
+      "x": 47.5,
+      "y": 0,
+      "width": 5,
+      "height": 85
+    }
+  ],
+  "unplacedRooms": [
+    {
+      "type": "Open Workspace",
+      "count": 1,
+      "reason": "No valid position found"
+    }
+  ],
+  "stats": {
+    "efficiencyScore": 0.31858823529411767,
+    "efficiencyPercent": 32,
+    "placedSqFt": 2708,
+    "corridorSqFt": 925,
+    "residualSqFt": 4867,
+    "totalFloorplateSqFt": 8500
+  }
+}

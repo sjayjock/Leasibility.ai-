@@ -1,6 +1,6 @@
-import { eq } from "drizzle-orm";
+import { eq, desc, and } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { InsertUser, users, projects, scenarios, brokerProfiles, InsertProject, InsertScenario, InsertBrokerProfile } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -89,4 +89,121 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+// ─── User Usage Helpers ──────────────────────────────────────
+export async function getUserById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(users).where(eq(users.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function incrementAnalysisCount(userId: number): Promise<void> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const user = await getUserById(userId);
+  if (!user) throw new Error("User not found");
+
+  const now = new Date();
+  // Reset counter if we're in a new calendar month
+  const resetDate = user.analysisResetDate;
+  const needsReset = !resetDate ||
+    resetDate.getFullYear() !== now.getFullYear() ||
+    resetDate.getMonth() !== now.getMonth();
+
+  await db.update(users).set({
+    analysisCount: needsReset ? 1 : (user.analysisCount ?? 0) + 1,
+    analysisResetDate: needsReset ? now : resetDate,
+  }).where(eq(users.id, userId));
+}
+
+export async function getMonthlyAnalysisCount(userId: number): Promise<number> {
+  const db = await getDb();
+  if (!db) return 0;
+  const user = await getUserById(userId);
+  if (!user) return 0;
+
+  const now = new Date();
+  const resetDate = user.analysisResetDate;
+  const isSameMonth = resetDate &&
+    resetDate.getFullYear() === now.getFullYear() &&
+    resetDate.getMonth() === now.getMonth();
+
+  return isSameMonth ? (user.analysisCount ?? 0) : 0;
+}
+
+// ─── Broker Profiles ──────────────────────────────────────────
+export async function getBrokerProfile(userId: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(brokerProfiles).where(eq(brokerProfiles.userId, userId)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function upsertBrokerProfile(data: InsertBrokerProfile) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.insert(brokerProfiles).values(data).onDuplicateKeyUpdate({
+    set: {
+      brokerName: data.brokerName,
+      brokerTitle: data.brokerTitle,
+      brokerPhone: data.brokerPhone,
+      brokerCompany: data.brokerCompany,
+      brokerLogoUrl: data.brokerLogoUrl,
+      brokerPhotoUrl: data.brokerPhotoUrl,
+    }
+  });
+}
+
+// ─── Projects ─────────────────────────────────────────────────
+export async function getProjectsByUser(userId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(projects).where(eq(projects.userId, userId)).orderBy(desc(projects.createdAt));
+}
+
+export async function getProjectById(id: number, userId: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(projects).where(and(eq(projects.id, id), eq(projects.userId, userId))).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function createProject(data: InsertProject) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db.insert(projects).values(data);
+  return (result[0] as any).insertId as number;
+}
+
+export async function updateProject(id: number, userId: number, data: Partial<InsertProject>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.update(projects).set(data).where(and(eq(projects.id, id), eq(projects.userId, userId)));
+}
+
+export async function deleteProject(id: number, userId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.delete(scenarios).where(eq(scenarios.projectId, id));
+  await db.delete(projects).where(and(eq(projects.id, id), eq(projects.userId, userId)));
+}
+
+// ─── Scenarios ────────────────────────────────────────────────
+export async function getScenariosByProject(projectId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(scenarios).where(eq(scenarios.projectId, projectId)).orderBy(scenarios.scenarioNumber);
+}
+
+export async function createScenario(data: InsertScenario) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db.insert(scenarios).values(data);
+  return (result[0] as any).insertId as number;
+}
+
+export async function deleteScenariosByProject(projectId: number) {
+  const db = await getDb();
+  if (!db) return;
+  await db.delete(scenarios).where(eq(scenarios.projectId, projectId));
+}

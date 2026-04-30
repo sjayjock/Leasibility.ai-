@@ -1,0 +1,20 @@
+# Project TODO
+
+- [x] Replace the blank scaffold in `/home/ubuntu/leasibility-staging` with the full app source from GitHub branch `staging-renderer-program-fit-rebuild` at commit `57371fe2e8e629da536695ae1c53275e304e576e`, including `client/`, `server/`, `shared/`, `drizzle/`, and config files.
+- [x] Apply all 8 Drizzle migrations `0000` through `0007` against the Manus-injected `DATABASE_URL`, including migration `0007_staging_renderer_program_fit.sql` scenario JSON columns.
+- [x] Preserve and verify runtime use of Manus auto-injected non-Stripe environment variables: `DATABASE_URL`, `JWT_SECRET`, `VITE_APP_ID`, `OAUTH_SERVER_URL`, `VITE_OAUTH_PORTAL_URL`, `OWNER_OPEN_ID`, `BUILT_IN_FORGE_API_URL`, `BUILT_IN_FORGE_API_KEY`, `VITE_FRONTEND_FORGE_API_KEY`, and `VITE_FRONTEND_FORGE_API_URL`.
+- [ ] Configure and verify Stripe runtime variables `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, and `VITE_STRIPE_PUBLISHABLE_KEY`; billing remains blocked until these credentials are supplied.
+- [x] Restore deterministic architectural renderer files under `server/layout/*` from the rebuild branch.
+- [x] Restore program-fit reporting logic in `server/programFit.ts` and floor plan parsing in `server/floorPlanParser.ts` from the rebuild branch.
+- [x] Restore authenticated Project Detail report UI in `client/src/pages/ProjectDetail.tsx` from the rebuild branch.
+- [x] Restore Shared Report UI in `client/src/pages/SharedReport.tsx` from the rebuild branch.
+- [x] Restore PDF report generation routes in `server/pdfRouter.ts` and AI engine in `server/aiEngine.ts` from the rebuild branch.
+- [x] Run `pnpm check`, `pnpm test`, and `pnpm build` in the staging project after source restoration.
+- [x] Run the full upload/analyze/report workflow using a real office floor plan against the staging instance.
+- [x] Confirm the staging URL is accessible and collect generated Project Detail, Shared Report, and PDF/report artifacts for review.
+- [ ] Save a Manus WebDev checkpoint after restoration, migration, code validation, and current artifact/status documentation are complete.
+- [x] Use the provided `plan.jpg` attachment as the real floor-plan workflow input during staging validation.
+- [ ] Use secondary attachments `testfit3.jpg`, `Testfit2.png`, `TestFit1.jpeg`, and `testfit4.gif` in concrete follow-up comparison or regression-upload roles, and record evidence for each.
+- [ ] Use the provided visual references `VisualReferenceReportDesktopOutputUX.webp`, `VisualReferenceDashboardMobileUX(2).webp`, and `VisualReferenceDashboardMobileUX(3).webp` as output-quality references for report/dashboard review without re-viewing them through the file viewer.
+- [x] Do not use the file viewer to open or re-view the attached images; reference their known filenames and paths only.
+- [x] Add and verify the missing `scenarios.layoutImageUrl` database column so real analysis can persist generated scenario records.
