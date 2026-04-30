@@ -21,3 +21,4 @@
 - [x] Widen large scenario payload columns (`layoutDescription`, `layoutSvg`, `aiSummary`) to `longtext` so secondary attachment analyses with larger generated geometry/report text can persist.
 - [x] Save a fresh Manus WebDev checkpoint after the 0009 longtext migration, secondary attachment validation, tests, build, and GitHub push.
 - [x] Replace stale hardcoded Stripe price-ID checkout dependency with portable checkout price data so the managed staging sandbox can create subscription sessions.
+- [ ] Save a fresh Manus WebDev checkpoint after the Stripe portable checkout work, regression tests, validation notes update, and GitHub push.
