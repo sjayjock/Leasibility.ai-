@@ -19,4 +19,4 @@
 - [x] Do not use the file viewer to open or re-view the attached images; reference their known filenames and paths only.
 - [x] Add and verify the missing `scenarios.layoutImageUrl` database column so real analysis can persist generated scenario records.
 - [x] Widen large scenario payload columns (`layoutDescription`, `layoutSvg`, `aiSummary`) to `longtext` so secondary attachment analyses with larger generated geometry/report text can persist.
-- [ ] Save a fresh Manus WebDev checkpoint after the 0009 longtext migration, secondary attachment validation, tests, build, and GitHub push.
+- [x] Save a fresh Manus WebDev checkpoint after the 0009 longtext migration, secondary attachment validation, tests, build, and GitHub push.
