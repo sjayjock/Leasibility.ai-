@@ -6,11 +6,11 @@ The strategic conflicts are now resolved. The project’s next actions should th
 
 ## 1. Rebuild the space-planning logic on top of the archived app baseline
 
-The first and most important task is one more serious rebuild attempt of the space-planning logic through Claude Code. This is the approved engineering path before hiring a development team. The rebuild should preserve the archived app as the base system while improving the planning quality, fidelity handling, and hybrid deterministic-plus-AI rendering behavior.
+The first and most important task is one more serious rebuild attempt of the space-planning logic and plan-rendering layer through Claude Code. This is the approved engineering path before hiring a development team. The rebuild should preserve the archived app as the base system while adding existing-conditions program inventory, comparing Existing Program against Requested Program, reporting Achieved vs. Requested by scenario, and replacing customer-facing block diagrams with credible architectural office test-fit plans. AI image generation may be used only as optional presentation polish after the structured vector plan is valid.
 
 | Why this is first | Definition of progress |
 |---|---|
-| It is the highest product-credibility risk | The planning engine produces stronger scenario truth, better fidelity to the uploaded plan, and usable fallback behavior |
+| It is the highest product-credibility risk | The planning engine extracts the existing program, compares it with the requested program, produces stronger scenario truth, preserves the uploaded shell, renders credible architectural office test-fit plans, and refuses to show fake/block fallback plans as finished MVP output |
 
 ## 2. Align pricing, checkout, and trial behavior to the approved commercial model
 
@@ -30,15 +30,15 @@ The live product already reflects the approved intake structure on the program p
 
 ## 4. Run full end-to-end testing with PDF verification included
 
-The project should treat testing as a critical launch gate, not a cleanup task. Testing should verify the full journey from signup and trial behavior through project intake, analysis generation, scenario review, PDF export, and billing logic.
+The project should treat testing as a critical launch gate, not a cleanup task. Testing should verify the full journey from signup and trial behavior through project intake, analysis generation, scenario review, PDF export, and billing logic. Smoke tests are not sufficient for MVP validation. Stephen must personally upload a real office floor plan and review Scenario 1, Scenario 2, Scenario 3, budget per scenario, schedule per scenario, and the final report before the product can be considered launch-ready.
 
 | Why this matters | Definition of progress |
 |---|---|
-| The product is already built; reliability is now as important as feature completeness | The full user path works and PDF export is verified as launch-ready |
+| The product is already built; reliability is now as important as feature completeness | The full user path works, PDF export is verified as launch-ready, all three scenario plans visually resemble real architectural office test-fits, and the report is professional enough to show a broker, tenant, landlord, or investor |
 
 ## 5. Make a final go/no-go decision on launch readiness after the rebuild week
 
-At the end of the week, Stephen should decide whether the app is ready to move toward deployment or whether it needs external development help. That decision should be based on the quality of the rebuilt space-planning logic, the consistency of pricing and trial behavior, and the results of end-to-end testing.
+At the end of the week, Stephen should decide whether the app is ready to move toward deployment or whether it needs external development help. That decision should be based on the quality of the rebuilt space-planning logic, the credibility of the architectural test-fit rendering, the accuracy of Achieved vs. Requested program reporting, the consistency of pricing and trial behavior, and the results of end-to-end testing.
 
 | Why this is important | Definition of progress |
 |---|---|
@@ -46,4 +46,4 @@ At the end of the week, Stephen should decide whether the app is ready to move t
 
 ## Summary
 
-The next five actions now form a straight line: rebuild the space-planning logic, align pricing and trial behavior, preserve the approved intake layout while verifying file support, test everything end to end, and then make a launch-readiness decision. The project no longer needs more strategic branching. It needs disciplined execution.
+The next five actions now form a straight line: rebuild the space-planning logic and architectural renderer around existing-conditions inventory and achieved-vs-requested scenario logic, align pricing and trial behavior, preserve the approved intake layout while verifying file support, test everything end to end with real plan review, and then make a launch-readiness decision. The project no longer needs more strategic branching. It needs disciplined execution.

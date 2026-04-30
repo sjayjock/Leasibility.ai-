@@ -29,12 +29,13 @@ The current app baseline is the archived application code reviewed in the reposi
 |---|---|
 | Visible scenarios | Light Refresh, Moderate Build-Out, Full Transformation |
 | Workplace strategy | Upstream programming input |
-| Program logic | All scenarios aim at the same tenant program |
+| Program logic | All scenarios aim at the same requested tenant program and are driven by Existing Program vs. Requested Program comparison |
+| Existing-conditions inventory | Required before scenario generation; the uploaded plan must be interpreted as reusable, repurposable, fixed, ambiguous, and likely reconfiguration zones |
 | Intake model | Dual-mode |
 | Default intake path | Headcount-first |
 | Advanced intake path | Custom Program option beside Headcount |
 | File support | PDF, JPG, PNG, GIF, WEBP, screenshots, phone photos |
-| Layout strategy | Hybrid structured truth + AI image presentation + fallback |
+| Layout strategy | Hybrid structured truth + architectural vector rendering; AI image generation is optional polish and fallback block diagrams must not be customer-facing MVP output |
 | Launch posture | Upload-first, scanning optional |
 | Report status | PDF launch-ready; public-share features still in progress unless verified |
 
@@ -53,7 +54,7 @@ The current app baseline is the archived application code reviewed in the reposi
 
 ## Most Important Technical Reality
 
-The app’s single highest-risk area remains the **space-planning logic**. That is why the first major task this week is one more serious rebuild attempt using Claude Code. The goal is not to discard the archived app baseline, but to improve its planning logic and align the rest of the workflow around the approved decisions.
+The app’s single highest-risk area remains the **space-planning logic and plan-rendering layer**. That is why the first major task this week is one more serious rebuild attempt using Claude Code. The goal is not to discard the archived app baseline, but to improve its planning logic, extract an existing-conditions program inventory before scenario generation, compare the existing program against the requested tenant program, and render credible architectural office test-fit plans instead of program block diagrams.
 
 ## Current Launch Readiness Interpretation
 
@@ -66,13 +67,16 @@ The product should currently be treated as **near-launch but not yet launch-alig
 | Program-page intake layout aligned | Yes, Headcount is first and Custom Program is beside it |
 | Full file-support alignment verified | Not yet |
 | Space-planning rebuild complete | Not yet |
+| Existing-conditions inventory logic complete | Not yet |
+| Achieved vs. Requested scenario reporting complete | Not yet |
+| Architectural test-fit renderer complete | Not yet |
 | Full testing complete | Not yet |
 | PDF export considered part of launch scope | Yes |
 | Public share links treated as confirmed launch scope | No, not unless verified |
 
 ## Working Instruction for This Week
 
-The project should now be approached as a controlled revision sprint. The team does not need more major strategic exploration. It needs to align the running app to the approved baseline, rebuild the space-planning logic, update billing and trial behavior, preserve the approved program-page intake layout, confirm file-support rules, and complete full end-to-end testing.
+The project should now be approached as a controlled revision sprint. The team does not need more major strategic exploration. It needs to align the running app to the approved baseline, rebuild the space-planning logic around existing-conditions inventory and achieved-vs-requested scenario reporting, upgrade the rendering layer to credible architectural office test-fit plans, update billing and trial behavior, preserve the approved program-page intake layout, confirm file-support rules, and complete full end-to-end testing.
 
 ## Bottom Line
 

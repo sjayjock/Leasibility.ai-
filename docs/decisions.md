@@ -8,7 +8,7 @@ This document records Stephen’s final decisions and establishes the approved o
 
 Leasibility.ai is **already built in meaningful form**, but it requires focused revision before launch. The product will launch around visible **construction-impact scenarios** while using **workplace strategy as an upstream programming input**. The commercial model is now fixed around the **March 23 pricing revision**, with a **14-day card-required trial**, **per-user Team pricing**, and a clear requirement to align website copy, checkout behavior, and CRM messaging.
 
-The technical direction is also now defined. The product will use a **hybrid layout strategy** in which deterministic or structured scenario truth remains authoritative, AI image generation provides presentation-quality floor-plan output, and fallback safety remains in place. The launch posture is **upload-first**, with scanning optional rather than mandatory. The immediate execution priority is one more serious rebuild attempt of the space-planning logic through Claude Code before hiring an external development team.
+The technical direction is also now defined. The product will use a **hybrid layout strategy** in which deterministic or structured scenario truth remains authoritative, the uploaded plan is first interpreted as an existing-conditions program inventory, architectural vector rendering produces the required customer-facing test-fit plan, and AI image generation may provide optional presentation polish only after the structured plan is valid. The launch posture is **upload-first**, with scanning optional rather than mandatory. The immediate execution priority is one more serious rebuild attempt of the space-planning logic through Claude Code before hiring an external development team.
 
 ## Final Decisions
 
@@ -19,15 +19,18 @@ The technical direction is also now defined. The product will use a **hybrid lay
 | 3 | Team plan model | Team pricing is per-user |
 | 4 | Trial policy | 14-day, card-required trial with $0 charged at signup and auto-conversion after trial |
 | 5 | Scenario model | Hybrid: visible construction-impact scenarios, workplace strategy as upstream input |
-| 6 | Program consistency | All scenarios aim for the same program, varying by intervention and cost |
-| 7 | Intake model | Dual-mode intake, with Headcount shown first and Custom Program beside it as an available option |
-| 8 | Accepted file formats | PDF, JPG, PNG, GIF, WEBP, screenshots, and phone photos |
-| 9 | Layout strategy | Hybrid: deterministic or structured scenario truth with AI image presentation and fallback safety |
-| 10 | Fidelity rules | Preserve perimeter, stairs, elevators, core elements, window locations, and entry doors/egress; allow more interior freedom as impact increases |
-| 11 | Mobile capture | Upload-first for launch, with scanning optional and the field narrative preserved in marketing |
-| 12 | Engineering path | One more serious Claude Code rebuild attempt before hiring a dev team |
-| 13 | Share and reports | PDF export is launch-ready; public-share features remain in progress unless verified in the running source tree |
-| 14 | Source of truth | Archived app code is the canonical baseline; rebuild prompts guide improvements; all else is historical reference |
+| 6 | Program consistency | All scenarios aim for the same requested tenant program, but scenario feasibility is driven by Existing Program vs. Requested Program comparison |
+| 7 | Existing-conditions inventory | Before scenario generation, the uploaded plan must be interpreted as an existing program inventory of reusable, repurposable, fixed, ambiguous, and likely reconfiguration zones |
+| 8 | Intake model | Dual-mode intake, with Headcount shown first and Custom Program beside it as an available option |
+| 9 | Accepted file formats | PDF, JPG, PNG, GIF, WEBP, screenshots, and phone photos |
+| 10 | Layout strategy | Hybrid: deterministic or structured scenario truth with architectural plan rendering; AI image generation may provide optional presentation polish but must not replace structured plan truth |
+| 11 | Fidelity rules | Preserve perimeter, stairs, elevators, core elements, window locations, and entry doors/egress; allow more interior freedom as impact increases |
+| 12 | Program-fit reporting | Reports must include Achieved vs. Requested by scenario and frame unmet requirements as Program Gaps, Fit Variance, or Requirements Not Achieved in This Scenario |
+| 13 | Fallback rule | Customer-facing MVP must not show fake/block fallback plans as finished test-fit plans; failures require geometry/program confirmation or a clear needs-review state |
+| 14 | Mobile capture | Upload-first for launch, with scanning optional and the field narrative preserved in marketing |
+| 15 | Engineering path | One more serious Claude Code rebuild attempt before hiring a dev team |
+| 16 | Share and reports | PDF export is launch-ready; public-share features remain in progress unless verified in the running source tree |
+| 17 | Source of truth | Archived app code is the canonical baseline; rebuild prompts guide improvements; all else is historical reference |
 
 ## Commercial Decisions
 
@@ -72,7 +75,11 @@ Workplace strategy remains important, but it is now formally defined as an **ups
 
 ### Programming Rules
 
-All scenarios must aim to satisfy the **same tenant program**. Scenarios are allowed to differ in how much interior change, cost, time, and flexibility they require, but they should not represent totally different tenant needs.
+All scenarios must aim to satisfy the **same requested tenant program**. Scenarios are allowed to differ in how much interior change, cost, time, and flexibility they require, but they should not represent totally different tenant needs.
+
+The planning engine must now compare the **Existing Program** extracted from the uploaded floor plan against the **Requested Program** entered through Headcount or Custom Program intake. Scenario generation should be driven by that comparison. Light Refresh is a feasibility tradeoff that preserves and repurposes as much existing layout as possible and may legitimately achieve less than 100% of the requested program. Moderate Build-Out should selectively demolish or reconfigure targeted zones to get close to or fully aligned with the requested program where reasonably possible. Full Transformation should preserve shell/core and redesign the interior for best-fit alignment, while reporting any remaining shortfall as a leasing insight rather than a system failure.
+
+The detailed rebuild requirement is recorded in `docs/mvp-existing-conditions-program-logic.md`.
 
 ### Intake Model
 
@@ -93,14 +100,16 @@ The launch product should accept the following plan inputs: **PDF, JPG, PNG, GIF
 
 ### Layout and Rendering Strategy
 
-The approved layout strategy is a **hybrid model**. Structured or deterministic scenario data remains the underlying truth, while AI image generation provides the polished plan output and fallback behavior remains available for resilience.
+The approved layout strategy is a **hybrid model**. Structured or deterministic scenario data remains the underlying truth. The MVP must upgrade the rendering layer so this structured truth becomes a credible architectural office test-fit plan, while AI image generation may provide optional presentation polish after the structured plan is valid. Customer-facing fallback behavior must not present block/program diagrams as finished architectural plans.
 
 | Layer | Final role |
 |---|---|
 | Structured scenario truth | Source of record |
-| Deterministic reasoning / layout logic | Core planning foundation |
-| AI image presentation | Customer-facing floor-plan output |
-| Fallback safety | Protects the workflow if image generation fails |
+| Existing-conditions inventory | Required pre-scenario asset inventory extracted from the uploaded plan |
+| Deterministic reasoning / layout logic | Core planning foundation that compares existing program against requested program |
+| Architectural vector rendering | Required customer-facing test-fit plan output for MVP |
+| AI image presentation | Optional polish/presentation layer only after structured plan truth is valid |
+| Fallback safety | Requires confirmation or clear needs-review state if credible plan output cannot be produced |
 
 ### Plan Fidelity Rules
 
