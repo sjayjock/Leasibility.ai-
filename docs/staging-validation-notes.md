@@ -4,19 +4,19 @@ This note records the staging validation performed after restoring the Leasibili
 
 ## Attachment Usage
 
-The provided attachment files were located under `/home/ubuntu/upload` and were not re-opened through the file viewer. The primary real workflow input was `/home/ubuntu/upload/plan.jpg`, which was uploaded through the staging API and stored at the returned floor-plan URL for project `4`. The other provided test-fit files are retained as secondary reference inputs for follow-up visual/regression review; they were not all uploaded in the successful acceptance run because the acceptance standard requires a real floor plan uploaded and analyzed, not duplicate runs for every sample attachment.
+The provided attachment files were located under `/home/ubuntu/upload` and were not re-opened through the file viewer. The primary real workflow input was `/home/ubuntu/upload/plan.jpg`, which was uploaded through the staging API and stored at the returned floor-plan URL for project `4`. After the primary acceptance run, every secondary test-fit attachment was also exercised through the same staging create/upload/analyze/shared-report/report-export workflow as a regression check. The secondary runs exposed that large generated scenario payloads could exceed MySQL `text` capacity, so migration `0009_widen_scenario_payload_text.sql` widens `layoutDescription`, `layoutSvg`, and `aiSummary` to `longtext`; after applying that migration, all secondary attachment runs completed successfully.
 
 | File | Located Path | Validation Role | Verified Outcome |
 |---|---|---|---|
 | `plan.jpg` | `/home/ubuntu/upload/plan.jpg` | Primary real floor-plan workflow input | Uploaded, analyzed, and used to generate three scenarios for project `4`. |
-| `testfit3.jpg` | `/home/ubuntu/upload/testfit3.jpg` | Secondary test-fit reference | Located and preserved for follow-up visual comparison or additional regression upload. |
-| `Testfit2.png` | `/home/ubuntu/upload/Testfit2.png` | Secondary test-fit reference | Located and preserved for follow-up visual comparison or additional regression upload. |
-| `TestFit1.jpeg` | `/home/ubuntu/upload/TestFit1.jpeg` | Secondary test-fit reference | Located and preserved for follow-up visual comparison or additional regression upload. |
-| `testfit4.gif` | `/home/ubuntu/upload/testfit4.gif` | Secondary test-fit reference | Located and preserved for follow-up visual comparison or additional regression upload. |
+| `testfit3.jpg` | `/home/ubuntu/upload/testfit3.jpg` | Secondary regression workflow input | Uploaded, analyzed, generated three scenarios, created shared report, and generated report HTML after `0009` longtext migration. |
+| `Testfit2.png` | `/home/ubuntu/upload/Testfit2.png` | Secondary regression workflow input | Uploaded, analyzed, generated three scenarios, created shared report, and generated report HTML after `0009` longtext migration. |
+| `TestFit1.jpeg` | `/home/ubuntu/upload/TestFit1.jpeg` | Secondary regression workflow input | Uploaded, analyzed, generated three scenarios, created shared report, and generated report HTML after `0009` longtext migration. |
+| `testfit4.gif` | `/home/ubuntu/upload/testfit4.gif` | Secondary regression workflow input | Uploaded, analyzed, generated three scenarios, created shared report, and generated report HTML after `0009` longtext migration. |
 
 ## Real Workflow Validation Evidence
 
-The extended validation script created project `4`, uploaded `/home/ubuntu/upload/plan.jpg`, ran analysis successfully, fetched project detail data, created a share token, fetched the public shared report, and generated report HTML output. The final validation record is stored at `/home/ubuntu/leasibility-staging/staging-validation-result.json`.
+The extended validation script created project `4`, uploaded `/home/ubuntu/upload/plan.jpg`, ran analysis successfully, fetched project detail data, created a share token, fetched the public shared report, and generated report HTML output. The final primary validation record is stored at `/home/ubuntu/leasibility-staging/staging-validation-result.json`. Secondary evidence is captured in `/home/ubuntu/leasibility-staging/secondary-attachment-validation.log`, which records successful full workflow runs for `testfit3.jpg`, `Testfit2.png`, `TestFit1.jpeg`, and `testfit4.gif` after the longtext migration.
 
 | Acceptance Area | Result |
 |---|---|

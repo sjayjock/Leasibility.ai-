@@ -64,6 +64,13 @@
       "when": 1777591200000,
       "tag": "0008_add_scenario_layout_image_url",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "5",
+      "when": 1777591300000,
+      "tag": "0009_widen_scenario_payload_text",
+      "breakpoints": true
     }
   ]
 }

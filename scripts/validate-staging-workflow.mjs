@@ -111,7 +111,7 @@ async function trpc(pathName, input, method = "POST") {
   let data;
   try { data = JSON.parse(text); } catch { data = text; }
   if (!res.ok || (Array.isArray(data) && data[0]?.error)) {
-    throw new Error(`${pathName} failed: HTTP ${res.status} ${JSON.stringify(data).slice(0, 1000)}`);
+    throw new Error(`${pathName} failed: HTTP ${res.status} ${JSON.stringify(data)}`);
   }
   return Array.isArray(data) ? data[0]?.result?.data?.json : data;
 }

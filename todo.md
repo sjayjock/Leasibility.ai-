@@ -12,9 +12,10 @@
 - [x] Run `pnpm check`, `pnpm test`, and `pnpm build` in the staging project after source restoration.
 - [x] Run the full upload/analyze/report workflow using a real office floor plan against the staging instance.
 - [x] Confirm the staging URL is accessible and collect generated Project Detail, Shared Report, and PDF/report artifacts for review.
-- [ ] Save a Manus WebDev checkpoint after restoration, migration, code validation, and current artifact/status documentation are complete.
+- [x] Save a Manus WebDev checkpoint after restoration, migration, code validation, and current artifact/status documentation are complete.
 - [x] Use the provided `plan.jpg` attachment as the real floor-plan workflow input during staging validation.
-- [ ] Use secondary attachments `testfit3.jpg`, `Testfit2.png`, `TestFit1.jpeg`, and `testfit4.gif` in concrete follow-up comparison or regression-upload roles, and record evidence for each.
+- [x] Use secondary attachments `testfit3.jpg`, `Testfit2.png`, `TestFit1.jpeg`, and `testfit4.gif` in concrete follow-up comparison or regression-upload roles, and record evidence for each.
 - [ ] Use the provided visual references `VisualReferenceReportDesktopOutputUX.webp`, `VisualReferenceDashboardMobileUX(2).webp`, and `VisualReferenceDashboardMobileUX(3).webp` as output-quality references for report/dashboard review without re-viewing them through the file viewer.
 - [x] Do not use the file viewer to open or re-view the attached images; reference their known filenames and paths only.
 - [x] Add and verify the missing `scenarios.layoutImageUrl` database column so real analysis can persist generated scenario records.
+- [x] Widen large scenario payload columns (`layoutDescription`, `layoutSvg`, `aiSummary`) to `longtext` so secondary attachment analyses with larger generated geometry/report text can persist.

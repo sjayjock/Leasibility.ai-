@@ -1,4 +1,4 @@
-import { boolean, int, mysqlEnum, mysqlTable, text, timestamp, varchar, float, json } from "drizzle-orm/mysql-core";
+import { boolean, int, mysqlEnum, mysqlTable, text, longtext, timestamp, varchar, float, json } from "drizzle-orm/mysql-core";
 
 export const users = mysqlTable("users", {
   id: int("id").autoincrement().primaryKey(),
@@ -88,8 +88,8 @@ export const scenarios = mysqlTable("scenarios", {
   usableSqFt: int("usableSqFt"),
   totalSqFt: int("totalSqFt"),
   roomBreakdown: json("roomBreakdown"),
-  layoutDescription: text("layoutDescription"),
-  layoutSvg: text("layoutSvg"),
+  layoutDescription: longtext("layoutDescription"),
+  layoutSvg: longtext("layoutSvg"),
   layoutImageUrl: text("layoutImageUrl"),
   budgetLow: float("budgetLow"),
   budgetMid: float("budgetMid"),
@@ -102,7 +102,7 @@ export const scenarios = mysqlTable("scenarios", {
   scheduleWeeksMid: int("scheduleWeeksMid"),
   scheduleWeeksHigh: int("scheduleWeeksHigh"),
   schedulePhases: json("schedulePhases"),
-  aiSummary: text("aiSummary"),
+  aiSummary: longtext("aiSummary"),
   existingConditionsInventory: json("existingConditionsInventory"),
   programFit: json("programFit"),
   scopeSummary: json("scopeSummary"),
