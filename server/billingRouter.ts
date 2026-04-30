@@ -6,6 +6,26 @@ import { users } from "../drizzle/schema";
 import { eq } from "drizzle-orm";
 import { STRIPE_PRODUCTS, TRIAL_DAYS, type PlanKey } from "./stripeProducts";
 
+type StripeProductConfig = (typeof STRIPE_PRODUCTS)[PlanKey];
+
+export function buildSubscriptionLineItem(product: StripeProductConfig, interval: "month" | "year") {
+  const selectedPrice = interval === "month" ? product.monthly : product.annual;
+  return {
+    price_data: {
+      currency: "usd",
+      unit_amount: selectedPrice.amount,
+      recurring: { interval: selectedPrice.interval },
+      product_data: {
+        name: `Leasibility AI ${product.name}`,
+        metadata: {
+          plan: product.name,
+        },
+      },
+    },
+    quantity: 1,
+  } as const;
+}
+
 function getStripe() {
   const apiKey = process.env.STRIPE_SECRET_KEY;
   if (!apiKey) {
@@ -61,7 +81,6 @@ export const billingRouter = router({
 
       const stripe = getStripe();
       const product = STRIPE_PRODUCTS[input.plan as PlanKey];
-      const priceId = input.interval === "month" ? product.monthly.priceId : product.annual.priceId;
 
       // Get or create Stripe customer
       const userRecord = await db.select().from(users).where(eq(users.id, ctx.user.id)).limit(1);
@@ -80,7 +99,7 @@ export const billingRouter = router({
       const session = await stripe.checkout.sessions.create({
         customer: customerId,
         payment_method_types: ["card"],
-        line_items: [{ price: priceId, quantity: 1 }],
+        line_items: [buildSubscriptionLineItem(product, input.interval)],
         mode: "subscription",
         subscription_data: {
           trial_period_days: TRIAL_DAYS,

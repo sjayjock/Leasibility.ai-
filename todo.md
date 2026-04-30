@@ -3,7 +3,7 @@
 - [x] Replace the blank scaffold in `/home/ubuntu/leasibility-staging` with the full app source from GitHub branch `staging-renderer-program-fit-rebuild` at commit `57371fe2e8e629da536695ae1c53275e304e576e`, including `client/`, `server/`, `shared/`, `drizzle/`, and config files.
 - [x] Apply all 8 Drizzle migrations `0000` through `0007` against the Manus-injected `DATABASE_URL`, including migration `0007_staging_renderer_program_fit.sql` scenario JSON columns.
 - [x] Preserve and verify runtime use of Manus auto-injected non-Stripe environment variables: `DATABASE_URL`, `JWT_SECRET`, `VITE_APP_ID`, `OAUTH_SERVER_URL`, `VITE_OAUTH_PORTAL_URL`, `OWNER_OPEN_ID`, `BUILT_IN_FORGE_API_URL`, `BUILT_IN_FORGE_API_KEY`, `VITE_FRONTEND_FORGE_API_KEY`, and `VITE_FRONTEND_FORGE_API_URL`.
-- [ ] Configure and verify Stripe runtime variables `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, and `VITE_STRIPE_PUBLISHABLE_KEY`; billing remains blocked until these credentials are supplied.
+- [x] Configure and verify Stripe runtime variables `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, and `VITE_STRIPE_PUBLISHABLE_KEY`; billing checkout-session creation now succeeds in the managed staging sandbox.
 - [x] Restore deterministic architectural renderer files under `server/layout/*` from the rebuild branch.
 - [x] Restore program-fit reporting logic in `server/programFit.ts` and floor plan parsing in `server/floorPlanParser.ts` from the rebuild branch.
 - [x] Restore authenticated Project Detail report UI in `client/src/pages/ProjectDetail.tsx` from the rebuild branch.
@@ -20,3 +20,4 @@
 - [x] Add and verify the missing `scenarios.layoutImageUrl` database column so real analysis can persist generated scenario records.
 - [x] Widen large scenario payload columns (`layoutDescription`, `layoutSvg`, `aiSummary`) to `longtext` so secondary attachment analyses with larger generated geometry/report text can persist.
 - [x] Save a fresh Manus WebDev checkpoint after the 0009 longtext migration, secondary attachment validation, tests, build, and GitHub push.
+- [x] Replace stale hardcoded Stripe price-ID checkout dependency with portable checkout price data so the managed staging sandbox can create subscription sessions.

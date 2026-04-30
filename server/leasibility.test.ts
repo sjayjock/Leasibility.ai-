@@ -1,5 +1,7 @@
 import { describe, expect, it, vi, beforeEach } from "vitest";
 import { appRouter } from "./routers";
+import { buildSubscriptionLineItem } from "./billingRouter";
+import { STRIPE_PRODUCTS } from "./stripeProducts";
 import { buildProgramFitSummary, buildRenderingStatus, buildScopeSummary, deriveExistingConditionsInventory } from "./programFit";
 import { parseFloorPlanGeometry } from "./floorPlanParser";
 import { generateTestFit } from "./layout";
@@ -97,6 +99,22 @@ describe("projects.list", () => {
     const result = await caller.projects.list();
     expect(Array.isArray(result)).toBe(true);
     expect(result).toHaveLength(0);
+  });
+});
+
+describe("billing checkout configuration", () => {
+  it("builds portable Stripe price_data instead of account-specific price IDs", () => {
+    const lineItem = buildSubscriptionLineItem(STRIPE_PRODUCTS.starter, "month");
+    expect(lineItem).toEqual(expect.objectContaining({
+      quantity: 1,
+      price_data: expect.objectContaining({
+        currency: "usd",
+        unit_amount: STRIPE_PRODUCTS.starter.monthly.amount,
+        recurring: { interval: "month" },
+        product_data: expect.objectContaining({ name: "Leasibility AI Starter" }),
+      }),
+    }));
+    expect(lineItem).not.toHaveProperty("price");
   });
 });
 

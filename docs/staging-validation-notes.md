@@ -56,3 +56,11 @@ The staging runtime was checked for required environment variables without print
 | Manus OAuth (`VITE_APP_ID`, `OAUTH_SERVER_URL`, `VITE_OAUTH_PORTAL_URL`, `OWNER_OPEN_ID`) | Present | Used to mint a controlled staging owner session for validation. |
 | Forge/LLM/storage (`BUILT_IN_FORGE_API_URL`, `BUILT_IN_FORGE_API_KEY`, `VITE_FRONTEND_FORGE_API_KEY`, `VITE_FRONTEND_FORGE_API_URL`) | Present | Analysis and storage workflows completed successfully. |
 | Stripe (`STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `VITE_STRIPE_PUBLISHABLE_KEY`) | Missing | Billing is not yet production/staging-ready; checkout should remain blocked until credentials are configured. |
+
+## Stripe Billing Validation Update — 2026-04-30
+
+The managed Stripe capability was activated for the staging project after the post-0009 checkpoint. A non-secret environment check confirmed that `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, and `VITE_STRIPE_PUBLISHABLE_KEY` are now present in the runtime. The initial checkout validation failed because the restored product configuration still referenced stale account-specific Stripe Price IDs from another sandbox. The checkout implementation was therefore changed to build Stripe Checkout `price_data` from the centralized Leasibility plan configuration instead of depending on hardcoded Price IDs. This keeps the plan catalog centralized in code while making staging checkout portable across managed Stripe sandboxes.
+
+The validation script `scripts/validate-stripe-checkout.mjs` then successfully created a Stripe Checkout subscription session for the Starter monthly plan using an authenticated owner staging session. The script intentionally reports only non-secret readiness data: plan count, checkout host, and path prefix. The successful result returned `checkoutHost: "checkout.stripe.com"` and `checkoutPathPrefix: "/c/pay"`. A regression test was added in `server/leasibility.test.ts` to verify that checkout line items use portable `price_data` and do not include an account-specific `price` ID.
+
+The Stripe sandbox still needs to be claimed in the Stripe dashboard before long-term activation, but runtime credential presence and checkout-session creation are now validated in this staging environment.
