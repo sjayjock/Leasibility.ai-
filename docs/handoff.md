@@ -3,7 +3,7 @@
 **Date:** 2026-05-01  
 **Author:** Manus AI  
 **Branch:** `staging/stabilize-validation-20260430`  
-**Latest commit:** pending commit for this session  
+**Latest pushed implementation commit:** `4d9364d319539f3923d7bb3b8776f9b1896054ab`  
 **Manus checkpoint:** pending final checkpoint for this session
 
 ## Summary
@@ -56,8 +56,8 @@ The current staging app continues to rely on Manus-managed environment variables
 
 ## Known Blockers and Limitations
 
-The full MVP acceptance standard is still not complete. The post-sanitization changes must be committed, pushed, checkpointed, and re-published before the active published site can be treated as updated. After publishing, Project Detail, Shared Report, and PDF/report flows must be revalidated on the public Manus-hosted domain using a real uploaded floor plan. The evidence captured in this session is strong regression evidence, but the post-sanitization browser captures are local preview evidence rather than final deployed acceptance.
+The full MVP acceptance standard is still not complete. The post-sanitization changes have been committed and pushed to GitHub, but they must still be checkpointed and re-published before the active published site can be treated as updated. After publishing, Project Detail, Shared Report, and PDF/report flows must be revalidated on the public Manus-hosted domain using a real uploaded floor plan. The evidence captured in this session is strong regression evidence, but the post-sanitization browser captures are local preview evidence rather than final deployed acceptance.
 
 ## Exact Next Action
 
-Commit and push this session’s changes to GitHub, save a Manus checkpoint, then ask the user to publish the new checkpoint. After that publish, re-run deployed browser-level Project Detail, Shared Report, and PDF/report validation on the active Manus-hosted domain and update the acceptance status.
+Save a Manus checkpoint for the already-pushed source changes, ask the user to publish the new checkpoint, then re-run deployed browser-level Project Detail, Shared Report, and PDF/report validation on the active Manus-hosted domain and update the acceptance status.
