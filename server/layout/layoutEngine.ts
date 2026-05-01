@@ -55,6 +55,8 @@ export interface LayoutInput {
   entryLocation: { x: number; y: number };
   /** Room program — list of room types with counts and areas. */
   program: RoomSpec[];
+  /** Fixed shell/core/restroom/stair/elevator zones that rooms must not overlap. */
+  fixedElements?: Rect[];
   /**
    * Design scenario — controls zoning strategy and density.
    * "collaborative-hub"  → open plan, interior focus
@@ -126,8 +128,13 @@ export function generateLayout(input: LayoutInput): LayoutOutput {
   const placed: PlacedRoom[] = [];
   const unplaced: LayoutOutput["unplacedRooms"] = [];
 
-  // Reserve corridor rects for collision testing
-  const blockedRects: Rect[] = corridors.map(c => c.rect);
+  // Reserve corridor rects and fixed building elements for collision testing.
+  // Good Layout hard rules require core/restrooms/stairs/elevators to remain locked
+  // and never be occupied by generated rooms.
+  const blockedRects: Rect[] = [
+    ...corridors.map(c => c.rect),
+    ...(input.fixedElements ?? []),
+  ];
 
   // Grid step for candidate positions (1 ft)
   const GRID = 2;

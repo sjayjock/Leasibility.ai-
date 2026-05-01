@@ -200,6 +200,15 @@
     background: oklch(0.15 0.025 250);
     color: oklch(0.95 0.005 250);
   }
+  .no-spinner::-webkit-outer-spin-button,
+  .no-spinner::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  .no-spinner[type='number'] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
 
   /* Subtle grid overlay */
   .grid-overlay {

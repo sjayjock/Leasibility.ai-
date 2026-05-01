@@ -30,6 +30,12 @@ const US_MARKETS = [
 const STEPS = ["Property", "Tenant Program", "Floor Plan"];
 const MAX_SCAN_PHOTOS = 5;
 
+const PLANNING_STYLES = [
+  { id: "Balanced Standard", label: "Balanced Standard", desc: "Mix of open workstations, enclosed rooms, and collaboration." },
+  { id: "Open / Collaborative", label: "Open / Collaborative", desc: "More team zones and shared work areas." },
+  { id: "Private / Enclosed", label: "Private / Enclosed", desc: "More offices, focus rooms, and enclosed meeting space." },
+];
+
 interface CapturedPhoto {
   dataUrl: string;
   file: File;
@@ -54,6 +60,8 @@ export default function NewProject() {
   const [tenantName, setTenantName] = useState("");
   const [headcount, setHeadcount] = useState("");
   const [industry, setIndustry] = useState("");
+  const [programMode, setProgramMode] = useState<"auto" | "custom">("auto");
+  const [planningStyle, setPlanningStyle] = useState("Balanced Standard");
   const [programNotes, setProgramNotes] = useState("");
 
   // Step 3 — Floor Plan
@@ -255,7 +263,11 @@ export default function NewProject() {
           tenantName: tenantName || undefined,
           headcount: parseInt(headcount),
           industry,
-          programNotes: programNotes || undefined,
+          programNotes: [
+            `Program Mode: ${programMode === "auto" ? "Auto Programming" : "Custom Programming"}`,
+            `Planning Style: ${planningStyle}`,
+            programMode === "custom" && programNotes.trim() ? `Custom Requirements:\n${programNotes.trim()}` : programNotes.trim(),
+          ].filter(Boolean).join("\n") || undefined,
         });
         projectId = result.id;
         setCreatedId(projectId);
@@ -348,7 +360,7 @@ export default function NewProject() {
             </div>
 
             <Field label="Total Square Footage *" hint="Rentable square feet of the space">
-              <input type="number" value={totalSqFt} onChange={e => setTotalSqFt(e.target.value)} placeholder="e.g. 8500" min="500" max="100000" className="input-field" />
+              <input type="number" inputMode="numeric" value={totalSqFt} onChange={e => setTotalSqFt(e.target.value)} placeholder="e.g. 8500" min="500" max="100000" className="input-field no-spinner" />
             </Field>
 
             <button
@@ -374,14 +386,49 @@ export default function NewProject() {
             </Field>
 
             <Field label="Headcount *" hint="Number of people who will work in this space">
-              <input type="number" value={headcount} onChange={e => setHeadcount(e.target.value)} placeholder="e.g. 45" min="1" max="5000" className="input-field" />
+              <input type="number" inputMode="numeric" value={headcount} onChange={e => setHeadcount(e.target.value)} placeholder="e.g. 45" min="1" max="5000" className="input-field no-spinner" />
             </Field>
 
-            <Field label="Industry *">
+            <Field label="Industry *" hint="Used as context for language and assumptions; it is not the sole programming driver.">
               <select value={industry} onChange={e => setIndustry(e.target.value)} className="input-field">
                 <option value="">Select industry</option>
                 {INDUSTRIES.map(i => <option key={i} value={i}>{i}</option>)}
               </select>
+            </Field>
+
+            <Field label="Programming Method" hint="Auto Programming generates a canonical program from headcount and planning style; Custom Programming lets you override it with specific requirements.">
+              <div className="grid grid-cols-2 gap-3">
+                {[
+                  { id: "auto" as const, label: "Auto Programming", desc: "Recommended MVP flow" },
+                  { id: "custom" as const, label: "Custom Programming", desc: "Use explicit room requests" },
+                ].map(option => (
+                  <button
+                    key={option.id}
+                    type="button"
+                    onClick={() => setProgramMode(option.id)}
+                    className={`text-left rounded-xl border p-4 transition-all ${programMode === option.id ? "border-[#D4AF37] bg-[#D4AF37]/10" : "border-white/10 bg-[#0F1F3D] hover:border-white/20"}`}
+                  >
+                    <span className={`block font-['Montserrat'] font-700 text-sm ${programMode === option.id ? "text-[#D4AF37]" : "text-white/70"}`}>{option.label}</span>
+                    <span className="block text-white/35 text-xs font-['Inter'] mt-1">{option.desc}</span>
+                  </button>
+                ))}
+              </div>
+            </Field>
+
+            <Field label="Auto Planning Style" hint="Available in Auto and Custom modes; custom notes can further override these defaults.">
+              <div className="grid gap-3 sm:grid-cols-3">
+                {PLANNING_STYLES.map(style => (
+                  <button
+                    key={style.id}
+                    type="button"
+                    onClick={() => setPlanningStyle(style.id)}
+                    className={`text-left rounded-xl border p-4 transition-all ${planningStyle === style.id ? "border-[#D4AF37] bg-[#D4AF37]/10" : "border-white/10 bg-[#0F1F3D] hover:border-white/20"}`}
+                  >
+                    <span className={`block font-['Montserrat'] font-700 text-sm ${planningStyle === style.id ? "text-[#D4AF37]" : "text-white/70"}`}>{style.label}</span>
+                    <span className="block text-white/35 text-xs font-['Inter'] mt-1">{style.desc}</span>
+                  </button>
+                ))}
+              </div>
             </Field>
 
             {headcount && totalSqFt && (
@@ -400,11 +447,11 @@ export default function NewProject() {
               </div>
             )}
 
-            <Field label="Program Notes" hint="Any special requirements, preferences, or constraints">
+            <Field label={programMode === "custom" ? "Custom Program Requirements" : "Program Notes"} hint={programMode === "custom" ? "List exact requested rooms, quantities, or special constraints. These will be sent as custom requirements." : "Optional constraints or preferences. Auto Programming will still create the baseline room program."}>
               <textarea
                 value={programNotes}
                 onChange={e => setProgramNotes(e.target.value)}
-                placeholder="e.g. Need 2 large conference rooms, dedicated server room, reception area for clients..."
+                placeholder={programMode === "custom" ? "e.g. 2 large conference rooms, 8 private offices, 45 workstations, reception, wellness room..." : "e.g. Need a larger boardroom, avoid moving existing pantry, prefer more focus rooms..."}
                 rows={3}
                 className="input-field resize-none"
               />

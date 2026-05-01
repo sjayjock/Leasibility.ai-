@@ -155,6 +155,12 @@ export function generateTestFit(input: TestFitInput): TestFitOutput {
     entryLocation: input.entryLocation,
     program: input.program,
     scenario: input.scenario,
+    fixedElements: input.context?.coreElements?.map(core => ({
+      x: core.x,
+      y: core.y,
+      width: core.width,
+      height: core.height,
+    })),
   };
 
   // Run layout engine

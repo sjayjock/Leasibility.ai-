@@ -2,7 +2,7 @@ import { describe, expect, it, vi, beforeEach } from "vitest";
 import { appRouter } from "./routers";
 import { buildSubscriptionLineItem } from "./billingRouter";
 import { STRIPE_PRODUCTS } from "./stripeProducts";
-import { buildProgramFitSummary, buildRenderingStatus, buildScopeSummary, deriveExistingConditionsInventory } from "./programFit";
+import { buildProgramFitSummary, buildRenderingStatus, buildScopeSummary, deriveExistingConditionsInventory, buildRequestedProgramFromInputs } from "./programFit";
 import { parseFloorPlanGeometry } from "./floorPlanParser";
 import { generateTestFit } from "./layout";
 import type { TrpcContext } from "./_core/context";
@@ -241,6 +241,54 @@ describe("program-fit reporting and deterministic renderer", () => {
     expect(fit.rows.some(row => row.programItem === "Workstations")).toBe(true);
     expect(scope.budgetScheduleRationale).toContain("selective demolition");
     expect(status.status).toBe("ready");
+  });
+
+  it("uses the 50 SF workstation standard and planning style rather than industry alone for requested program math", () => {
+    const openProgram = buildRequestedProgramFromInputs(40, "Open / Collaborative", "");
+    const privateProgram = buildRequestedProgramFromInputs(40, "Private / Enclosed", "");
+    const openWorkspace = openProgram.find(row => row.type === "Open Workspace");
+    const privateOffices = privateProgram.find(row => row.type === "Private Office");
+
+    expect(openWorkspace).toEqual(expect.objectContaining({ count: 1, sqFt: 1900 }));
+    expect(privateOffices?.count).toBeGreaterThan(openProgram.find(row => row.type === "Private Office")?.count ?? 0);
+  });
+
+  it("marks uploaded-plan placeholder geometry as needs-review and uses source-of-truth demolition ranges by scenario", () => {
+    const geometry = parseFloorPlanGeometry({ totalSqFt: 10000, floorPlanUrl: "https://example.com/real-office-plan.pdf" });
+    const requested = buildRequestedProgramFromInputs(50, "Balanced Standard", "");
+    const inventory = deriveExistingConditionsInventory(geometry, requested, 50);
+    const lightFit = buildProgramFitSummary("Light Refresh", "low", requested, requested, 50, inventory);
+    const moderateFit = buildProgramFitSummary("Moderate Build-Out", "medium", requested, requested, 50, inventory);
+    const fullFit = buildProgramFitSummary("Full Transformation", "high", requested, requested, 50, inventory);
+
+    expect(geometry.reviewRequired).toBe(true);
+    expect(geometry.confidence).toBeLessThan(0.5);
+    expect(buildRenderingStatus(geometry, true)).toEqual(expect.objectContaining({ status: "needs_review" }));
+    expect(buildScopeSummary("Light Refresh", "low", inventory, lightFit).reconfigurationScope).toContain("0% interior wall demolition");
+    expect(buildScopeSummary("Moderate Build-Out", "medium", inventory, moderateFit).reconfigurationScope[0]).toContain("10–30%");
+    expect(buildScopeSummary("Full Transformation", "high", inventory, fullFit).reconfigurationScope[0]).toContain("80–100%");
+  });
+
+  it("passes fixed core elements into deterministic layout blocking so generated rooms avoid the building core", () => {
+    const geometry = parseFloorPlanGeometry({ totalSqFt: 10000 });
+    const core = geometry.coreElements[0];
+    const output = generateTestFit({
+      floorplate: geometry.floorplate,
+      entryLocation: geometry.entryPoints[0],
+      scenario: "balanced-standard",
+      label: "Fixed Core Blocking Test",
+      program: [
+        { type: "Conference Room", count: 2, sqFt: 300 },
+        { type: "Private Office", count: 4, sqFt: 120 },
+      ],
+      context: { coreElements: geometry.coreElements, entryPoints: geometry.entryPoints, windows: geometry.windows, existingInteriorWalls: geometry.existingInteriorWalls },
+    });
+    const overlapsCore = output.rooms.some(room => !(
+      room.position.x + room.width <= core.x || core.x + core.width <= room.position.x || room.position.y + room.height <= core.y || core.y + core.height <= room.position.y
+    ));
+
+    expect(output.rooms.length).toBeGreaterThan(0);
+    expect(overlapsCore).toBe(false);
   });
 
   it("renders architectural SVG with shell, core, entries, windows, rooms, and review banner when uploaded geometry needs review", () => {

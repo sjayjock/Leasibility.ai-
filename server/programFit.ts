@@ -11,6 +11,10 @@ import type {
 
 export type RoomProgramRow = { type: string; count: number; sqFt: number };
 
+const WORKSTATION_TARGET_SF = 50;
+const WORKSTATION_MIN_SF = 36;
+const WORKSTATION_MAX_SF = 64;
+
 const PROGRAM_CATEGORIES = [
   "Private Offices",
   "Workstations",
@@ -37,6 +41,42 @@ function normalizeType(type: string): string {
   return "Support Spaces";
 }
 
+function estimateWorkstationCapacity(row: RoomProgramRow): number {
+  const label = row.type.toLowerCase();
+  if (!label.includes("open") && !label.includes("workspace") && !label.includes("workstation") && !label.includes("desk")) {
+    return safeCount(row.count);
+  }
+  const capacityByTarget = Math.floor((row.sqFt * Math.max(1, row.count)) / WORKSTATION_TARGET_SF);
+  const capacityByMaxDensity = Math.floor((row.sqFt * Math.max(1, row.count)) / WORKSTATION_MIN_SF);
+  const capacityByLooseFit = Math.ceil((row.sqFt * Math.max(1, row.count)) / WORKSTATION_MAX_SF);
+  return Math.max(1, Math.min(Math.max(capacityByTarget, capacityByLooseFit), capacityByMaxDensity));
+}
+
+export function buildRequestedProgramFromInputs(headcount: number, planningStyle = "Balanced Standard", customNotes = ""): RoomProgramRow[] {
+  const style = planningStyle.toLowerCase();
+  const privateRatio = style.includes("private") ? 0.24 : style.includes("open") ? 0.06 : 0.14;
+  const collaborationMultiplier = style.includes("collaborative") ? 1.45 : style.includes("private") ? 0.85 : 1;
+  const privateOffices = Math.max(1, Math.round(headcount * privateRatio));
+  const workstationSeats = Math.max(1, headcount - privateOffices);
+  const huddleRooms = Math.max(1, Math.round((headcount / 24) * collaborationMultiplier));
+  const conferenceRooms = Math.max(1, Math.round(headcount / 16));
+  const phoneRooms = Math.max(1, Math.round(headcount / (style.includes("private") ? 10 : 14)));
+  const collaborationZones = Math.max(1, Math.round((headcount / 32) * collaborationMultiplier));
+  const notes = customNotes.toLowerCase();
+  const wantsReception = !notes.includes("no reception");
+  return [
+    { type: "Open Workspace", count: 1, sqFt: workstationSeats * WORKSTATION_TARGET_SF },
+    { type: "Private Office", count: privateOffices, sqFt: 100 },
+    { type: "Conference Room", count: conferenceRooms, sqFt: 252 },
+    { type: "Huddle Room", count: huddleRooms, sqFt: 100 },
+    { type: "Phone Booth", count: phoneRooms, sqFt: 36 },
+    { type: "Collaboration Zone", count: collaborationZones, sqFt: 120 },
+    { type: "Break Room", count: 1, sqFt: 120 },
+    { type: "Print Area", count: 1, sqFt: 48 },
+    ...(wantsReception ? [{ type: "Reception", count: 1, sqFt: 120 }] : []),
+  ];
+}
+
 function summarizeProgram(program: RoomProgramRow[]): Record<string, number> {
   const summary: Record<string, number> = {};
   for (const category of PROGRAM_CATEGORIES) summary[category] = 0;
@@ -44,8 +84,7 @@ function summarizeProgram(program: RoomProgramRow[]): Record<string, number> {
   for (const row of program) {
     const category = normalizeType(row.type);
     if (category === "Workstations") {
-      const workstationCapacity = row.type.toLowerCase().includes("workspace") ? Math.max(1, Math.round(row.sqFt / 80)) : row.count;
-      summary[category] += safeCount(row.count * workstationCapacity);
+      summary[category] += estimateWorkstationCapacity(row);
     } else {
       summary[category] += safeCount(row.count);
     }
@@ -75,7 +114,7 @@ export function deriveExistingConditionsInventory(geometry: ParsedFloorPlanGeome
   const existingOffices = Math.max(2, Math.round(headcount * 0.08));
   const existingConference = Math.max(1, Math.round(headcount / 22));
   const existingPhone = Math.max(1, Math.round(headcount / 28));
-  const existingWorkstations = Math.max(4, Math.min(headcount, Math.round((total * 0.36) / 85)));
+  const existingWorkstations = Math.max(4, Math.min(headcount, Math.round((total * 0.36) / WORKSTATION_TARGET_SF)));
 
   const reusableZones: InventoryItem[] = [
     item("Existing private offices", Math.min(existingOffices, requested["Private Offices"] || existingOffices), 140, "Perimeter office bands", "high", geometry.confidence, "Likely reusable with finish refresh and furniture updates."),
@@ -84,7 +123,7 @@ export function deriveExistingConditionsInventory(geometry: ParsedFloorPlanGeome
   ];
 
   const repurposableZones: InventoryItem[] = [
-    item("Existing workstation zones", existingWorkstations, Math.round(existingWorkstations * 80), "Open interior workspace fields", "medium", Math.max(0.5, geometry.confidence - 0.08), "Systems furniture may be retained, densified, or reconfigured depending on tenant standards."),
+    item("Existing workstation zones", existingWorkstations, Math.round(existingWorkstations * WORKSTATION_TARGET_SF), "Open interior workspace fields", "medium", Math.max(0.5, geometry.confidence - 0.08), "Systems furniture is estimated at the current 50 SF planning target, with 36–64 SF treated as the acceptable workstation range."),
     item("Existing huddle / collaboration areas", Math.max(1, Math.round(headcount / 40)), Math.round(total * 0.035), "Secondary circulation nodes", "medium", Math.max(0.5, geometry.confidence - 0.1), "Can be repurposed as focus, lounge, or informal collaboration space."),
   ];
 
@@ -158,15 +197,15 @@ export function buildScopeSummary(scenarioLabel: string, impactLevel: ScenarioIm
   const repurposedElements = inventory.repurposableZones.map(i => i.category);
   const programGaps = programFit.gaps.map(row => `${row.programItem}: ${Math.abs(row.variance)} not accommodated`);
   const reuseStrategy = impactLevel === "low"
-    ? "Preserve existing partitions and repurpose usable rooms with cosmetic refresh only."
+    ? "Preserve existing partitions and repurpose usable rooms with cosmetic refresh only; no interior wall demolition is assumed."
     : impactLevel === "medium"
-      ? "Retain high-value rooms and fixed infrastructure while selectively demolishing conflicting partitions."
-      : "Preserve shell/core only and rebuild flexible interior areas for optimal program alignment.";
+      ? "Retain high-value rooms and fixed infrastructure while selectively removing 10–30% of conflicting non-structural partitions."
+      : "Preserve shell/core only while removing 80–100% of removable interior partitions for optimal program alignment.";
   const reconfigurationScope = impactLevel === "low"
-    ? ["Finish refresh", "Furniture reconfiguration", "Minor signage and technology upgrades"]
+    ? ["0% interior wall demolition", "Finish refresh", "Furniture reconfiguration", "Minor signage and technology upgrades"]
     : impactLevel === "medium"
-      ? ["Selective demolition", "New targeted partitions", "MEP tie-ins at reconfigured rooms", "Furniture and technology refresh"]
-      : ["Full interior demolition", "New partitions and finish package", "Comprehensive MEP / IT / AV redesign", "New furniture package"];
+      ? ["10–30% selective non-structural wall removal", "New targeted partitions", "MEP tie-ins at reconfigured rooms", "Furniture and technology refresh"]
+      : ["80–100% removable interior wall removal", "New partitions and finish package", "Comprehensive MEP / IT / AV redesign", "New furniture package"];
   const budgetScheduleRationale = impactLevel === "low"
     ? "Lower budget and shorter schedule reflect high reuse and minimal demolition."
     : impactLevel === "medium"

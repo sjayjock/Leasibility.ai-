@@ -1,7 +1,7 @@
 import { invokeLLM } from "./_core/llm";
 import { parseFloorPlanGeometry } from "./floorPlanParser";
 import { generateTestFit, type TestFitInput } from "./layout";
-import { buildProgramFitSummary, buildRenderingStatus, buildScopeSummary, deriveExistingConditionsInventory } from "./programFit";
+import { buildProgramFitSummary, buildRenderingStatus, buildRequestedProgramFromInputs, buildScopeSummary, deriveExistingConditionsInventory } from "./programFit";
 import type { ExistingConditionsInventory, ProgramFitSummary, RenderingStatus, ScopeSummary } from "./layout/types";
 
 // ─── Market cost benchmarks ($/sqft) ─────────────────────────
@@ -210,6 +210,11 @@ export async function generateScenarios(input: ScenarioInput): Promise<Generated
 You generate precise, realistic space plans for tenant rep brokers evaluating office spaces.
 Always respond with valid JSON only. No markdown, no explanation outside JSON.`;
 
+  const planningStyleMatch = input.programNotes?.match(/Planning Style:\s*([^\n]+)/i);
+  const planningStyle = planningStyleMatch?.[1]?.trim() || "Balanced Standard";
+  const requestedProgram = buildRequestedProgramFromInputs(input.headcount, planningStyle, input.programNotes ?? "");
+  const requestedProgramPrompt = requestedProgram.map(row => `- ${row.type}: ${row.count} × ${row.sqFt} SF`).join("\n");
+
   const userPrompt = `Generate 3 distinct space planning scenarios for a ${sqFt.toLocaleString()} sq ft office space.
 
 Property: ${input.propertyName}
@@ -217,7 +222,11 @@ Market: ${input.market}
 Tenant Headcount: ${input.headcount} people
 Industry: ${input.industry}
 Sq Ft Per Person: ${Math.round(sqFtPerPerson)}
+Planning Style: ${planningStyle}
 ${input.programNotes ? `Additional Notes: ${input.programNotes}` : ""}
+
+REQUESTED PROGRAM — use this as the target program before scenario tradeoffs:
+${requestedProgramPrompt}
 
 SCENARIO DEFINITIONS — follow these exactly:
 
@@ -235,15 +244,15 @@ Scenario 2 — MODERATE BUILD-OUT:
 - Label: "Moderate Build-Out"
 
 Scenario 3 — FULL TRANSFORMATION:
-- Complete demolition and rebuild from base building condition
-- No constraints from existing conditions — fully optimized for the tenant
+- Preserve shell/core and remove 80–100% of removable interior partitions
+- Fully optimize tenant areas while respecting fixed building conditions
 - Best long-term outcome, highest cost, longest timeline
 - Label: "Full Transformation"
 
 For each scenario return:
 - label: exactly as specified above
 - efficiencyScore: 0-100 (usable vs total sqft ratio; Low=72-80, Medium=80-87, High=85-93)
-- roomBreakdown: array of {type, count, sqFt} — realistic rooms for ${input.industry} industry
+- roomBreakdown: array of {type, count, sqFt} — start from the Requested Program above; industry is context only and must not be the sole programming driver
 - layoutDescription: 2-3 sentences describing the space feel and key design decisions for this impact level
 - aiSummary: 3-4 sentences covering why this scenario fits the tenant, key trade-offs, cost/time implications, and broker talking points
 
@@ -328,7 +337,7 @@ Return JSON: { "scenarios": [ {...}, {...}, {...} ] }`;
             { type: "Reception", count: 1, sqFt: Math.round(sqFt * 0.04) },
             { type: "Phone Booth", count: Math.max(2, Math.round(input.headcount / 10)), sqFt: 36 },
           ],
-          layoutDescription: "Existing walls and infrastructure are preserved. The layout is refreshed with new finishes, furniture, and minor partition adjustments to meet the program with minimal disruption.",
+          layoutDescription: "Existing walls and infrastructure are preserved with 0% interior wall demolition. The layout is refreshed with new finishes, furniture, and minor partition adjustments to approach the program with minimal disruption.",
           aiSummary: `This Light Refresh scenario maximizes the existing conditions of the ${sqFt.toLocaleString()} sq ft space. By reusing existing walls and MEP infrastructure, the tenant can occupy faster and at the lowest cost. Ideal for tenants with flexible program requirements or tight timelines. The trade-off is some deviation from the ideal layout.`,
         },
         {
@@ -343,7 +352,7 @@ Return JSON: { "scenarios": [ {...}, {...}, {...} ] }`;
             { type: "Reception", count: 1, sqFt: Math.round(sqFt * 0.05) },
             { type: "Phone Booth", count: Math.max(2, Math.round(input.headcount / 8)), sqFt: 36 },
           ],
-          layoutDescription: "The layout is reconfigured to fully match the tenant's program. Existing MEP infrastructure is reused where possible, with selective demolition of walls that conflict with the optimized plan.",
+          layoutDescription: "The layout is reconfigured to approach the tenant's program while preserving useful rooms and fixed infrastructure. Selective demolition is limited to roughly 10–30% of non-structural partitions that conflict with the optimized plan.",
           aiSummary: `This Moderate Build-Out scenario fully delivers the tenant's program for ${input.headcount} people in ${input.industry}. Selective demolition and reuse of existing infrastructure balances cost and outcome. This is the most common scenario — it gives the tenant what they need without the time and expense of a complete rebuild. The broker can present this as the smart, balanced choice.`,
         },
         {
@@ -359,7 +368,7 @@ Return JSON: { "scenarios": [ {...}, {...}, {...} ] }`;
             { type: "Phone Booth", count: Math.max(4, Math.round(input.headcount / 6)), sqFt: 36 },
             { type: "Lounge", count: 1, sqFt: Math.round(sqFt * 0.05) },
           ],
-          layoutDescription: "A complete gut and rebuild delivers a fully optimized environment with no constraints from existing conditions. Every square foot is purposefully designed for the tenant's program and culture.",
+          layoutDescription: "A full interior redesign preserves shell/core while removing 80–100% of removable interior partitions. Every flexible square foot is purposefully planned for the tenant's program and culture.",
           aiSummary: `This Full Transformation scenario delivers the best possible long-term outcome for ${input.headcount} people in ${input.industry}. Starting from base building condition allows complete optimization of layout, MEP systems, and finishes. The highest cost and longest timeline are offset by a space built exactly to the tenant's needs — a strong negotiating point for a longer lease term and maximum TI allowance.`,
         },
       ]
@@ -370,7 +379,6 @@ Return JSON: { "scenarios": [ {...}, {...}, {...} ] }`;
   const impactLevels: Array<"low" | "medium" | "high"> = ["low", "medium", "high"];
   const impactTags = ["Light Refresh", "Moderate Build-Out", "Full Transformation"];
   const geometry = parseFloorPlanGeometry({ totalSqFt: sqFt, floorPlanUrl: input.floorPlanUrl });
-  const requestedProgram = aiResult.scenarios[Math.min(2, aiResult.scenarios.length - 1)]?.roomBreakdown ?? aiResult.scenarios[0]?.roomBreakdown ?? [];
   const existingConditionsInventory = deriveExistingConditionsInventory(geometry, requestedProgram, input.headcount);
 
   const finalScenarios: GeneratedScenario[] = [];
@@ -418,7 +426,10 @@ Return JSON: { "scenarios": [ {...}, {...}, {...} ] }`;
         renderingStatus: buildRenderingStatus(geometry, true),
       },
     });
-    const programFit = buildProgramFitSummary(s.label, impactLevel, requestedProgram, s.roomBreakdown, input.headcount, existingConditionsInventory);
+    const achievedFromPlacement = testFit.rooms.length > 0
+      ? testFit.rooms.map(room => ({ type: room.type, count: 1, sqFt: Math.round(room.area) }))
+      : s.roomBreakdown;
+    const programFit = buildProgramFitSummary(s.label, impactLevel, requestedProgram, achievedFromPlacement, input.headcount, existingConditionsInventory);
     const scopeSummary = buildScopeSummary(s.label, impactLevel, existingConditionsInventory, programFit);
     const renderingStatus = buildRenderingStatus(geometry, testFit.svg.length > 0);
 
@@ -430,7 +441,7 @@ Return JSON: { "scenarios": [ {...}, {...}, {...} ] }`;
       efficiencyScore: s.efficiencyScore,
       usableSqFt,
       totalSqFt: sqFt,
-      roomBreakdown: s.roomBreakdown,
+      roomBreakdown: achievedFromPlacement,
       layoutDescription: `${s.layoutDescription} ${scopeSummary.budgetScheduleRationale}`,
       layoutSvg: testFit.svg,
       budgetLow:  totalLow,

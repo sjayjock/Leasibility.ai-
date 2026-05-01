@@ -1,0 +1,1752 @@
+{
+  "input": {
+    "propertyName": "Real Uploaded Office Plan Validation",
+    "totalSqFt": 11800,
+    "headcount": 92,
+    "industry": "Technology / Professional Services",
+    "market": "New York",
+    "floorPlanUrl": "/home/ubuntu/leasibility-staging/docs/validation/real-plan-2026-05-01/uploaded-real-office-plan.jpg",
+    "programNotes": "Programming Mode: Auto\nPlanning Style: Collaborative Mix\nValidation Source: user-uploaded office plan image plan.jpg. The image visibly includes meeting rooms, reception, staff canteen, open office areas, computer facilities, storage, manager offices, restrooms/core/service rooms, perimeter glazing, entries/doors, and interior partitions."
+  },
+  "geometry": {
+    "floorplate": {
+      "x": 0,
+      "y": 0,
+      "width": 143.7,
+      "height": 82.11
+    },
+    "totalSqFt": 11800,
+    "coreElements": [
+      {
+        "id": "core-1",
+        "type": "core",
+        "label": "Fixed Core / Restrooms",
+        "x": 58.2,
+        "y": 32.7,
+        "width": 21.55,
+        "height": 20,
+        "fixed": true,
+        "confidence": 0.48
+      }
+    ],
+    "entryPoints": [
+      {
+        "id": "entry-primary",
+        "type": "primary",
+        "label": "Primary Suite Entry",
+        "x": 11.5,
+        "y": 0,
+        "confidence": 0.7
+      },
+      {
+        "id": "entry-egress",
+        "type": "egress",
+        "label": "Secondary Egress",
+        "x": 132.2,
+        "y": 82.11,
+        "confidence": 0.66
+      }
+    ],
+    "windows": [
+      {
+        "x1": 8,
+        "y1": 82.11,
+        "x2": 64.66499999999999,
+        "y2": 82.11,
+        "confidence": 0.64
+      },
+      {
+        "x1": 79.035,
+        "y1": 82.11,
+        "x2": 135.7,
+        "y2": 82.11,
+        "confidence": 0.64
+      },
+      {
+        "x1": 143.7,
+        "y1": 14.7798,
+        "x2": 143.7,
+        "y2": 67.33019999999999,
+        "confidence": 0.58
+      }
+    ],
+    "existingInteriorWalls": [
+      {
+        "x1": 37.36,
+        "y1": 6,
+        "x2": 37.36,
+        "y2": 55.83,
+        "confidence": 0.55
+      },
+      {
+        "x1": 103.46,
+        "y1": 26.28,
+        "x2": 103.46,
+        "y2": 76.11,
+        "confidence": 0.55
+      },
+      {
+        "x1": 6,
+        "y1": 26.28,
+        "x2": 137.7,
+        "y2": 26.28,
+        "confidence": 0.5
+      },
+      {
+        "x1": 6,
+        "y1": 55.83,
+        "x2": 137.7,
+        "y2": 55.83,
+        "confidence": 0.5
+      }
+    ],
+    "confidence": 0.46,
+    "source": "synthetic_rectangular_model",
+    "reviewRequired": true,
+    "reviewReasons": [
+      "Uploaded plan content has not yet been machine-extracted in this V1 sandbox path; shell, core, entries, glazing, and walls are inferred placeholders requiring confirmation.",
+      "Do not treat default core/restroom/stair/elevator positions as confirmed existing conditions until the uploaded plan is reviewed.",
+      "Parser confidence is below the architectural acceptance threshold, so scenario outputs must remain needs-review until shell/core confirmation is completed."
+    ]
+  },
+  "requestedProgram": [
+    {
+      "type": "Open Workspace",
+      "count": 1,
+      "sqFt": 3950
+    },
+    {
+      "type": "Private Office",
+      "count": 13,
+      "sqFt": 100
+    },
+    {
+      "type": "Conference Room",
+      "count": 6,
+      "sqFt": 252
+    },
+    {
+      "type": "Huddle Room",
+      "count": 6,
+      "sqFt": 100
+    },
+    {
+      "type": "Phone Booth",
+      "count": 7,
+      "sqFt": 36
+    },
+    {
+      "type": "Collaboration Zone",
+      "count": 4,
+      "sqFt": 120
+    },
+    {
+      "type": "Break Room",
+      "count": 1,
+      "sqFt": 120
+    },
+    {
+      "type": "Print Area",
+      "count": 1,
+      "sqFt": 48
+    },
+    {
+      "type": "Reception",
+      "count": 1,
+      "sqFt": 120
+    }
+  ],
+  "existingInventory": {
+    "source": "synthetic_rectangular_model",
+    "confidence": 0.46,
+    "summary": "Existing conditions indicate approximately 85 reusable workstation seats, 7 private offices, 4 meeting rooms, fixed core elements, and interior zones that can be selectively reconfigured.",
+    "reusableZones": [
+      {
+        "category": "Existing private offices",
+        "count": 7,
+        "estimatedSqFt": 140,
+        "approximateLocation": "Perimeter office bands",
+        "reusePotential": "high",
+        "confidence": 0.46,
+        "notes": "Likely reusable with finish refresh and furniture updates."
+      },
+      {
+        "category": "Existing conference / meeting rooms",
+        "count": 4,
+        "estimatedSqFt": 280,
+        "approximateLocation": "Near core and primary circulation",
+        "reusePotential": "high",
+        "confidence": 0.46,
+        "notes": "Meeting rooms can generally remain if technology and finishes are upgraded."
+      },
+      {
+        "category": "Existing pantry / break area",
+        "count": 1,
+        "estimatedSqFt": 531,
+        "approximateLocation": "Adjacent to fixed core",
+        "reusePotential": "high",
+        "confidence": 0.46,
+        "notes": "Wet-wall adjacency makes this a strong reuse candidate."
+      }
+    ],
+    "repurposableZones": [
+      {
+        "category": "Existing workstation zones",
+        "count": 85,
+        "estimatedSqFt": 4250,
+        "approximateLocation": "Open interior workspace fields",
+        "reusePotential": "medium",
+        "confidence": 0.5,
+        "notes": "Systems furniture is estimated at the current 50 SF planning target, with 36–64 SF treated as the acceptable workstation range."
+      },
+      {
+        "category": "Existing huddle / collaboration areas",
+        "count": 2,
+        "estimatedSqFt": 413,
+        "approximateLocation": "Secondary circulation nodes",
+        "reusePotential": "medium",
+        "confidence": 0.5,
+        "notes": "Can be repurposed as focus, lounge, or informal collaboration space."
+      }
+    ],
+    "fixedElements": [
+      {
+        "category": "Fixed Core / Restrooms",
+        "count": 1,
+        "estimatedSqFt": 431,
+        "approximateLocation": "Fixed building core",
+        "reusePotential": "fixed",
+        "confidence": 0.48,
+        "notes": "Preserve shell, core, restrooms, stairs, elevators, and shafts in every scenario."
+      }
+    ],
+    "ambiguousAreas": [
+      {
+        "category": "Geometry requiring confirmation",
+        "count": 1,
+        "estimatedSqFt": 944,
+        "approximateLocation": "Uploaded plan underlay / inferred tenant area",
+        "reusePotential": "ambiguous",
+        "confidence": 0.45,
+        "notes": "Shell/core confirmation is recommended before treating this as an as-built test-fit."
+      }
+    ],
+    "reconfigurationZones": [
+      {
+        "category": "Selective partition zones",
+        "count": 4,
+        "estimatedSqFt": 2124,
+        "approximateLocation": "Interior partition field",
+        "reusePotential": "medium",
+        "confidence": 0.48,
+        "notes": "Candidate walls for selective demolition or reconfiguration in Moderate Build-Out."
+      },
+      {
+        "category": "Full interior redesign field",
+        "count": 1,
+        "estimatedSqFt": 7316,
+        "approximateLocation": "Interior tenant improvement area outside fixed core",
+        "reusePotential": "low",
+        "confidence": 0.45,
+        "notes": "Full Transformation assumes these flexible zones can be rebuilt around the preserved shell/core."
+      }
+    ],
+    "existingInteriorWallCount": 4,
+    "reviewRequired": true,
+    "reviewReasons": [
+      "Uploaded plan content has not yet been machine-extracted in this V1 sandbox path; shell, core, entries, glazing, and walls are inferred placeholders requiring confirmation.",
+      "Do not treat default core/restroom/stair/elevator positions as confirmed existing conditions until the uploaded plan is reviewed.",
+      "Parser confidence is below the architectural acceptance threshold, so scenario outputs must remain needs-review until shell/core confirmation is completed."
+    ]
+  },
+  "scenarios": [
+    {
+      "scenarioNumber": 1,
+      "label": "Light Refresh",
+      "impactLevel": "low",
+      "impactTag": "Light Refresh",
+      "efficiencyScore": 75,
+      "usableSqFt": 8850,
+      "totalSqFt": 11800,
+      "roomBreakdown": [
+        {
+          "type": "Reception",
+          "count": 1,
+          "sqFt": 120
+        },
+        {
+          "type": "Conference Room",
+          "count": 1,
+          "sqFt": 255
+        },
+        {
+          "type": "Conference Room",
+          "count": 1,
+          "sqFt": 255
+        },
+        {
+          "type": "Conference Room",
+          "count": 1,
+          "sqFt": 255
+        },
+        {
+          "type": "Conference Room",
+          "count": 1,
+          "sqFt": 255
+        },
+        {
+          "type": "Huddle Room",
+          "count": 1,
+          "sqFt": 99
+        },
+        {
+          "type": "Huddle Room",
+          "count": 1,
+          "sqFt": 99
+        },
+        {
+          "type": "Huddle Room",
+          "count": 1,
+          "sqFt": 99
+        },
+        {
+          "type": "Huddle Room",
+          "count": 1,
+          "sqFt": 99
+        },
+        {
+          "type": "Private Office",
+          "count": 1,
+          "sqFt": 100
+        },
+        {
+          "type": "Private Office",
+          "count": 1,
+          "sqFt": 100
+        },
+        {
+          "type": "Private Office",
+          "count": 1,
+          "sqFt": 100
+        },
+        {
+          "type": "Private Office",
+          "count": 1,
+          "sqFt": 100
+        },
+        {
+          "type": "Private Office",
+          "count": 1,
+          "sqFt": 100
+        },
+        {
+          "type": "Private Office",
+          "count": 1,
+          "sqFt": 100
+        },
+        {
+          "type": "Private Office",
+          "count": 1,
+          "sqFt": 100
+        },
+        {
+          "type": "Private Office",
+          "count": 1,
+          "sqFt": 100
+        },
+        {
+          "type": "Private Office",
+          "count": 1,
+          "sqFt": 100
+        },
+        {
+          "type": "Private Office",
+          "count": 1,
+          "sqFt": 100
+        },
+        {
+          "type": "Phone Booth",
+          "count": 1,
+          "sqFt": 36
+        },
+        {
+          "type": "Phone Booth",
+          "count": 1,
+          "sqFt": 36
+        },
+        {
+          "type": "Phone Booth",
+          "count": 1,
+          "sqFt": 36
+        },
+        {
+          "type": "Phone Booth",
+          "count": 1,
+          "sqFt": 36
+        },
+        {
+          "type": "Phone Booth",
+          "count": 1,
+          "sqFt": 36
+        },
+        {
+          "type": "Break Room",
+          "count": 1,
+          "sqFt": 150
+        },
+        {
+          "type": "Collaboration Zone",
+          "count": 1,
+          "sqFt": 200
+        },
+        {
+          "type": "Collaboration Zone",
+          "count": 1,
+          "sqFt": 200
+        },
+        {
+          "type": "Storage",
+          "count": 1,
+          "sqFt": 99
+        },
+        {
+          "type": "Print Area",
+          "count": 1,
+          "sqFt": 51
+        },
+        {
+          "type": "Existing Meeting Room",
+          "count": 1,
+          "sqFt": 204
+        },
+        {
+          "type": "Existing Meeting Room",
+          "count": 1,
+          "sqFt": 204
+        }
+      ],
+      "layoutDescription": "This scenario leverages the existing layout, focusing on cosmetic updates and furniture. It prioritizes speed to occupancy and cost savings by retaining most partitions and infrastructure. The layout will feel familiar, with updated aesthetics to reflect a modern technology/professional services environment. Lower budget and shorter schedule reflect high reuse and minimal demolition.",
+      "layoutSvg": "<svg viewBox=\"0 0 1149.6 756.88\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"LEASIBILITY AI — LIGHT REFRESH — LIGHT REFRESH\" style=\"background:#0A1628;border-radius:12px;width:100%;max-width:1149.6px\"><defs><pattern id=\"grid\" width=\"40\" height=\"40\" patternUnits=\"userSpaceOnUse\"><path d=\"M 40 0 L 0 0 0 40\" fill=\"none\" stroke=\"#FFFFFF\" stroke-opacity=\"0.035\" stroke-width=\"1\"/></pattern><filter id=\"shadow\" x=\"-10%\" y=\"-10%\" width=\"120%\" height=\"120%\"><feDropShadow dx=\"0\" dy=\"2\" stdDeviation=\"3\" flood-color=\"#000000\" flood-opacity=\"0.25\"/></filter></defs><rect x=\"0\" y=\"0\" width=\"1149.6\" height=\"756.88\" fill=\"#0A1628\"/><g transform=\"translate(0 42)\"><rect x=\"0\" y=\"0\" width=\"1149.6\" height=\"656.88\" fill=\"#0F1F3D\" stroke=\"#FFFFFF\" stroke-width=\"3\" rx=\"6\" filter=\"url(#shadow)\"/><rect x=\"0\" y=\"0\" width=\"1149.6\" height=\"656.88\" fill=\"url(#grid)\"/><line x1=\"298.88\" y1=\"608.88\" x2=\"298.88\" y2=\"210.24\" stroke=\"#FFFFFF\" stroke-opacity=\"0.18\" stroke-width=\"1.5\"/><line x1=\"827.68\" y1=\"446.64\" x2=\"827.68\" y2=\"48\" stroke=\"#FFFFFF\" stroke-opacity=\"0.18\" stroke-width=\"1.5\"/><line x1=\"48\" y1=\"446.64\" x2=\"1101.6\" y2=\"446.64\" stroke=\"#FFFFFF\" stroke-opacity=\"0.18\" stroke-width=\"1.5\"/><line x1=\"48\" y1=\"210.24\" x2=\"1101.6\" y2=\"210.24\" stroke=\"#FFFFFF\" stroke-opacity=\"0.18\" stroke-width=\"1.5\"/><line x1=\"64\" y1=\"0\" x2=\"517.3199999999999\" y2=\"0\" stroke=\"#7DD3FC\" stroke-width=\"5\" stroke-linecap=\"round\" stroke-opacity=\"0.92\"/><line x1=\"632.28\" y1=\"0\" x2=\"1085.6\" y2=\"0\" stroke=\"#7DD3FC\" stroke-width=\"5\" stroke-linecap=\"round\" stroke-opacity=\"0.92\"/><line x1=\"1149.6\" y1=\"538.6416\" x2=\"1149.6\" y2=\"118.23840000000007\" stroke=\"#7DD3FC\" stroke-width=\"5\" stroke-linecap=\"round\" stroke-opacity=\"0.92\"/><rect x=\"0\" y=\"308.44\" width=\"1149.6\" height=\"40\" fill=\"#FFFFFF\" fill-opacity=\"0.10\" stroke=\"#FFFFFF\" stroke-opacity=\"0.32\" stroke-width=\"0.8\" stroke-dasharray=\"4,3\"/><text x=\"574.8\" y=\"332.44\" font-size=\"8\" fill=\"#FFFFFF70\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">CIRCULATION</text><rect x=\"554.8\" y=\"0\" width=\"40\" height=\"656.88\" fill=\"#FFFFFF\" fill-opacity=\"0.10\" stroke=\"#FFFFFF\" stroke-opacity=\"0.32\" stroke-width=\"0.8\" stroke-dasharray=\"4,3\"/><text x=\"574.8\" y=\"332.44\" font-size=\"8\" fill=\"#FFFFFF70\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">CIRCULATION</text><rect x=\"465.6\" y=\"235.27999999999997\" width=\"172.4\" height=\"160\" fill=\"#111827\" fill-opacity=\"0.92\" stroke=\"#FFFFFF\" stroke-width=\"1.4\" stroke-dasharray=\"3,2\" rx=\"3\"/><text x=\"551.8000000000001\" y=\"310.28\" font-size=\"8\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Fixed Core /</text><text x=\"551.8000000000001\" y=\"320.28\" font-size=\"8\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Restrooms</text><rect x=\"1\" y=\"10.244390799173416\" width=\"86\" height=\"85.63560920082658\" fill=\"#D4AF37\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"44\" y=\"49.062195399586706\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Reception</text><text x=\"44\" y=\"89.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">120 sf</text><path d=\"M 2 94.88 A 13 13 0 0 1 15 81.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"2\" y1=\"94.88\" x2=\"15\" y2=\"94.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"97\" y=\"16.742915010152387\" width=\"142\" height=\"111.13708498984761\" fill=\"#166534\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"140.64\" y=\"59.86637815619295\" width=\"54.72\" height=\"24.890158697766473\" rx=\"5\" fill=\"#FFFFFF\" fill-opacity=\"0.18\" stroke=\"#FFFFFF80\" stroke-width=\"0.8\"/><circle cx=\"134.64\" cy=\"72.31145750507619\" r=\"3\" fill=\"#FFFFFF60\"/><circle cx=\"201.36\" cy=\"72.31145750507619\" r=\"3\" fill=\"#FFFFFF60\"/><text x=\"168\" y=\"68.31145750507619\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Conference Room</text><text x=\"168\" y=\"121.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">255 sf</text><path d=\"M 98 126.88 A 13 13 0 0 1 111 113.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"98\" y1=\"126.88\" x2=\"111\" y2=\"126.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"257\" y=\"16.742915010152387\" width=\"142\" height=\"111.13708498984761\" fill=\"#166534\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"300.64\" y=\"59.86637815619295\" width=\"54.72\" height=\"24.890158697766473\" rx=\"5\" fill=\"#FFFFFF\" fill-opacity=\"0.18\" stroke=\"#FFFFFF80\" stroke-width=\"0.8\"/><circle cx=\"294.64\" cy=\"72.31145750507619\" r=\"3\" fill=\"#FFFFFF60\"/><circle cx=\"361.36\" cy=\"72.31145750507619\" r=\"3\" fill=\"#FFFFFF60\"/><text x=\"328\" y=\"68.31145750507619\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Conference Room</text><text x=\"328\" y=\"121.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">255 sf</text><path d=\"M 258 126.88 A 13 13 0 0 1 271 113.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"258\" y1=\"126.88\" x2=\"271\" y2=\"126.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"609\" y=\"16.742915010152387\" width=\"142\" height=\"111.13708498984761\" fill=\"#166534\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"652.64\" y=\"59.86637815619295\" width=\"54.72\" height=\"24.890158697766473\" rx=\"5\" fill=\"#FFFFFF\" fill-opacity=\"0.18\" stroke=\"#FFFFFF80\" stroke-width=\"0.8\"/><circle cx=\"646.64\" cy=\"72.31145750507619\" r=\"3\" fill=\"#FFFFFF60\"/><circle cx=\"713.36\" cy=\"72.31145750507619\" r=\"3\" fill=\"#FFFFFF60\"/><text x=\"680\" y=\"68.31145750507619\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Conference Room</text><text x=\"680\" y=\"121.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">255 sf</text><path d=\"M 610 126.88 A 13 13 0 0 1 623 113.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"610\" y1=\"126.88\" x2=\"623\" y2=\"126.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"769\" y=\"16.742915010152387\" width=\"142\" height=\"111.13708498984761\" fill=\"#166534\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"812.64\" y=\"59.86637815619295\" width=\"54.72\" height=\"24.890158697766473\" rx=\"5\" fill=\"#FFFFFF\" fill-opacity=\"0.18\" stroke=\"#FFFFFF80\" stroke-width=\"0.8\"/><circle cx=\"806.64\" cy=\"72.31145750507619\" r=\"3\" fill=\"#FFFFFF60\"/><circle cx=\"873.36\" cy=\"72.31145750507619\" r=\"3\" fill=\"#FFFFFF60\"/><text x=\"840\" y=\"68.31145750507619\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Conference Room</text><text x=\"840\" y=\"121.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">255 sf</text><path d=\"M 770 126.88 A 13 13 0 0 1 783 113.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"770\" y1=\"126.88\" x2=\"783\" y2=\"126.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"401\" y=\"89.88\" width=\"86\" height=\"70\" fill=\"#14532D\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"427.28\" y=\"116.96\" width=\"33.44\" height=\"15.84\" rx=\"5\" fill=\"#FFFFFF\" fill-opacity=\"0.18\" stroke=\"#FFFFFF80\" stroke-width=\"0.8\"/><circle cx=\"421.28\" cy=\"124.88\" r=\"3\" fill=\"#FFFFFF60\"/><circle cx=\"466.72\" cy=\"124.88\" r=\"3\" fill=\"#FFFFFF60\"/><text x=\"444\" y=\"120.88\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Huddle Room</text><text x=\"444\" y=\"153.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">99 sf</text><path d=\"M 402 158.88 A 13 13 0 0 1 415 145.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"402\" y1=\"158.88\" x2=\"415\" y2=\"158.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"913\" y=\"89.88\" width=\"86\" height=\"70\" fill=\"#14532D\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"939.28\" y=\"116.96\" width=\"33.44\" height=\"15.84\" rx=\"5\" fill=\"#FFFFFF\" fill-opacity=\"0.18\" stroke=\"#FFFFFF80\" stroke-width=\"0.8\"/><circle cx=\"933.28\" cy=\"124.88\" r=\"3\" fill=\"#FFFFFF60\"/><circle cx=\"978.72\" cy=\"124.88\" r=\"3\" fill=\"#FFFFFF60\"/><text x=\"956\" y=\"120.88\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Huddle Room</text><text x=\"956\" y=\"153.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">99 sf</text><path d=\"M 914 158.88 A 13 13 0 0 1 927 145.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"914\" y1=\"158.88\" x2=\"927\" y2=\"158.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"81\" y=\"489.88\" width=\"86\" height=\"70\" fill=\"#14532D\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"107.28\" y=\"516.96\" width=\"33.44\" height=\"15.84\" rx=\"5\" fill=\"#FFFFFF\" fill-opacity=\"0.18\" stroke=\"#FFFFFF80\" stroke-width=\"0.8\"/><circle cx=\"101.28\" cy=\"524.88\" r=\"3\" fill=\"#FFFFFF60\"/><circle cx=\"146.72\" cy=\"524.88\" r=\"3\" fill=\"#FFFFFF60\"/><text x=\"124\" y=\"520.88\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Huddle Room</text><text x=\"124\" y=\"553.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">99 sf</text><path d=\"M 82 558.88 A 13 13 0 0 1 95 545.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"82\" y1=\"558.88\" x2=\"95\" y2=\"558.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"177\" y=\"489.88\" width=\"86\" height=\"70\" fill=\"#14532D\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"203.28\" y=\"516.96\" width=\"33.44\" height=\"15.84\" rx=\"5\" fill=\"#FFFFFF\" fill-opacity=\"0.18\" stroke=\"#FFFFFF80\" stroke-width=\"0.8\"/><circle cx=\"197.28\" cy=\"524.88\" r=\"3\" fill=\"#FFFFFF60\"/><circle cx=\"242.72\" cy=\"524.88\" r=\"3\" fill=\"#FFFFFF60\"/><text x=\"220\" y=\"520.88\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Huddle Room</text><text x=\"220\" y=\"553.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">99 sf</text><path d=\"M 178 558.88 A 13 13 0 0 1 191 545.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"178\" y1=\"558.88\" x2=\"191\" y2=\"558.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"417\" y=\"1.8799999999999955\" width=\"78\" height=\"78\" fill=\"#1E3A5F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"428\" y=\"15.279999999999994\" width=\"27.200000000000003\" height=\"14.399999999999999\" rx=\"2\" fill=\"#FFFFFF\" fill-opacity=\"0.16\"/><circle cx=\"462.4\" cy=\"24.879999999999995\" r=\"4\" fill=\"#FFFFFF60\"/><text x=\"456\" y=\"31.379999999999995\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Private</text><text x=\"456\" y=\"42.379999999999995\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Office</text><text x=\"456\" y=\"73.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">100 sf</text><path d=\"M 418 78.88 A 13 13 0 0 1 431 65.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"418\" y1=\"78.88\" x2=\"431\" y2=\"78.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"929\" y=\"1.8799999999999955\" width=\"78\" height=\"78\" fill=\"#1E3A5F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"940\" y=\"15.279999999999994\" width=\"27.200000000000003\" height=\"14.399999999999999\" rx=\"2\" fill=\"#FFFFFF\" fill-opacity=\"0.16\"/><circle cx=\"974.4\" cy=\"24.879999999999995\" r=\"4\" fill=\"#FFFFFF60\"/><text x=\"968\" y=\"31.379999999999995\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Private</text><text x=\"968\" y=\"42.379999999999995\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Office</text><text x=\"968\" y=\"73.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">100 sf</text><path d=\"M 930 78.88 A 13 13 0 0 1 943 65.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"930\" y1=\"78.88\" x2=\"943\" y2=\"78.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"1025\" y=\"1.8799999999999955\" width=\"78\" height=\"78\" fill=\"#1E3A5F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"1036\" y=\"15.279999999999994\" width=\"27.200000000000003\" height=\"14.399999999999999\" rx=\"2\" fill=\"#FFFFFF\" fill-opacity=\"0.16\"/><circle cx=\"1070.4\" cy=\"24.879999999999995\" r=\"4\" fill=\"#FFFFFF60\"/><text x=\"1064\" y=\"31.379999999999995\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Private</text><text x=\"1064\" y=\"42.379999999999995\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Office</text><text x=\"1064\" y=\"73.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">100 sf</text><path d=\"M 1026 78.88 A 13 13 0 0 1 1039 65.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"1026\" y1=\"78.88\" x2=\"1039\" y2=\"78.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"1009\" y=\"97.88\" width=\"78\" height=\"78\" fill=\"#1E3A5F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"1020\" y=\"111.28\" width=\"27.200000000000003\" height=\"14.399999999999999\" rx=\"2\" fill=\"#FFFFFF\" fill-opacity=\"0.16\"/><circle cx=\"1054.4\" cy=\"120.88\" r=\"4\" fill=\"#FFFFFF60\"/><text x=\"1048\" y=\"127.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Private</text><text x=\"1048\" y=\"138.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Office</text><text x=\"1048\" y=\"169.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">100 sf</text><path d=\"M 1010 174.88 A 13 13 0 0 1 1023 161.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"1010\" y1=\"174.88\" x2=\"1023\" y2=\"174.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"1\" y=\"113.88\" width=\"78\" height=\"78\" fill=\"#1E3A5F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"12\" y=\"127.28\" width=\"27.200000000000003\" height=\"14.399999999999999\" rx=\"2\" fill=\"#FFFFFF\" fill-opacity=\"0.16\"/><circle cx=\"46.4\" cy=\"136.88\" r=\"4\" fill=\"#FFFFFF60\"/><text x=\"40\" y=\"143.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Private</text><text x=\"40\" y=\"154.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Office</text><text x=\"40\" y=\"185.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">100 sf</text><path d=\"M 2 190.88 A 13 13 0 0 1 15 177.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"2\" y1=\"190.88\" x2=\"15\" y2=\"190.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"993\" y=\"193.88\" width=\"78\" height=\"78\" fill=\"#1E3A5F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"1004\" y=\"207.28\" width=\"27.200000000000003\" height=\"14.399999999999999\" rx=\"2\" fill=\"#FFFFFF\" fill-opacity=\"0.16\"/><circle cx=\"1038.4\" cy=\"216.88\" r=\"4\" fill=\"#FFFFFF60\"/><text x=\"1032\" y=\"223.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Private</text><text x=\"1032\" y=\"234.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Office</text><text x=\"1032\" y=\"265.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">100 sf</text><path d=\"M 994 270.88 A 13 13 0 0 1 1007 257.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"994\" y1=\"270.88\" x2=\"1007\" y2=\"270.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"1\" y=\"209.88\" width=\"78\" height=\"78\" fill=\"#1E3A5F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"12\" y=\"223.28\" width=\"27.200000000000003\" height=\"14.399999999999999\" rx=\"2\" fill=\"#FFFFFF\" fill-opacity=\"0.16\"/><circle cx=\"46.4\" cy=\"232.88\" r=\"4\" fill=\"#FFFFFF60\"/><text x=\"40\" y=\"239.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Private</text><text x=\"40\" y=\"250.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Office</text><text x=\"40\" y=\"281.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">100 sf</text><path d=\"M 2 286.88 A 13 13 0 0 1 15 273.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"2\" y1=\"286.88\" x2=\"15\" y2=\"286.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"1\" y=\"353.88\" width=\"78\" height=\"78\" fill=\"#1E3A5F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"12\" y=\"367.28\" width=\"27.200000000000003\" height=\"14.399999999999999\" rx=\"2\" fill=\"#FFFFFF\" fill-opacity=\"0.16\"/><circle cx=\"46.4\" cy=\"376.88\" r=\"4\" fill=\"#FFFFFF60\"/><text x=\"40\" y=\"383.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Private</text><text x=\"40\" y=\"394.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Office</text><text x=\"40\" y=\"425.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">100 sf</text><path d=\"M 2 430.88 A 13 13 0 0 1 15 417.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"2\" y1=\"430.88\" x2=\"15\" y2=\"430.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"993\" y=\"353.88\" width=\"78\" height=\"78\" fill=\"#1E3A5F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"1004\" y=\"367.28\" width=\"27.200000000000003\" height=\"14.399999999999999\" rx=\"2\" fill=\"#FFFFFF\" fill-opacity=\"0.16\"/><circle cx=\"1038.4\" cy=\"376.88\" r=\"4\" fill=\"#FFFFFF60\"/><text x=\"1032\" y=\"383.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Private</text><text x=\"1032\" y=\"394.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Office</text><text x=\"1032\" y=\"425.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">100 sf</text><path d=\"M 994 430.88 A 13 13 0 0 1 1007 417.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"994\" y1=\"430.88\" x2=\"1007\" y2=\"430.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"1\" y=\"577.88\" width=\"78\" height=\"78\" fill=\"#1E3A5F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"12\" y=\"591.28\" width=\"27.200000000000003\" height=\"14.399999999999999\" rx=\"2\" fill=\"#FFFFFF\" fill-opacity=\"0.16\"/><circle cx=\"46.4\" cy=\"600.88\" r=\"4\" fill=\"#FFFFFF60\"/><text x=\"40\" y=\"607.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Private</text><text x=\"40\" y=\"618.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Office</text><text x=\"40\" y=\"649.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">100 sf</text><path d=\"M 2 654.88 A 13 13 0 0 1 15 641.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"2\" y1=\"654.88\" x2=\"15\" y2=\"654.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"273\" y=\"513.88\" width=\"46\" height=\"46\" fill=\"#475569\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"296\" y=\"528.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Phone</text><text x=\"296\" y=\"537.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Booth</text><text x=\"296\" y=\"553.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">36 sf</text><path d=\"M 274 558.88 A 10.56 10.56 0 0 1 284.56 548.32\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"274\" y1=\"558.88\" x2=\"284.56\" y2=\"558.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"337\" y=\"513.88\" width=\"46\" height=\"46\" fill=\"#475569\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"360\" y=\"528.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Phone</text><text x=\"360\" y=\"537.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Booth</text><text x=\"360\" y=\"553.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">36 sf</text><path d=\"M 338 558.88 A 10.56 10.56 0 0 1 348.56 548.32\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"338\" y1=\"558.88\" x2=\"348.56\" y2=\"558.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"401\" y=\"513.88\" width=\"46\" height=\"46\" fill=\"#475569\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"424\" y=\"528.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Phone</text><text x=\"424\" y=\"537.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Booth</text><text x=\"424\" y=\"553.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">36 sf</text><path d=\"M 402 558.88 A 10.56 10.56 0 0 1 412.56 548.32\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"402\" y1=\"558.88\" x2=\"412.56\" y2=\"558.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"465\" y=\"513.88\" width=\"46\" height=\"46\" fill=\"#475569\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"488\" y=\"528.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Phone</text><text x=\"488\" y=\"537.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Booth</text><text x=\"488\" y=\"553.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">36 sf</text><path d=\"M 466 558.88 A 10.56 10.56 0 0 1 476.56 548.32\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"466\" y1=\"558.88\" x2=\"476.56\" y2=\"558.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"609\" y=\"513.88\" width=\"46\" height=\"46\" fill=\"#475569\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"632\" y=\"528.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Phone</text><text x=\"632\" y=\"537.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Booth</text><text x=\"632\" y=\"553.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">36 sf</text><path d=\"M 610 558.88 A 10.56 10.56 0 0 1 620.56 548.32\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"610\" y1=\"558.88\" x2=\"620.56\" y2=\"558.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"97\" y=\"143.90041028867287\" width=\"95.97958971132712\" height=\"95.97958971132712\" fill=\"#78350F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"104\" y=\"150.90041028867287\" width=\"48.98979485566356\" height=\"7\" fill=\"#FFFFFF\" fill-opacity=\"0.22\"/><circle cx=\"144.98979485566355\" cy=\"196.89020514433645\" r=\"8\" fill=\"#FFFFFF\" fill-opacity=\"0.14\"/><text x=\"144.98979485566355\" y=\"187.89020514433645\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Break Room</text><text x=\"144.98979485566355\" y=\"233.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">150 sf</text><path d=\"M 98 238.88 A 13 13 0 0 1 111 225.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"98\" y1=\"238.88\" x2=\"111\" y2=\"238.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"673\" y=\"480.7429150101524\" width=\"111.13708498984761\" height=\"111.13708498984761\" fill=\"#0F766E\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"728.5685424949238\" y=\"532.3114575050762\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Collaboration Zone</text><text x=\"728.5685424949238\" y=\"585.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">200 sf</text><path d=\"M 674 590.88 A 13 13 0 0 1 687 577.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"674\" y1=\"590.88\" x2=\"687\" y2=\"590.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"801\" y=\"480.7429150101524\" width=\"111.13708498984761\" height=\"111.13708498984761\" fill=\"#0F766E\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"856.5685424949238\" y=\"532.3114575050762\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Collaboration Zone</text><text x=\"856.5685424949238\" y=\"585.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">200 sf</text><path d=\"M 802 590.88 A 13 13 0 0 1 815 577.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"802\" y1=\"590.88\" x2=\"815\" y2=\"590.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"929\" y=\"489.88\" width=\"86\" height=\"70\" fill=\"#374151\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"972\" y=\"520.88\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Storage</text><text x=\"972\" y=\"553.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">99 sf</text><path d=\"M 930 558.88 A 13 13 0 0 1 943 545.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"930\" y1=\"558.88\" x2=\"943\" y2=\"558.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"273\" y=\"447.28355743730594\" width=\"62\" height=\"48.59644256269407\" fill=\"#4B5563\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"304\" y=\"467.58177871865297\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Print Area</text><text x=\"304\" y=\"489.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">51 sf</text><path d=\"M 274 494.88 A 11.131217363792697 11.131217363792697 0 0 1 285.1312173637927 483.7487826362073\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"274\" y1=\"494.88\" x2=\"285.1312173637927\" y2=\"494.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"353\" y=\"401.88\" width=\"134\" height=\"94\" fill=\"#334155\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"420\" y=\"444.88\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Existing Meeting Room</text><text x=\"420\" y=\"489.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">204 sf</text><path d=\"M 354 494.88 A 13 13 0 0 1 367 481.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"354\" y1=\"494.88\" x2=\"367\" y2=\"494.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"97\" y=\"385.88\" width=\"134\" height=\"94\" fill=\"#334155\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"164\" y=\"428.88\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Existing Meeting Room</text><text x=\"164\" y=\"473.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">204 sf</text><path d=\"M 98 478.88 A 13 13 0 0 1 111 465.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"98\" y1=\"478.88\" x2=\"111\" y2=\"478.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><circle cx=\"92\" cy=\"656.88\" r=\"7\" fill=\"#D4AF37\" stroke=\"#FFFFFF\" stroke-width=\"1.2\"/><text x=\"102\" y=\"648.88\" font-size=\"8\" fill=\"#D4AF37\" font-family=\"Inter, Arial, sans-serif\" font-weight=\"700\">Primary Suite Entry</text><circle cx=\"1057.6\" cy=\"0\" r=\"7\" fill=\"#D4AF37\" stroke=\"#FFFFFF\" stroke-width=\"1.2\"/><text x=\"1067.6\" y=\"-8\" font-size=\"8\" fill=\"#D4AF37\" font-family=\"Inter, Arial, sans-serif\" font-weight=\"700\">Secondary Egress</text><circle cx=\"1115.6\" cy=\"34\" r=\"25\" fill=\"#D4AF37\" fill-opacity=\"0.16\" stroke=\"#D4AF37\" stroke-width=\"1.6\"/><text x=\"1115.6\" y=\"31\" font-size=\"12\" fill=\"#D4AF37\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"800\">32%</text><text x=\"1115.6\" y=\"44\" font-size=\"6\" fill=\"#D4AF37AA\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">EFF</text></g><rect x=\"0\" y=\"0\" width=\"1149.6\" height=\"42\" fill=\"#3B2500\"/><text x=\"16\" y=\"18\" font-size=\"12\" fill=\"#FBBF24\" font-family=\"Inter, Arial, sans-serif\" font-weight=\"800\">NEEDS REVIEW</text><text x=\"16\" y=\"33\" font-size=\"10\" fill=\"#FDE68A\" font-family=\"Inter, Arial, sans-serif\">Needs Review: this plan uses owner-confirmable rectangular geometry until uploaded shell/core extraction is verified.</text><text x=\"574.8\" y=\"720.88\" font-size=\"10\" fill=\"#D4AF37\" fill-opacity=\"0.82\" font-family=\"Montserrat, Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"800\">LEASIBILITY AI — LIGHT REFRESH — LIGHT REFRESH</text><line x1=\"18\" y1=\"738.88\" x2=\"82\" y2=\"738.88\" stroke=\"#FFFFFF\" stroke-width=\"2\"/><text x=\"18\" y=\"752.88\" font-size=\"8\" fill=\"#FFFFFF70\" font-family=\"Inter, Arial, sans-serif\">40 ft scale bar</text><path d=\"M 1107.6 750.88 L 1117.6 728.88 L 1127.6 750.88 Z\" fill=\"#FFFFFF80\"/><text x=\"1117.6\" y=\"762.88\" font-size=\"8\" fill=\"#FFFFFF80\" text-anchor=\"middle\" font-family=\"Inter, Arial, sans-serif\">N</text></svg>",
+      "budgetLow": 649000,
+      "budgetMid": 944000,
+      "budgetHigh": 1298000,
+      "costPerSqFtLow": 55,
+      "costPerSqFtMid": 80,
+      "costPerSqFtHigh": 110,
+      "budgetBreakdown": {
+        "construction": {
+          "low": 389400,
+          "mid": 566400,
+          "high": 778800
+        },
+        "ffe": {
+          "low": 116820,
+          "mid": 169920,
+          "high": 233640
+        },
+        "itAv": {
+          "low": 64900,
+          "mid": 94400,
+          "high": 129800
+        },
+        "softCosts": {
+          "low": 51920,
+          "mid": 75520,
+          "high": 103840
+        },
+        "tiAllowance": {
+          "low": 25960,
+          "mid": 37760,
+          "high": 51920
+        }
+      },
+      "scheduleWeeksLow": 8,
+      "scheduleWeeksMid": 12,
+      "scheduleWeeksHigh": 16,
+      "schedulePhases": [
+        {
+          "phase": "Design & Space Planning",
+          "weeks": "2–3",
+          "description": "Updated furniture layout, finish selections, and minor partition modifications. Minimal permit requirements."
+        },
+        {
+          "phase": "Cosmetic Demolition",
+          "weeks": "1–2",
+          "description": "Remove existing finishes, flooring, and fixtures only. No structural or MEP demolition required."
+        },
+        {
+          "phase": "Finishes & Refresh",
+          "weeks": "4–5",
+          "description": "New flooring, paint, lighting upgrades, and minor millwork. Reuse all existing walls and infrastructure."
+        },
+        {
+          "phase": "FF&E & Technology",
+          "weeks": "2–3",
+          "description": "Furniture installation, minor IT/AV updates, and signage."
+        },
+        {
+          "phase": "Punch List & Move-In",
+          "weeks": "1",
+          "description": "Final walk-through, punch list items, and occupancy."
+        }
+      ],
+      "aiSummary": "This 'Light Refresh' scenario is ideal for the tenant seeking rapid occupancy and minimal upfront costs, utilizing 75% of the space efficiently by largely preserving the existing floor plan. While it may not fully meet the requested program's room counts, it offers a functional space with new finishes, flooring, and furniture. This option presents the lowest cost and shortest timeline, allowing the tenant to quickly establish a presence in the New York market with a refreshed, yet largely pre-determined, layout. Light Refresh achieves approximately 22% of the requested program while minimizing demolition, new partitions, and schedule impact. Remaining differences are fit variance, not a software failure.",
+      "existingConditionsInventory": {
+        "source": "synthetic_rectangular_model",
+        "confidence": 0.46,
+        "summary": "Existing conditions indicate approximately 85 reusable workstation seats, 7 private offices, 4 meeting rooms, fixed core elements, and interior zones that can be selectively reconfigured.",
+        "reusableZones": [
+          {
+            "category": "Existing private offices",
+            "count": 7,
+            "estimatedSqFt": 140,
+            "approximateLocation": "Perimeter office bands",
+            "reusePotential": "high",
+            "confidence": 0.46,
+            "notes": "Likely reusable with finish refresh and furniture updates."
+          },
+          {
+            "category": "Existing conference / meeting rooms",
+            "count": 4,
+            "estimatedSqFt": 280,
+            "approximateLocation": "Near core and primary circulation",
+            "reusePotential": "high",
+            "confidence": 0.46,
+            "notes": "Meeting rooms can generally remain if technology and finishes are upgraded."
+          },
+          {
+            "category": "Existing pantry / break area",
+            "count": 1,
+            "estimatedSqFt": 531,
+            "approximateLocation": "Adjacent to fixed core",
+            "reusePotential": "high",
+            "confidence": 0.46,
+            "notes": "Wet-wall adjacency makes this a strong reuse candidate."
+          }
+        ],
+        "repurposableZones": [
+          {
+            "category": "Existing workstation zones",
+            "count": 85,
+            "estimatedSqFt": 4250,
+            "approximateLocation": "Open interior workspace fields",
+            "reusePotential": "medium",
+            "confidence": 0.5,
+            "notes": "Systems furniture is estimated at the current 50 SF planning target, with 36–64 SF treated as the acceptable workstation range."
+          },
+          {
+            "category": "Existing huddle / collaboration areas",
+            "count": 2,
+            "estimatedSqFt": 413,
+            "approximateLocation": "Secondary circulation nodes",
+            "reusePotential": "medium",
+            "confidence": 0.5,
+            "notes": "Can be repurposed as focus, lounge, or informal collaboration space."
+          }
+        ],
+        "fixedElements": [
+          {
+            "category": "Fixed Core / Restrooms",
+            "count": 1,
+            "estimatedSqFt": 431,
+            "approximateLocation": "Fixed building core",
+            "reusePotential": "fixed",
+            "confidence": 0.48,
+            "notes": "Preserve shell, core, restrooms, stairs, elevators, and shafts in every scenario."
+          }
+        ],
+        "ambiguousAreas": [
+          {
+            "category": "Geometry requiring confirmation",
+            "count": 1,
+            "estimatedSqFt": 944,
+            "approximateLocation": "Uploaded plan underlay / inferred tenant area",
+            "reusePotential": "ambiguous",
+            "confidence": 0.45,
+            "notes": "Shell/core confirmation is recommended before treating this as an as-built test-fit."
+          }
+        ],
+        "reconfigurationZones": [
+          {
+            "category": "Selective partition zones",
+            "count": 4,
+            "estimatedSqFt": 2124,
+            "approximateLocation": "Interior partition field",
+            "reusePotential": "medium",
+            "confidence": 0.48,
+            "notes": "Candidate walls for selective demolition or reconfiguration in Moderate Build-Out."
+          },
+          {
+            "category": "Full interior redesign field",
+            "count": 1,
+            "estimatedSqFt": 7316,
+            "approximateLocation": "Interior tenant improvement area outside fixed core",
+            "reusePotential": "low",
+            "confidence": 0.45,
+            "notes": "Full Transformation assumes these flexible zones can be rebuilt around the preserved shell/core."
+          }
+        ],
+        "existingInteriorWallCount": 4,
+        "reviewRequired": true,
+        "reviewReasons": [
+          "Uploaded plan content has not yet been machine-extracted in this V1 sandbox path; shell, core, entries, glazing, and walls are inferred placeholders requiring confirmation.",
+          "Do not treat default core/restroom/stair/elevator positions as confirmed existing conditions until the uploaded plan is reviewed.",
+          "Parser confidence is below the architectural acceptance threshold, so scenario outputs must remain needs-review until shell/core confirmation is completed."
+        ]
+      },
+      "programFit": {
+        "scenarioLabel": "Light Refresh",
+        "achievedPercent": 22,
+        "rows": [
+          {
+            "programItem": "Private Offices",
+            "requested": 13,
+            "achieved": 10,
+            "variance": -3,
+            "fitStatus": "partial",
+            "notes": "Fit variance remains; item is partially accommodated within this scenario’s intervention level."
+          },
+          {
+            "programItem": "Workstations",
+            "requested": 92,
+            "achieved": 0,
+            "variance": -92,
+            "fitStatus": "gap",
+            "notes": "Program item not accommodated within this scenario’s intervention level."
+          },
+          {
+            "programItem": "Conference Rooms",
+            "requested": 7,
+            "achieved": 5,
+            "variance": -2,
+            "fitStatus": "partial",
+            "notes": "Fit variance remains; item is partially accommodated within this scenario’s intervention level."
+          },
+          {
+            "programItem": "Phone Rooms",
+            "requested": 7,
+            "achieved": 5,
+            "variance": -2,
+            "fitStatus": "partial",
+            "notes": "Fit variance remains; item is partially accommodated within this scenario’s intervention level."
+          },
+          {
+            "programItem": "Collaboration Areas",
+            "requested": 10,
+            "achieved": 6,
+            "variance": -4,
+            "fitStatus": "partial",
+            "notes": "Fit variance remains; item is partially accommodated within this scenario’s intervention level."
+          },
+          {
+            "programItem": "Pantry / Break Areas",
+            "requested": 1,
+            "achieved": 1,
+            "variance": 0,
+            "fitStatus": "met",
+            "notes": "Requested program achieved in this scenario."
+          },
+          {
+            "programItem": "Support Spaces",
+            "requested": 2,
+            "achieved": 2,
+            "variance": 0,
+            "fitStatus": "met",
+            "notes": "Requested program achieved in this scenario."
+          }
+        ],
+        "gaps": [
+          {
+            "programItem": "Private Offices",
+            "requested": 13,
+            "achieved": 10,
+            "variance": -3,
+            "fitStatus": "partial",
+            "notes": "Fit variance remains; item is partially accommodated within this scenario’s intervention level."
+          },
+          {
+            "programItem": "Workstations",
+            "requested": 92,
+            "achieved": 0,
+            "variance": -92,
+            "fitStatus": "gap",
+            "notes": "Program item not accommodated within this scenario’s intervention level."
+          },
+          {
+            "programItem": "Conference Rooms",
+            "requested": 7,
+            "achieved": 5,
+            "variance": -2,
+            "fitStatus": "partial",
+            "notes": "Fit variance remains; item is partially accommodated within this scenario’s intervention level."
+          },
+          {
+            "programItem": "Phone Rooms",
+            "requested": 7,
+            "achieved": 5,
+            "variance": -2,
+            "fitStatus": "partial",
+            "notes": "Fit variance remains; item is partially accommodated within this scenario’s intervention level."
+          },
+          {
+            "programItem": "Collaboration Areas",
+            "requested": 10,
+            "achieved": 6,
+            "variance": -4,
+            "fitStatus": "partial",
+            "notes": "Fit variance remains; item is partially accommodated within this scenario’s intervention level."
+          }
+        ],
+        "interpretation": "Light Refresh achieves approximately 22% of the requested program while minimizing demolition, new partitions, and schedule impact. Remaining differences are fit variance, not a software failure."
+      },
+      "scopeSummary": {
+        "scenarioLabel": "Light Refresh",
+        "reuseStrategy": "Preserve existing partitions and repurpose usable rooms with cosmetic refresh only; no interior wall demolition is assumed.",
+        "retainedElements": [
+          "Fixed Core / Restrooms",
+          "Existing private offices",
+          "Existing conference / meeting rooms",
+          "Existing pantry / break area"
+        ],
+        "repurposedElements": [
+          "Existing workstation zones",
+          "Existing huddle / collaboration areas"
+        ],
+        "reconfigurationScope": [
+          "0% interior wall demolition",
+          "Finish refresh",
+          "Furniture reconfiguration",
+          "Minor signage and technology upgrades"
+        ],
+        "programGaps": [
+          "Private Offices: 3 not accommodated",
+          "Workstations: 92 not accommodated",
+          "Conference Rooms: 2 not accommodated",
+          "Phone Rooms: 2 not accommodated",
+          "Collaboration Areas: 4 not accommodated"
+        ],
+        "budgetScheduleRationale": "Lower budget and shorter schedule reflect high reuse and minimal demolition."
+      },
+      "renderingStatus": {
+        "status": "needs_review",
+        "confidence": 0.46,
+        "reasons": [
+          "Uploaded plan content has not yet been machine-extracted in this V1 sandbox path; shell, core, entries, glazing, and walls are inferred placeholders requiring confirmation.",
+          "Do not treat default core/restroom/stair/elevator positions as confirmed existing conditions until the uploaded plan is reviewed.",
+          "Parser confidence is below the architectural acceptance threshold, so scenario outputs must remain needs-review until shell/core confirmation is completed."
+        ],
+        "message": "Needs Review: this plan uses owner-confirmable rectangular geometry until uploaded shell/core extraction is verified."
+      }
+    },
+    {
+      "scenarioNumber": 2,
+      "label": "Moderate Build-Out",
+      "impactLevel": "medium",
+      "impactTag": "Moderate Build-Out",
+      "efficiencyScore": 82,
+      "usableSqFt": 9676,
+      "totalSqFt": 11800,
+      "roomBreakdown": [
+        {
+          "type": "Reception",
+          "count": 1,
+          "sqFt": 120
+        },
+        {
+          "type": "Conference Room",
+          "count": 1,
+          "sqFt": 255
+        },
+        {
+          "type": "Conference Room",
+          "count": 1,
+          "sqFt": 255
+        },
+        {
+          "type": "Conference Room",
+          "count": 1,
+          "sqFt": 255
+        },
+        {
+          "type": "Conference Room",
+          "count": 1,
+          "sqFt": 255
+        },
+        {
+          "type": "Conference Room",
+          "count": 1,
+          "sqFt": 255
+        },
+        {
+          "type": "Conference Room",
+          "count": 1,
+          "sqFt": 255
+        },
+        {
+          "type": "Huddle Room",
+          "count": 1,
+          "sqFt": 99
+        },
+        {
+          "type": "Huddle Room",
+          "count": 1,
+          "sqFt": 99
+        },
+        {
+          "type": "Huddle Room",
+          "count": 1,
+          "sqFt": 99
+        },
+        {
+          "type": "Huddle Room",
+          "count": 1,
+          "sqFt": 99
+        },
+        {
+          "type": "Huddle Room",
+          "count": 1,
+          "sqFt": 99
+        },
+        {
+          "type": "Huddle Room",
+          "count": 1,
+          "sqFt": 99
+        },
+        {
+          "type": "Private Office",
+          "count": 1,
+          "sqFt": 100
+        },
+        {
+          "type": "Private Office",
+          "count": 1,
+          "sqFt": 100
+        },
+        {
+          "type": "Private Office",
+          "count": 1,
+          "sqFt": 100
+        },
+        {
+          "type": "Private Office",
+          "count": 1,
+          "sqFt": 100
+        },
+        {
+          "type": "Private Office",
+          "count": 1,
+          "sqFt": 100
+        },
+        {
+          "type": "Private Office",
+          "count": 1,
+          "sqFt": 100
+        },
+        {
+          "type": "Private Office",
+          "count": 1,
+          "sqFt": 100
+        },
+        {
+          "type": "Private Office",
+          "count": 1,
+          "sqFt": 100
+        },
+        {
+          "type": "Private Office",
+          "count": 1,
+          "sqFt": 100
+        },
+        {
+          "type": "Private Office",
+          "count": 1,
+          "sqFt": 100
+        },
+        {
+          "type": "Private Office",
+          "count": 1,
+          "sqFt": 100
+        },
+        {
+          "type": "Private Office",
+          "count": 1,
+          "sqFt": 100
+        },
+        {
+          "type": "Private Office",
+          "count": 1,
+          "sqFt": 100
+        },
+        {
+          "type": "Phone Booth",
+          "count": 1,
+          "sqFt": 36
+        },
+        {
+          "type": "Phone Booth",
+          "count": 1,
+          "sqFt": 36
+        },
+        {
+          "type": "Phone Booth",
+          "count": 1,
+          "sqFt": 36
+        },
+        {
+          "type": "Phone Booth",
+          "count": 1,
+          "sqFt": 36
+        },
+        {
+          "type": "Phone Booth",
+          "count": 1,
+          "sqFt": 36
+        },
+        {
+          "type": "Phone Booth",
+          "count": 1,
+          "sqFt": 36
+        },
+        {
+          "type": "Phone Booth",
+          "count": 1,
+          "sqFt": 36
+        },
+        {
+          "type": "Break Room",
+          "count": 1,
+          "sqFt": 150
+        },
+        {
+          "type": "Collaboration Zone",
+          "count": 1,
+          "sqFt": 200
+        },
+        {
+          "type": "Collaboration Zone",
+          "count": 1,
+          "sqFt": 200
+        },
+        {
+          "type": "Collaboration Zone",
+          "count": 1,
+          "sqFt": 200
+        },
+        {
+          "type": "Collaboration Zone",
+          "count": 1,
+          "sqFt": 200
+        },
+        {
+          "type": "Print Area",
+          "count": 1,
+          "sqFt": 51
+        }
+      ],
+      "layoutDescription": "This plan fully aligns with the tenant's program, incorporating selective demolition and new construction to optimize the space. The layout balances open collaborative areas with sufficient private and meeting spaces. It reconfigures parts of the core to enhance flow and functionality, creating a modern and efficient environment. Mid-range budget and schedule reflect selective demolition, retained core infrastructure, and targeted build-back.",
+      "layoutSvg": "<svg viewBox=\"0 0 1149.6 756.88\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"LEASIBILITY AI — MODERATE BUILD-OUT — MODERATE BUILD-OUT\" style=\"background:#0A1628;border-radius:12px;width:100%;max-width:1149.6px\"><defs><pattern id=\"grid\" width=\"40\" height=\"40\" patternUnits=\"userSpaceOnUse\"><path d=\"M 40 0 L 0 0 0 40\" fill=\"none\" stroke=\"#FFFFFF\" stroke-opacity=\"0.035\" stroke-width=\"1\"/></pattern><filter id=\"shadow\" x=\"-10%\" y=\"-10%\" width=\"120%\" height=\"120%\"><feDropShadow dx=\"0\" dy=\"2\" stdDeviation=\"3\" flood-color=\"#000000\" flood-opacity=\"0.25\"/></filter></defs><rect x=\"0\" y=\"0\" width=\"1149.6\" height=\"756.88\" fill=\"#0A1628\"/><g transform=\"translate(0 42)\"><rect x=\"0\" y=\"0\" width=\"1149.6\" height=\"656.88\" fill=\"#0F1F3D\" stroke=\"#FFFFFF\" stroke-width=\"3\" rx=\"6\" filter=\"url(#shadow)\"/><rect x=\"0\" y=\"0\" width=\"1149.6\" height=\"656.88\" fill=\"url(#grid)\"/><line x1=\"298.88\" y1=\"608.88\" x2=\"298.88\" y2=\"210.24\" stroke=\"#FFFFFF\" stroke-opacity=\"0.18\" stroke-width=\"1.5\"/><line x1=\"827.68\" y1=\"446.64\" x2=\"827.68\" y2=\"48\" stroke=\"#FFFFFF\" stroke-opacity=\"0.18\" stroke-width=\"1.5\"/><line x1=\"48\" y1=\"446.64\" x2=\"1101.6\" y2=\"446.64\" stroke=\"#FFFFFF\" stroke-opacity=\"0.18\" stroke-width=\"1.5\"/><line x1=\"48\" y1=\"210.24\" x2=\"1101.6\" y2=\"210.24\" stroke=\"#FFFFFF\" stroke-opacity=\"0.18\" stroke-width=\"1.5\"/><line x1=\"64\" y1=\"0\" x2=\"517.3199999999999\" y2=\"0\" stroke=\"#7DD3FC\" stroke-width=\"5\" stroke-linecap=\"round\" stroke-opacity=\"0.92\"/><line x1=\"632.28\" y1=\"0\" x2=\"1085.6\" y2=\"0\" stroke=\"#7DD3FC\" stroke-width=\"5\" stroke-linecap=\"round\" stroke-opacity=\"0.92\"/><line x1=\"1149.6\" y1=\"538.6416\" x2=\"1149.6\" y2=\"118.23840000000007\" stroke=\"#7DD3FC\" stroke-width=\"5\" stroke-linecap=\"round\" stroke-opacity=\"0.92\"/><rect x=\"0\" y=\"308.44\" width=\"1149.6\" height=\"40\" fill=\"#FFFFFF\" fill-opacity=\"0.10\" stroke=\"#FFFFFF\" stroke-opacity=\"0.32\" stroke-width=\"0.8\" stroke-dasharray=\"4,3\"/><text x=\"574.8\" y=\"332.44\" font-size=\"8\" fill=\"#FFFFFF70\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">CIRCULATION</text><rect x=\"554.8\" y=\"0\" width=\"40\" height=\"656.88\" fill=\"#FFFFFF\" fill-opacity=\"0.10\" stroke=\"#FFFFFF\" stroke-opacity=\"0.32\" stroke-width=\"0.8\" stroke-dasharray=\"4,3\"/><text x=\"574.8\" y=\"332.44\" font-size=\"8\" fill=\"#FFFFFF70\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">CIRCULATION</text><rect x=\"465.6\" y=\"235.27999999999997\" width=\"172.4\" height=\"160\" fill=\"#111827\" fill-opacity=\"0.92\" stroke=\"#FFFFFF\" stroke-width=\"1.4\" stroke-dasharray=\"3,2\" rx=\"3\"/><text x=\"551.8000000000001\" y=\"310.28\" font-size=\"8\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Fixed Core /</text><text x=\"551.8000000000001\" y=\"320.28\" font-size=\"8\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Restrooms</text><rect x=\"1\" y=\"10.244390799173416\" width=\"86\" height=\"85.63560920082658\" fill=\"#D4AF37\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"44\" y=\"49.062195399586706\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Reception</text><text x=\"44\" y=\"89.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">120 sf</text><path d=\"M 2 94.88 A 13 13 0 0 1 15 81.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"2\" y1=\"94.88\" x2=\"15\" y2=\"94.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"97\" y=\"16.742915010152387\" width=\"142\" height=\"111.13708498984761\" fill=\"#166534\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"140.64\" y=\"59.86637815619295\" width=\"54.72\" height=\"24.890158697766473\" rx=\"5\" fill=\"#FFFFFF\" fill-opacity=\"0.18\" stroke=\"#FFFFFF80\" stroke-width=\"0.8\"/><circle cx=\"134.64\" cy=\"72.31145750507619\" r=\"3\" fill=\"#FFFFFF60\"/><circle cx=\"201.36\" cy=\"72.31145750507619\" r=\"3\" fill=\"#FFFFFF60\"/><text x=\"168\" y=\"68.31145750507619\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Conference Room</text><text x=\"168\" y=\"121.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">255 sf</text><path d=\"M 98 126.88 A 13 13 0 0 1 111 113.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"98\" y1=\"126.88\" x2=\"111\" y2=\"126.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"257\" y=\"16.742915010152387\" width=\"142\" height=\"111.13708498984761\" fill=\"#166534\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"300.64\" y=\"59.86637815619295\" width=\"54.72\" height=\"24.890158697766473\" rx=\"5\" fill=\"#FFFFFF\" fill-opacity=\"0.18\" stroke=\"#FFFFFF80\" stroke-width=\"0.8\"/><circle cx=\"294.64\" cy=\"72.31145750507619\" r=\"3\" fill=\"#FFFFFF60\"/><circle cx=\"361.36\" cy=\"72.31145750507619\" r=\"3\" fill=\"#FFFFFF60\"/><text x=\"328\" y=\"68.31145750507619\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Conference Room</text><text x=\"328\" y=\"121.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">255 sf</text><path d=\"M 258 126.88 A 13 13 0 0 1 271 113.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"258\" y1=\"126.88\" x2=\"271\" y2=\"126.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"609\" y=\"16.742915010152387\" width=\"142\" height=\"111.13708498984761\" fill=\"#166534\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"652.64\" y=\"59.86637815619295\" width=\"54.72\" height=\"24.890158697766473\" rx=\"5\" fill=\"#FFFFFF\" fill-opacity=\"0.18\" stroke=\"#FFFFFF80\" stroke-width=\"0.8\"/><circle cx=\"646.64\" cy=\"72.31145750507619\" r=\"3\" fill=\"#FFFFFF60\"/><circle cx=\"713.36\" cy=\"72.31145750507619\" r=\"3\" fill=\"#FFFFFF60\"/><text x=\"680\" y=\"68.31145750507619\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Conference Room</text><text x=\"680\" y=\"121.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">255 sf</text><path d=\"M 610 126.88 A 13 13 0 0 1 623 113.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"610\" y1=\"126.88\" x2=\"623\" y2=\"126.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"769\" y=\"16.742915010152387\" width=\"142\" height=\"111.13708498984761\" fill=\"#166534\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"812.64\" y=\"59.86637815619295\" width=\"54.72\" height=\"24.890158697766473\" rx=\"5\" fill=\"#FFFFFF\" fill-opacity=\"0.18\" stroke=\"#FFFFFF80\" stroke-width=\"0.8\"/><circle cx=\"806.64\" cy=\"72.31145750507619\" r=\"3\" fill=\"#FFFFFF60\"/><circle cx=\"873.36\" cy=\"72.31145750507619\" r=\"3\" fill=\"#FFFFFF60\"/><text x=\"840\" y=\"68.31145750507619\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Conference Room</text><text x=\"840\" y=\"121.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">255 sf</text><path d=\"M 770 126.88 A 13 13 0 0 1 783 113.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"770\" y1=\"126.88\" x2=\"783\" y2=\"126.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"929\" y=\"16.742915010152387\" width=\"142\" height=\"111.13708498984761\" fill=\"#166534\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"972.64\" y=\"59.86637815619295\" width=\"54.72\" height=\"24.890158697766473\" rx=\"5\" fill=\"#FFFFFF\" fill-opacity=\"0.18\" stroke=\"#FFFFFF80\" stroke-width=\"0.8\"/><circle cx=\"966.64\" cy=\"72.31145750507619\" r=\"3\" fill=\"#FFFFFF60\"/><circle cx=\"1033.36\" cy=\"72.31145750507619\" r=\"3\" fill=\"#FFFFFF60\"/><text x=\"1000\" y=\"68.31145750507619\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Conference Room</text><text x=\"1000\" y=\"121.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">255 sf</text><path d=\"M 930 126.88 A 13 13 0 0 1 943 113.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"930\" y1=\"126.88\" x2=\"943\" y2=\"126.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"1\" y=\"144.7429150101524\" width=\"142\" height=\"111.13708498984761\" fill=\"#166534\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"44.64\" y=\"187.86637815619295\" width=\"54.72\" height=\"24.890158697766473\" rx=\"5\" fill=\"#FFFFFF\" fill-opacity=\"0.18\" stroke=\"#FFFFFF80\" stroke-width=\"0.8\"/><circle cx=\"38.64\" cy=\"200.3114575050762\" r=\"3\" fill=\"#FFFFFF60\"/><circle cx=\"105.36\" cy=\"200.3114575050762\" r=\"3\" fill=\"#FFFFFF60\"/><text x=\"72\" y=\"196.3114575050762\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Conference Room</text><text x=\"72\" y=\"249.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">255 sf</text><path d=\"M 2 254.88 A 13 13 0 0 1 15 241.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"2\" y1=\"254.88\" x2=\"15\" y2=\"254.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"145\" y=\"185.88\" width=\"86\" height=\"70\" fill=\"#14532D\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"171.28\" y=\"212.96\" width=\"33.44\" height=\"15.84\" rx=\"5\" fill=\"#FFFFFF\" fill-opacity=\"0.18\" stroke=\"#FFFFFF80\" stroke-width=\"0.8\"/><circle cx=\"165.28\" cy=\"220.88\" r=\"3\" fill=\"#FFFFFF60\"/><circle cx=\"210.72\" cy=\"220.88\" r=\"3\" fill=\"#FFFFFF60\"/><text x=\"188\" y=\"216.88\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Huddle Room</text><text x=\"188\" y=\"249.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">99 sf</text><path d=\"M 146 254.88 A 13 13 0 0 1 159 241.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"146\" y1=\"254.88\" x2=\"159\" y2=\"254.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"401\" y=\"89.88\" width=\"86\" height=\"70\" fill=\"#14532D\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"427.28\" y=\"116.96\" width=\"33.44\" height=\"15.84\" rx=\"5\" fill=\"#FFFFFF\" fill-opacity=\"0.18\" stroke=\"#FFFFFF80\" stroke-width=\"0.8\"/><circle cx=\"421.28\" cy=\"124.88\" r=\"3\" fill=\"#FFFFFF60\"/><circle cx=\"466.72\" cy=\"124.88\" r=\"3\" fill=\"#FFFFFF60\"/><text x=\"444\" y=\"120.88\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Huddle Room</text><text x=\"444\" y=\"153.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">99 sf</text><path d=\"M 402 158.88 A 13 13 0 0 1 415 145.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"402\" y1=\"158.88\" x2=\"415\" y2=\"158.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"81\" y=\"489.88\" width=\"86\" height=\"70\" fill=\"#14532D\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"107.28\" y=\"516.96\" width=\"33.44\" height=\"15.84\" rx=\"5\" fill=\"#FFFFFF\" fill-opacity=\"0.18\" stroke=\"#FFFFFF80\" stroke-width=\"0.8\"/><circle cx=\"101.28\" cy=\"524.88\" r=\"3\" fill=\"#FFFFFF60\"/><circle cx=\"146.72\" cy=\"524.88\" r=\"3\" fill=\"#FFFFFF60\"/><text x=\"124\" y=\"520.88\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Huddle Room</text><text x=\"124\" y=\"553.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">99 sf</text><path d=\"M 82 558.88 A 13 13 0 0 1 95 545.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"82\" y1=\"558.88\" x2=\"95\" y2=\"558.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"177\" y=\"489.88\" width=\"86\" height=\"70\" fill=\"#14532D\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"203.28\" y=\"516.96\" width=\"33.44\" height=\"15.84\" rx=\"5\" fill=\"#FFFFFF\" fill-opacity=\"0.18\" stroke=\"#FFFFFF80\" stroke-width=\"0.8\"/><circle cx=\"197.28\" cy=\"524.88\" r=\"3\" fill=\"#FFFFFF60\"/><circle cx=\"242.72\" cy=\"524.88\" r=\"3\" fill=\"#FFFFFF60\"/><text x=\"220\" y=\"520.88\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Huddle Room</text><text x=\"220\" y=\"553.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">99 sf</text><path d=\"M 178 558.88 A 13 13 0 0 1 191 545.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"178\" y1=\"558.88\" x2=\"191\" y2=\"558.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"273\" y=\"489.88\" width=\"86\" height=\"70\" fill=\"#14532D\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"299.28\" y=\"516.96\" width=\"33.44\" height=\"15.84\" rx=\"5\" fill=\"#FFFFFF\" fill-opacity=\"0.18\" stroke=\"#FFFFFF80\" stroke-width=\"0.8\"/><circle cx=\"293.28\" cy=\"524.88\" r=\"3\" fill=\"#FFFFFF60\"/><circle cx=\"338.72\" cy=\"524.88\" r=\"3\" fill=\"#FFFFFF60\"/><text x=\"316\" y=\"520.88\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Huddle Room</text><text x=\"316\" y=\"553.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">99 sf</text><path d=\"M 274 558.88 A 13 13 0 0 1 287 545.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"274\" y1=\"558.88\" x2=\"287\" y2=\"558.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"369\" y=\"489.88\" width=\"86\" height=\"70\" fill=\"#14532D\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"395.28\" y=\"516.96\" width=\"33.44\" height=\"15.84\" rx=\"5\" fill=\"#FFFFFF\" fill-opacity=\"0.18\" stroke=\"#FFFFFF80\" stroke-width=\"0.8\"/><circle cx=\"389.28\" cy=\"524.88\" r=\"3\" fill=\"#FFFFFF60\"/><circle cx=\"434.72\" cy=\"524.88\" r=\"3\" fill=\"#FFFFFF60\"/><text x=\"412\" y=\"520.88\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Huddle Room</text><text x=\"412\" y=\"553.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">99 sf</text><path d=\"M 370 558.88 A 13 13 0 0 1 383 545.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"370\" y1=\"558.88\" x2=\"383\" y2=\"558.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"417\" y=\"1.8799999999999955\" width=\"78\" height=\"78\" fill=\"#1E3A5F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"428\" y=\"15.279999999999994\" width=\"27.200000000000003\" height=\"14.399999999999999\" rx=\"2\" fill=\"#FFFFFF\" fill-opacity=\"0.16\"/><circle cx=\"462.4\" cy=\"24.879999999999995\" r=\"4\" fill=\"#FFFFFF60\"/><text x=\"456\" y=\"31.379999999999995\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Private</text><text x=\"456\" y=\"42.379999999999995\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Office</text><text x=\"456\" y=\"73.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">100 sf</text><path d=\"M 418 78.88 A 13 13 0 0 1 431 65.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"418\" y1=\"78.88\" x2=\"431\" y2=\"78.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"993\" y=\"145.88\" width=\"78\" height=\"78\" fill=\"#1E3A5F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"1004\" y=\"159.28\" width=\"27.200000000000003\" height=\"14.399999999999999\" rx=\"2\" fill=\"#FFFFFF\" fill-opacity=\"0.16\"/><circle cx=\"1038.4\" cy=\"168.88\" r=\"4\" fill=\"#FFFFFF60\"/><text x=\"1032\" y=\"175.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Private</text><text x=\"1032\" y=\"186.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Office</text><text x=\"1032\" y=\"217.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">100 sf</text><path d=\"M 994 222.88 A 13 13 0 0 1 1007 209.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"994\" y1=\"222.88\" x2=\"1007\" y2=\"222.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"1057\" y=\"225.88\" width=\"78\" height=\"78\" fill=\"#1E3A5F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"1068\" y=\"239.28\" width=\"27.200000000000003\" height=\"14.399999999999999\" rx=\"2\" fill=\"#FFFFFF\" fill-opacity=\"0.16\"/><circle cx=\"1102.4\" cy=\"248.88\" r=\"4\" fill=\"#FFFFFF60\"/><text x=\"1096\" y=\"255.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Private</text><text x=\"1096\" y=\"266.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Office</text><text x=\"1096\" y=\"297.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">100 sf</text><path d=\"M 1058 302.88 A 13 13 0 0 1 1071 289.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"1058\" y1=\"302.88\" x2=\"1071\" y2=\"302.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"1\" y=\"353.88\" width=\"78\" height=\"78\" fill=\"#1E3A5F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"12\" y=\"367.28\" width=\"27.200000000000003\" height=\"14.399999999999999\" rx=\"2\" fill=\"#FFFFFF\" fill-opacity=\"0.16\"/><circle cx=\"46.4\" cy=\"376.88\" r=\"4\" fill=\"#FFFFFF60\"/><text x=\"40\" y=\"383.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Private</text><text x=\"40\" y=\"394.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Office</text><text x=\"40\" y=\"425.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">100 sf</text><path d=\"M 2 430.88 A 13 13 0 0 1 15 417.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"2\" y1=\"430.88\" x2=\"15\" y2=\"430.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"993\" y=\"353.88\" width=\"78\" height=\"78\" fill=\"#1E3A5F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"1004\" y=\"367.28\" width=\"27.200000000000003\" height=\"14.399999999999999\" rx=\"2\" fill=\"#FFFFFF\" fill-opacity=\"0.16\"/><circle cx=\"1038.4\" cy=\"376.88\" r=\"4\" fill=\"#FFFFFF60\"/><text x=\"1032\" y=\"383.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Private</text><text x=\"1032\" y=\"394.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Office</text><text x=\"1032\" y=\"425.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">100 sf</text><path d=\"M 994 430.88 A 13 13 0 0 1 1007 417.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"994\" y1=\"430.88\" x2=\"1007\" y2=\"430.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"1\" y=\"577.88\" width=\"78\" height=\"78\" fill=\"#1E3A5F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"12\" y=\"591.28\" width=\"27.200000000000003\" height=\"14.399999999999999\" rx=\"2\" fill=\"#FFFFFF\" fill-opacity=\"0.16\"/><circle cx=\"46.4\" cy=\"600.88\" r=\"4\" fill=\"#FFFFFF60\"/><text x=\"40\" y=\"607.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Private</text><text x=\"40\" y=\"618.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Office</text><text x=\"40\" y=\"649.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">100 sf</text><path d=\"M 2 654.88 A 13 13 0 0 1 15 641.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"2\" y1=\"654.88\" x2=\"15\" y2=\"654.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"97\" y=\"577.88\" width=\"78\" height=\"78\" fill=\"#1E3A5F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"108\" y=\"591.28\" width=\"27.200000000000003\" height=\"14.399999999999999\" rx=\"2\" fill=\"#FFFFFF\" fill-opacity=\"0.16\"/><circle cx=\"142.4\" cy=\"600.88\" r=\"4\" fill=\"#FFFFFF60\"/><text x=\"136\" y=\"607.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Private</text><text x=\"136\" y=\"618.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Office</text><text x=\"136\" y=\"649.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">100 sf</text><path d=\"M 98 654.88 A 13 13 0 0 1 111 641.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"98\" y1=\"654.88\" x2=\"111\" y2=\"654.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"193\" y=\"577.88\" width=\"78\" height=\"78\" fill=\"#1E3A5F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"204\" y=\"591.28\" width=\"27.200000000000003\" height=\"14.399999999999999\" rx=\"2\" fill=\"#FFFFFF\" fill-opacity=\"0.16\"/><circle cx=\"238.4\" cy=\"600.88\" r=\"4\" fill=\"#FFFFFF60\"/><text x=\"232\" y=\"607.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Private</text><text x=\"232\" y=\"618.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Office</text><text x=\"232\" y=\"649.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">100 sf</text><path d=\"M 194 654.88 A 13 13 0 0 1 207 641.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"194\" y1=\"654.88\" x2=\"207\" y2=\"654.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"289\" y=\"577.88\" width=\"78\" height=\"78\" fill=\"#1E3A5F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"300\" y=\"591.28\" width=\"27.200000000000003\" height=\"14.399999999999999\" rx=\"2\" fill=\"#FFFFFF\" fill-opacity=\"0.16\"/><circle cx=\"334.4\" cy=\"600.88\" r=\"4\" fill=\"#FFFFFF60\"/><text x=\"328\" y=\"607.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Private</text><text x=\"328\" y=\"618.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Office</text><text x=\"328\" y=\"649.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">100 sf</text><path d=\"M 290 654.88 A 13 13 0 0 1 303 641.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"290\" y1=\"654.88\" x2=\"303\" y2=\"654.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"385\" y=\"577.88\" width=\"78\" height=\"78\" fill=\"#1E3A5F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"396\" y=\"591.28\" width=\"27.200000000000003\" height=\"14.399999999999999\" rx=\"2\" fill=\"#FFFFFF\" fill-opacity=\"0.16\"/><circle cx=\"430.4\" cy=\"600.88\" r=\"4\" fill=\"#FFFFFF60\"/><text x=\"424\" y=\"607.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Private</text><text x=\"424\" y=\"618.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Office</text><text x=\"424\" y=\"649.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">100 sf</text><path d=\"M 386 654.88 A 13 13 0 0 1 399 641.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"386\" y1=\"654.88\" x2=\"399\" y2=\"654.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"609\" y=\"577.88\" width=\"78\" height=\"78\" fill=\"#1E3A5F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"620\" y=\"591.28\" width=\"27.200000000000003\" height=\"14.399999999999999\" rx=\"2\" fill=\"#FFFFFF\" fill-opacity=\"0.16\"/><circle cx=\"654.4\" cy=\"600.88\" r=\"4\" fill=\"#FFFFFF60\"/><text x=\"648\" y=\"607.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Private</text><text x=\"648\" y=\"618.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Office</text><text x=\"648\" y=\"649.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">100 sf</text><path d=\"M 610 654.88 A 13 13 0 0 1 623 641.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"610\" y1=\"654.88\" x2=\"623\" y2=\"654.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"705\" y=\"577.88\" width=\"78\" height=\"78\" fill=\"#1E3A5F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"716\" y=\"591.28\" width=\"27.200000000000003\" height=\"14.399999999999999\" rx=\"2\" fill=\"#FFFFFF\" fill-opacity=\"0.16\"/><circle cx=\"750.4\" cy=\"600.88\" r=\"4\" fill=\"#FFFFFF60\"/><text x=\"744\" y=\"607.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Private</text><text x=\"744\" y=\"618.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Office</text><text x=\"744\" y=\"649.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">100 sf</text><path d=\"M 706 654.88 A 13 13 0 0 1 719 641.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"706\" y1=\"654.88\" x2=\"719\" y2=\"654.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"801\" y=\"577.88\" width=\"78\" height=\"78\" fill=\"#1E3A5F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"812\" y=\"591.28\" width=\"27.200000000000003\" height=\"14.399999999999999\" rx=\"2\" fill=\"#FFFFFF\" fill-opacity=\"0.16\"/><circle cx=\"846.4\" cy=\"600.88\" r=\"4\" fill=\"#FFFFFF60\"/><text x=\"840\" y=\"607.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Private</text><text x=\"840\" y=\"618.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Office</text><text x=\"840\" y=\"649.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">100 sf</text><path d=\"M 802 654.88 A 13 13 0 0 1 815 641.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"802\" y1=\"654.88\" x2=\"815\" y2=\"654.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"465\" y=\"513.88\" width=\"46\" height=\"46\" fill=\"#475569\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"488\" y=\"528.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Phone</text><text x=\"488\" y=\"537.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Booth</text><text x=\"488\" y=\"553.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">36 sf</text><path d=\"M 466 558.88 A 10.56 10.56 0 0 1 476.56 548.32\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"466\" y1=\"558.88\" x2=\"476.56\" y2=\"558.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"609\" y=\"513.88\" width=\"46\" height=\"46\" fill=\"#475569\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"632\" y=\"528.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Phone</text><text x=\"632\" y=\"537.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Booth</text><text x=\"632\" y=\"553.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">36 sf</text><path d=\"M 610 558.88 A 10.56 10.56 0 0 1 620.56 548.32\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"610\" y1=\"558.88\" x2=\"620.56\" y2=\"558.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"673\" y=\"513.88\" width=\"46\" height=\"46\" fill=\"#475569\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"696\" y=\"528.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Phone</text><text x=\"696\" y=\"537.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Booth</text><text x=\"696\" y=\"553.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">36 sf</text><path d=\"M 674 558.88 A 10.56 10.56 0 0 1 684.56 548.32\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"674\" y1=\"558.88\" x2=\"684.56\" y2=\"558.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"737\" y=\"513.88\" width=\"46\" height=\"46\" fill=\"#475569\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"760\" y=\"528.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Phone</text><text x=\"760\" y=\"537.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Booth</text><text x=\"760\" y=\"553.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">36 sf</text><path d=\"M 738 558.88 A 10.56 10.56 0 0 1 748.56 548.32\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"738\" y1=\"558.88\" x2=\"748.56\" y2=\"558.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"801\" y=\"513.88\" width=\"46\" height=\"46\" fill=\"#475569\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"824\" y=\"528.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Phone</text><text x=\"824\" y=\"537.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Booth</text><text x=\"824\" y=\"553.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">36 sf</text><path d=\"M 802 558.88 A 10.56 10.56 0 0 1 812.56 548.32\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"802\" y1=\"558.88\" x2=\"812.56\" y2=\"558.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"865\" y=\"513.88\" width=\"46\" height=\"46\" fill=\"#475569\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"888\" y=\"528.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Phone</text><text x=\"888\" y=\"537.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Booth</text><text x=\"888\" y=\"553.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">36 sf</text><path d=\"M 866 558.88 A 10.56 10.56 0 0 1 876.56 548.32\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"866\" y1=\"558.88\" x2=\"876.56\" y2=\"558.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"929\" y=\"513.88\" width=\"46\" height=\"46\" fill=\"#475569\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"952\" y=\"528.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Phone</text><text x=\"952\" y=\"537.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Booth</text><text x=\"952\" y=\"553.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">36 sf</text><path d=\"M 930 558.88 A 10.56 10.56 0 0 1 940.56 548.32\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"930\" y1=\"558.88\" x2=\"940.56\" y2=\"558.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"241\" y=\"143.90041028867287\" width=\"95.97958971132712\" height=\"95.97958971132712\" fill=\"#78350F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"248\" y=\"150.90041028867287\" width=\"48.98979485566356\" height=\"7\" fill=\"#FFFFFF\" fill-opacity=\"0.22\"/><circle cx=\"288.98979485566355\" cy=\"196.89020514433645\" r=\"8\" fill=\"#FFFFFF\" fill-opacity=\"0.14\"/><text x=\"288.98979485566355\" y=\"187.89020514433645\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Break Room</text><text x=\"288.98979485566355\" y=\"233.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">150 sf</text><path d=\"M 242 238.88 A 13 13 0 0 1 255 225.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"242\" y1=\"238.88\" x2=\"255\" y2=\"238.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"641\" y=\"384.7429150101524\" width=\"111.13708498984761\" height=\"111.13708498984761\" fill=\"#0F766E\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"696.5685424949238\" y=\"436.3114575050762\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Collaboration Zone</text><text x=\"696.5685424949238\" y=\"489.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">200 sf</text><path d=\"M 642 494.88 A 13 13 0 0 1 655 481.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"642\" y1=\"494.88\" x2=\"655\" y2=\"494.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"769\" y=\"384.7429150101524\" width=\"111.13708498984761\" height=\"111.13708498984761\" fill=\"#0F766E\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"824.5685424949238\" y=\"436.3114575050762\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Collaboration Zone</text><text x=\"824.5685424949238\" y=\"489.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">200 sf</text><path d=\"M 770 494.88 A 13 13 0 0 1 783 481.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"770\" y1=\"494.88\" x2=\"783\" y2=\"494.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"97\" y=\"368.7429150101524\" width=\"111.13708498984761\" height=\"111.13708498984761\" fill=\"#0F766E\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"152.5685424949238\" y=\"420.3114575050762\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Collaboration Zone</text><text x=\"152.5685424949238\" y=\"473.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">200 sf</text><path d=\"M 98 478.88 A 13 13 0 0 1 111 465.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"98\" y1=\"478.88\" x2=\"111\" y2=\"478.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"225\" y=\"368.7429150101524\" width=\"111.13708498984761\" height=\"111.13708498984761\" fill=\"#0F766E\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"280.5685424949238\" y=\"420.3114575050762\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Collaboration Zone</text><text x=\"280.5685424949238\" y=\"473.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">200 sf</text><path d=\"M 226 478.88 A 13 13 0 0 1 239 465.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"226\" y1=\"478.88\" x2=\"239\" y2=\"478.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"993\" y=\"511.28355743730594\" width=\"62\" height=\"48.59644256269407\" fill=\"#4B5563\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"1024\" y=\"531.581778718653\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Print Area</text><text x=\"1024\" y=\"553.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">51 sf</text><path d=\"M 994 558.88 A 11.131217363792697 11.131217363792697 0 0 1 1005.1312173637926 547.7487826362074\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"994\" y1=\"558.88\" x2=\"1005.1312173637926\" y2=\"558.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><circle cx=\"92\" cy=\"656.88\" r=\"7\" fill=\"#D4AF37\" stroke=\"#FFFFFF\" stroke-width=\"1.2\"/><text x=\"102\" y=\"648.88\" font-size=\"8\" fill=\"#D4AF37\" font-family=\"Inter, Arial, sans-serif\" font-weight=\"700\">Primary Suite Entry</text><circle cx=\"1057.6\" cy=\"0\" r=\"7\" fill=\"#D4AF37\" stroke=\"#FFFFFF\" stroke-width=\"1.2\"/><text x=\"1067.6\" y=\"-8\" font-size=\"8\" fill=\"#D4AF37\" font-family=\"Inter, Arial, sans-serif\" font-weight=\"700\">Secondary Egress</text><circle cx=\"1115.6\" cy=\"34\" r=\"25\" fill=\"#D4AF37\" fill-opacity=\"0.16\" stroke=\"#D4AF37\" stroke-width=\"1.6\"/><text x=\"1115.6\" y=\"31\" font-size=\"12\" fill=\"#D4AF37\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"800\">41%</text><text x=\"1115.6\" y=\"44\" font-size=\"6\" fill=\"#D4AF37AA\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">EFF</text></g><rect x=\"0\" y=\"0\" width=\"1149.6\" height=\"42\" fill=\"#3B2500\"/><text x=\"16\" y=\"18\" font-size=\"12\" fill=\"#FBBF24\" font-family=\"Inter, Arial, sans-serif\" font-weight=\"800\">NEEDS REVIEW</text><text x=\"16\" y=\"33\" font-size=\"10\" fill=\"#FDE68A\" font-family=\"Inter, Arial, sans-serif\">Needs Review: this plan uses owner-confirmable rectangular geometry until uploaded shell/core extraction is verified.</text><text x=\"574.8\" y=\"720.88\" font-size=\"10\" fill=\"#D4AF37\" fill-opacity=\"0.82\" font-family=\"Montserrat, Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"800\">LEASIBILITY AI — MODERATE BUILD-OUT — MODERATE BUILD-OUT</text><line x1=\"18\" y1=\"738.88\" x2=\"82\" y2=\"738.88\" stroke=\"#FFFFFF\" stroke-width=\"2\"/><text x=\"18\" y=\"752.88\" font-size=\"8\" fill=\"#FFFFFF70\" font-family=\"Inter, Arial, sans-serif\">40 ft scale bar</text><path d=\"M 1107.6 750.88 L 1117.6 728.88 L 1127.6 750.88 Z\" fill=\"#FFFFFF80\"/><text x=\"1117.6\" y=\"762.88\" font-size=\"8\" fill=\"#FFFFFF80\" text-anchor=\"middle\" font-family=\"Inter, Arial, sans-serif\">N</text></svg>",
+      "budgetLow": 1298000,
+      "budgetMid": 1829000,
+      "budgetHigh": 2478000,
+      "costPerSqFtLow": 110,
+      "costPerSqFtMid": 155,
+      "costPerSqFtHigh": 210,
+      "budgetBreakdown": {
+        "construction": {
+          "low": 778800,
+          "mid": 1097400,
+          "high": 1486800
+        },
+        "ffe": {
+          "low": 233640,
+          "mid": 329220,
+          "high": 446040
+        },
+        "itAv": {
+          "low": 129800,
+          "mid": 182900,
+          "high": 247800
+        },
+        "softCosts": {
+          "low": 103840,
+          "mid": 146320,
+          "high": 198240
+        },
+        "tiAllowance": {
+          "low": 51920,
+          "mid": 73160,
+          "high": 99120
+        }
+      },
+      "scheduleWeeksLow": 14,
+      "scheduleWeeksMid": 20,
+      "scheduleWeeksHigh": 26,
+      "schedulePhases": [
+        {
+          "phase": "Design & Permitting",
+          "weeks": "3–5",
+          "description": "Full space planning, construction documents, and permit submission. Some structural review may be required."
+        },
+        {
+          "phase": "Selective Demolition",
+          "weeks": "2–3",
+          "description": "Demolish targeted walls and reconfigure layout. Reuse existing MEP infrastructure where possible to reduce cost and time."
+        },
+        {
+          "phase": "Construction",
+          "weeks": "6–9",
+          "description": "New framing, drywall, MEP modifications, flooring, ceilings, and finishes throughout."
+        },
+        {
+          "phase": "FF&E & IT/AV",
+          "weeks": "2–3",
+          "description": "Full furniture package, technology infrastructure, and audio-visual systems."
+        },
+        {
+          "phase": "Punch List & Move-In",
+          "weeks": "1–2",
+          "description": "Final inspections, certificate of occupancy, and move-in coordination."
+        }
+      ],
+      "aiSummary": "The 'Moderate Build-Out' scenario perfectly matches the tenant's program requirements, achieving an 82% efficiency score through strategic reconfigurations. This approach involves selective demolition and new construction, allowing for a tailored layout that optimizes both collaborative and private work zones. It represents a balanced investment in cost and time, providing a highly functional and customized space without a full gut renovation. This scenario offers the tenant a well-designed office that supports their collaborative culture and growth needs effectively. Moderate Build-Out achieves approximately 27% of the requested program through targeted reconfiguration and selective reuse of existing conditions.",
+      "existingConditionsInventory": {
+        "source": "synthetic_rectangular_model",
+        "confidence": 0.46,
+        "summary": "Existing conditions indicate approximately 85 reusable workstation seats, 7 private offices, 4 meeting rooms, fixed core elements, and interior zones that can be selectively reconfigured.",
+        "reusableZones": [
+          {
+            "category": "Existing private offices",
+            "count": 7,
+            "estimatedSqFt": 140,
+            "approximateLocation": "Perimeter office bands",
+            "reusePotential": "high",
+            "confidence": 0.46,
+            "notes": "Likely reusable with finish refresh and furniture updates."
+          },
+          {
+            "category": "Existing conference / meeting rooms",
+            "count": 4,
+            "estimatedSqFt": 280,
+            "approximateLocation": "Near core and primary circulation",
+            "reusePotential": "high",
+            "confidence": 0.46,
+            "notes": "Meeting rooms can generally remain if technology and finishes are upgraded."
+          },
+          {
+            "category": "Existing pantry / break area",
+            "count": 1,
+            "estimatedSqFt": 531,
+            "approximateLocation": "Adjacent to fixed core",
+            "reusePotential": "high",
+            "confidence": 0.46,
+            "notes": "Wet-wall adjacency makes this a strong reuse candidate."
+          }
+        ],
+        "repurposableZones": [
+          {
+            "category": "Existing workstation zones",
+            "count": 85,
+            "estimatedSqFt": 4250,
+            "approximateLocation": "Open interior workspace fields",
+            "reusePotential": "medium",
+            "confidence": 0.5,
+            "notes": "Systems furniture is estimated at the current 50 SF planning target, with 36–64 SF treated as the acceptable workstation range."
+          },
+          {
+            "category": "Existing huddle / collaboration areas",
+            "count": 2,
+            "estimatedSqFt": 413,
+            "approximateLocation": "Secondary circulation nodes",
+            "reusePotential": "medium",
+            "confidence": 0.5,
+            "notes": "Can be repurposed as focus, lounge, or informal collaboration space."
+          }
+        ],
+        "fixedElements": [
+          {
+            "category": "Fixed Core / Restrooms",
+            "count": 1,
+            "estimatedSqFt": 431,
+            "approximateLocation": "Fixed building core",
+            "reusePotential": "fixed",
+            "confidence": 0.48,
+            "notes": "Preserve shell, core, restrooms, stairs, elevators, and shafts in every scenario."
+          }
+        ],
+        "ambiguousAreas": [
+          {
+            "category": "Geometry requiring confirmation",
+            "count": 1,
+            "estimatedSqFt": 944,
+            "approximateLocation": "Uploaded plan underlay / inferred tenant area",
+            "reusePotential": "ambiguous",
+            "confidence": 0.45,
+            "notes": "Shell/core confirmation is recommended before treating this as an as-built test-fit."
+          }
+        ],
+        "reconfigurationZones": [
+          {
+            "category": "Selective partition zones",
+            "count": 4,
+            "estimatedSqFt": 2124,
+            "approximateLocation": "Interior partition field",
+            "reusePotential": "medium",
+            "confidence": 0.48,
+            "notes": "Candidate walls for selective demolition or reconfiguration in Moderate Build-Out."
+          },
+          {
+            "category": "Full interior redesign field",
+            "count": 1,
+            "estimatedSqFt": 7316,
+            "approximateLocation": "Interior tenant improvement area outside fixed core",
+            "reusePotential": "low",
+            "confidence": 0.45,
+            "notes": "Full Transformation assumes these flexible zones can be rebuilt around the preserved shell/core."
+          }
+        ],
+        "existingInteriorWallCount": 4,
+        "reviewRequired": true,
+        "reviewReasons": [
+          "Uploaded plan content has not yet been machine-extracted in this V1 sandbox path; shell, core, entries, glazing, and walls are inferred placeholders requiring confirmation.",
+          "Do not treat default core/restroom/stair/elevator positions as confirmed existing conditions until the uploaded plan is reviewed.",
+          "Parser confidence is below the architectural acceptance threshold, so scenario outputs must remain needs-review until shell/core confirmation is completed."
+        ]
+      },
+      "programFit": {
+        "scenarioLabel": "Moderate Build-Out",
+        "achievedPercent": 27,
+        "rows": [
+          {
+            "programItem": "Private Offices",
+            "requested": 13,
+            "achieved": 12,
+            "variance": -1,
+            "fitStatus": "partial",
+            "notes": "Fit variance remains; item is partially accommodated within this scenario’s intervention level."
+          },
+          {
+            "programItem": "Workstations",
+            "requested": 92,
+            "achieved": 0,
+            "variance": -92,
+            "fitStatus": "gap",
+            "notes": "Program item not accommodated within this scenario’s intervention level."
+          },
+          {
+            "programItem": "Conference Rooms",
+            "requested": 7,
+            "achieved": 6,
+            "variance": -1,
+            "fitStatus": "partial",
+            "notes": "Fit variance remains; item is partially accommodated within this scenario’s intervention level."
+          },
+          {
+            "programItem": "Phone Rooms",
+            "requested": 7,
+            "achieved": 6,
+            "variance": -1,
+            "fitStatus": "partial",
+            "notes": "Fit variance remains; item is partially accommodated within this scenario’s intervention level."
+          },
+          {
+            "programItem": "Collaboration Areas",
+            "requested": 10,
+            "achieved": 9,
+            "variance": -1,
+            "fitStatus": "partial",
+            "notes": "Fit variance remains; item is partially accommodated within this scenario’s intervention level."
+          },
+          {
+            "programItem": "Pantry / Break Areas",
+            "requested": 1,
+            "achieved": 1,
+            "variance": 0,
+            "fitStatus": "met",
+            "notes": "Requested program achieved in this scenario."
+          },
+          {
+            "programItem": "Support Spaces",
+            "requested": 2,
+            "achieved": 2,
+            "variance": 0,
+            "fitStatus": "met",
+            "notes": "Requested program achieved in this scenario."
+          }
+        ],
+        "gaps": [
+          {
+            "programItem": "Private Offices",
+            "requested": 13,
+            "achieved": 12,
+            "variance": -1,
+            "fitStatus": "partial",
+            "notes": "Fit variance remains; item is partially accommodated within this scenario’s intervention level."
+          },
+          {
+            "programItem": "Workstations",
+            "requested": 92,
+            "achieved": 0,
+            "variance": -92,
+            "fitStatus": "gap",
+            "notes": "Program item not accommodated within this scenario’s intervention level."
+          },
+          {
+            "programItem": "Conference Rooms",
+            "requested": 7,
+            "achieved": 6,
+            "variance": -1,
+            "fitStatus": "partial",
+            "notes": "Fit variance remains; item is partially accommodated within this scenario’s intervention level."
+          },
+          {
+            "programItem": "Phone Rooms",
+            "requested": 7,
+            "achieved": 6,
+            "variance": -1,
+            "fitStatus": "partial",
+            "notes": "Fit variance remains; item is partially accommodated within this scenario’s intervention level."
+          },
+          {
+            "programItem": "Collaboration Areas",
+            "requested": 10,
+            "achieved": 9,
+            "variance": -1,
+            "fitStatus": "partial",
+            "notes": "Fit variance remains; item is partially accommodated within this scenario’s intervention level."
+          }
+        ],
+        "interpretation": "Moderate Build-Out achieves approximately 27% of the requested program through targeted reconfiguration and selective reuse of existing conditions."
+      },
+      "scopeSummary": {
+        "scenarioLabel": "Moderate Build-Out",
+        "reuseStrategy": "Retain high-value rooms and fixed infrastructure while selectively removing 10–30% of conflicting non-structural partitions.",
+        "retainedElements": [
+          "Fixed Core / Restrooms",
+          "Existing private offices",
+          "Existing conference / meeting rooms",
+          "Existing pantry / break area"
+        ],
+        "repurposedElements": [
+          "Existing workstation zones",
+          "Existing huddle / collaboration areas"
+        ],
+        "reconfigurationScope": [
+          "10–30% selective non-structural wall removal",
+          "New targeted partitions",
+          "MEP tie-ins at reconfigured rooms",
+          "Furniture and technology refresh"
+        ],
+        "programGaps": [
+          "Private Offices: 1 not accommodated",
+          "Workstations: 92 not accommodated",
+          "Conference Rooms: 1 not accommodated",
+          "Phone Rooms: 1 not accommodated",
+          "Collaboration Areas: 1 not accommodated"
+        ],
+        "budgetScheduleRationale": "Mid-range budget and schedule reflect selective demolition, retained core infrastructure, and targeted build-back."
+      },
+      "renderingStatus": {
+        "status": "needs_review",
+        "confidence": 0.46,
+        "reasons": [
+          "Uploaded plan content has not yet been machine-extracted in this V1 sandbox path; shell, core, entries, glazing, and walls are inferred placeholders requiring confirmation.",
+          "Do not treat default core/restroom/stair/elevator positions as confirmed existing conditions until the uploaded plan is reviewed.",
+          "Parser confidence is below the architectural acceptance threshold, so scenario outputs must remain needs-review until shell/core confirmation is completed."
+        ],
+        "message": "Needs Review: this plan uses owner-confirmable rectangular geometry until uploaded shell/core extraction is verified."
+      }
+    },
+    {
+      "scenarioNumber": 3,
+      "label": "Full Transformation",
+      "impactLevel": "high",
+      "impactTag": "Full Transformation",
+      "efficiencyScore": 88,
+      "usableSqFt": 10384,
+      "totalSqFt": 11800,
+      "roomBreakdown": [
+        {
+          "type": "Reception",
+          "count": 1,
+          "sqFt": 120
+        },
+        {
+          "type": "Conference Room",
+          "count": 1,
+          "sqFt": 255
+        },
+        {
+          "type": "Conference Room",
+          "count": 1,
+          "sqFt": 255
+        },
+        {
+          "type": "Conference Room",
+          "count": 1,
+          "sqFt": 255
+        },
+        {
+          "type": "Conference Room",
+          "count": 1,
+          "sqFt": 255
+        },
+        {
+          "type": "Conference Room",
+          "count": 1,
+          "sqFt": 255
+        },
+        {
+          "type": "Conference Room",
+          "count": 1,
+          "sqFt": 255
+        },
+        {
+          "type": "Huddle Room",
+          "count": 1,
+          "sqFt": 99
+        },
+        {
+          "type": "Huddle Room",
+          "count": 1,
+          "sqFt": 99
+        },
+        {
+          "type": "Huddle Room",
+          "count": 1,
+          "sqFt": 99
+        },
+        {
+          "type": "Huddle Room",
+          "count": 1,
+          "sqFt": 99
+        },
+        {
+          "type": "Huddle Room",
+          "count": 1,
+          "sqFt": 99
+        },
+        {
+          "type": "Huddle Room",
+          "count": 1,
+          "sqFt": 99
+        },
+        {
+          "type": "Private Office",
+          "count": 1,
+          "sqFt": 100
+        },
+        {
+          "type": "Private Office",
+          "count": 1,
+          "sqFt": 100
+        },
+        {
+          "type": "Private Office",
+          "count": 1,
+          "sqFt": 100
+        },
+        {
+          "type": "Private Office",
+          "count": 1,
+          "sqFt": 100
+        },
+        {
+          "type": "Private Office",
+          "count": 1,
+          "sqFt": 100
+        },
+        {
+          "type": "Private Office",
+          "count": 1,
+          "sqFt": 100
+        },
+        {
+          "type": "Private Office",
+          "count": 1,
+          "sqFt": 100
+        },
+        {
+          "type": "Private Office",
+          "count": 1,
+          "sqFt": 100
+        },
+        {
+          "type": "Private Office",
+          "count": 1,
+          "sqFt": 100
+        },
+        {
+          "type": "Private Office",
+          "count": 1,
+          "sqFt": 100
+        },
+        {
+          "type": "Private Office",
+          "count": 1,
+          "sqFt": 100
+        },
+        {
+          "type": "Private Office",
+          "count": 1,
+          "sqFt": 100
+        },
+        {
+          "type": "Private Office",
+          "count": 1,
+          "sqFt": 100
+        },
+        {
+          "type": "Phone Booth",
+          "count": 1,
+          "sqFt": 36
+        },
+        {
+          "type": "Phone Booth",
+          "count": 1,
+          "sqFt": 36
+        },
+        {
+          "type": "Phone Booth",
+          "count": 1,
+          "sqFt": 36
+        },
+        {
+          "type": "Phone Booth",
+          "count": 1,
+          "sqFt": 36
+        },
+        {
+          "type": "Phone Booth",
+          "count": 1,
+          "sqFt": 36
+        },
+        {
+          "type": "Phone Booth",
+          "count": 1,
+          "sqFt": 36
+        },
+        {
+          "type": "Phone Booth",
+          "count": 1,
+          "sqFt": 36
+        },
+        {
+          "type": "Break Room",
+          "count": 1,
+          "sqFt": 150
+        },
+        {
+          "type": "Collaboration Zone",
+          "count": 1,
+          "sqFt": 200
+        },
+        {
+          "type": "Collaboration Zone",
+          "count": 1,
+          "sqFt": 200
+        },
+        {
+          "type": "Collaboration Zone",
+          "count": 1,
+          "sqFt": 200
+        },
+        {
+          "type": "Collaboration Zone",
+          "count": 1,
+          "sqFt": 200
+        },
+        {
+          "type": "Print Area",
+          "count": 1,
+          "sqFt": 51
+        },
+        {
+          "type": "Wellness Room",
+          "count": 1,
+          "sqFt": 80
+        }
+      ],
+      "layoutDescription": "This scenario involves near-complete demolition of interior partitions, creating a blank canvas for optimal space planning. The layout is fully customized to maximize natural light, flow, and program efficiency. It delivers a premium, future-proofed environment tailored precisely to the tenant's brand and operational needs, with an emphasis on high-quality finishes and integrated technology. Highest budget and longest schedule reflect full interior redesign while preserving shell and fixed core elements.",
+      "layoutSvg": "<svg viewBox=\"0 0 1149.6 756.88\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"LEASIBILITY AI — FULL TRANSFORMATION — FULL TRANSFORMATION\" style=\"background:#0A1628;border-radius:12px;width:100%;max-width:1149.6px\"><defs><pattern id=\"grid\" width=\"40\" height=\"40\" patternUnits=\"userSpaceOnUse\"><path d=\"M 40 0 L 0 0 0 40\" fill=\"none\" stroke=\"#FFFFFF\" stroke-opacity=\"0.035\" stroke-width=\"1\"/></pattern><filter id=\"shadow\" x=\"-10%\" y=\"-10%\" width=\"120%\" height=\"120%\"><feDropShadow dx=\"0\" dy=\"2\" stdDeviation=\"3\" flood-color=\"#000000\" flood-opacity=\"0.25\"/></filter></defs><rect x=\"0\" y=\"0\" width=\"1149.6\" height=\"756.88\" fill=\"#0A1628\"/><g transform=\"translate(0 42)\"><rect x=\"0\" y=\"0\" width=\"1149.6\" height=\"656.88\" fill=\"#0F1F3D\" stroke=\"#FFFFFF\" stroke-width=\"3\" rx=\"6\" filter=\"url(#shadow)\"/><rect x=\"0\" y=\"0\" width=\"1149.6\" height=\"656.88\" fill=\"url(#grid)\"/><line x1=\"298.88\" y1=\"608.88\" x2=\"298.88\" y2=\"210.24\" stroke-dasharray=\"7,5\" stroke=\"#EF4444\" stroke-opacity=\"0.42\" stroke-width=\"1.5\"/><line x1=\"827.68\" y1=\"446.64\" x2=\"827.68\" y2=\"48\" stroke-dasharray=\"7,5\" stroke=\"#EF4444\" stroke-opacity=\"0.42\" stroke-width=\"1.5\"/><line x1=\"48\" y1=\"446.64\" x2=\"1101.6\" y2=\"446.64\" stroke-dasharray=\"7,5\" stroke=\"#EF4444\" stroke-opacity=\"0.42\" stroke-width=\"1.5\"/><line x1=\"48\" y1=\"210.24\" x2=\"1101.6\" y2=\"210.24\" stroke-dasharray=\"7,5\" stroke=\"#EF4444\" stroke-opacity=\"0.42\" stroke-width=\"1.5\"/><line x1=\"64\" y1=\"0\" x2=\"517.3199999999999\" y2=\"0\" stroke=\"#7DD3FC\" stroke-width=\"5\" stroke-linecap=\"round\" stroke-opacity=\"0.92\"/><line x1=\"632.28\" y1=\"0\" x2=\"1085.6\" y2=\"0\" stroke=\"#7DD3FC\" stroke-width=\"5\" stroke-linecap=\"round\" stroke-opacity=\"0.92\"/><line x1=\"1149.6\" y1=\"538.6416\" x2=\"1149.6\" y2=\"118.23840000000007\" stroke=\"#7DD3FC\" stroke-width=\"5\" stroke-linecap=\"round\" stroke-opacity=\"0.92\"/><rect x=\"0\" y=\"308.44\" width=\"1149.6\" height=\"40\" fill=\"#FFFFFF\" fill-opacity=\"0.10\" stroke=\"#FFFFFF\" stroke-opacity=\"0.32\" stroke-width=\"0.8\" stroke-dasharray=\"4,3\"/><text x=\"574.8\" y=\"332.44\" font-size=\"8\" fill=\"#FFFFFF70\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">CIRCULATION</text><rect x=\"554.8\" y=\"0\" width=\"40\" height=\"656.88\" fill=\"#FFFFFF\" fill-opacity=\"0.10\" stroke=\"#FFFFFF\" stroke-opacity=\"0.32\" stroke-width=\"0.8\" stroke-dasharray=\"4,3\"/><text x=\"574.8\" y=\"332.44\" font-size=\"8\" fill=\"#FFFFFF70\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">CIRCULATION</text><rect x=\"465.6\" y=\"235.27999999999997\" width=\"172.4\" height=\"160\" fill=\"#111827\" fill-opacity=\"0.92\" stroke=\"#FFFFFF\" stroke-width=\"1.4\" stroke-dasharray=\"3,2\" rx=\"3\"/><text x=\"551.8000000000001\" y=\"310.28\" font-size=\"8\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Fixed Core /</text><text x=\"551.8000000000001\" y=\"320.28\" font-size=\"8\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Restrooms</text><rect x=\"1\" y=\"10.244390799173416\" width=\"86\" height=\"85.63560920082658\" fill=\"#D4AF37\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"44\" y=\"49.062195399586706\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Reception</text><text x=\"44\" y=\"89.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">120 sf</text><path d=\"M 2 94.88 A 13 13 0 0 1 15 81.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"2\" y1=\"94.88\" x2=\"15\" y2=\"94.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"97\" y=\"16.742915010152387\" width=\"142\" height=\"111.13708498984761\" fill=\"#166534\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"140.64\" y=\"59.86637815619295\" width=\"54.72\" height=\"24.890158697766473\" rx=\"5\" fill=\"#FFFFFF\" fill-opacity=\"0.18\" stroke=\"#FFFFFF80\" stroke-width=\"0.8\"/><circle cx=\"134.64\" cy=\"72.31145750507619\" r=\"3\" fill=\"#FFFFFF60\"/><circle cx=\"201.36\" cy=\"72.31145750507619\" r=\"3\" fill=\"#FFFFFF60\"/><text x=\"168\" y=\"68.31145750507619\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Conference Room</text><text x=\"168\" y=\"121.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">255 sf</text><path d=\"M 98 126.88 A 13 13 0 0 1 111 113.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"98\" y1=\"126.88\" x2=\"111\" y2=\"126.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"257\" y=\"16.742915010152387\" width=\"142\" height=\"111.13708498984761\" fill=\"#166534\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"300.64\" y=\"59.86637815619295\" width=\"54.72\" height=\"24.890158697766473\" rx=\"5\" fill=\"#FFFFFF\" fill-opacity=\"0.18\" stroke=\"#FFFFFF80\" stroke-width=\"0.8\"/><circle cx=\"294.64\" cy=\"72.31145750507619\" r=\"3\" fill=\"#FFFFFF60\"/><circle cx=\"361.36\" cy=\"72.31145750507619\" r=\"3\" fill=\"#FFFFFF60\"/><text x=\"328\" y=\"68.31145750507619\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Conference Room</text><text x=\"328\" y=\"121.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">255 sf</text><path d=\"M 258 126.88 A 13 13 0 0 1 271 113.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"258\" y1=\"126.88\" x2=\"271\" y2=\"126.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"609\" y=\"16.742915010152387\" width=\"142\" height=\"111.13708498984761\" fill=\"#166534\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"652.64\" y=\"59.86637815619295\" width=\"54.72\" height=\"24.890158697766473\" rx=\"5\" fill=\"#FFFFFF\" fill-opacity=\"0.18\" stroke=\"#FFFFFF80\" stroke-width=\"0.8\"/><circle cx=\"646.64\" cy=\"72.31145750507619\" r=\"3\" fill=\"#FFFFFF60\"/><circle cx=\"713.36\" cy=\"72.31145750507619\" r=\"3\" fill=\"#FFFFFF60\"/><text x=\"680\" y=\"68.31145750507619\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Conference Room</text><text x=\"680\" y=\"121.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">255 sf</text><path d=\"M 610 126.88 A 13 13 0 0 1 623 113.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"610\" y1=\"126.88\" x2=\"623\" y2=\"126.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"769\" y=\"16.742915010152387\" width=\"142\" height=\"111.13708498984761\" fill=\"#166534\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"812.64\" y=\"59.86637815619295\" width=\"54.72\" height=\"24.890158697766473\" rx=\"5\" fill=\"#FFFFFF\" fill-opacity=\"0.18\" stroke=\"#FFFFFF80\" stroke-width=\"0.8\"/><circle cx=\"806.64\" cy=\"72.31145750507619\" r=\"3\" fill=\"#FFFFFF60\"/><circle cx=\"873.36\" cy=\"72.31145750507619\" r=\"3\" fill=\"#FFFFFF60\"/><text x=\"840\" y=\"68.31145750507619\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Conference Room</text><text x=\"840\" y=\"121.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">255 sf</text><path d=\"M 770 126.88 A 13 13 0 0 1 783 113.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"770\" y1=\"126.88\" x2=\"783\" y2=\"126.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"929\" y=\"16.742915010152387\" width=\"142\" height=\"111.13708498984761\" fill=\"#166534\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"972.64\" y=\"59.86637815619295\" width=\"54.72\" height=\"24.890158697766473\" rx=\"5\" fill=\"#FFFFFF\" fill-opacity=\"0.18\" stroke=\"#FFFFFF80\" stroke-width=\"0.8\"/><circle cx=\"966.64\" cy=\"72.31145750507619\" r=\"3\" fill=\"#FFFFFF60\"/><circle cx=\"1033.36\" cy=\"72.31145750507619\" r=\"3\" fill=\"#FFFFFF60\"/><text x=\"1000\" y=\"68.31145750507619\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Conference Room</text><text x=\"1000\" y=\"121.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">255 sf</text><path d=\"M 930 126.88 A 13 13 0 0 1 943 113.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"930\" y1=\"126.88\" x2=\"943\" y2=\"126.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"1\" y=\"144.7429150101524\" width=\"142\" height=\"111.13708498984761\" fill=\"#166534\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"44.64\" y=\"187.86637815619295\" width=\"54.72\" height=\"24.890158697766473\" rx=\"5\" fill=\"#FFFFFF\" fill-opacity=\"0.18\" stroke=\"#FFFFFF80\" stroke-width=\"0.8\"/><circle cx=\"38.64\" cy=\"200.3114575050762\" r=\"3\" fill=\"#FFFFFF60\"/><circle cx=\"105.36\" cy=\"200.3114575050762\" r=\"3\" fill=\"#FFFFFF60\"/><text x=\"72\" y=\"196.3114575050762\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Conference Room</text><text x=\"72\" y=\"249.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">255 sf</text><path d=\"M 2 254.88 A 13 13 0 0 1 15 241.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"2\" y1=\"254.88\" x2=\"15\" y2=\"254.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"145\" y=\"185.88\" width=\"86\" height=\"70\" fill=\"#14532D\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"171.28\" y=\"212.96\" width=\"33.44\" height=\"15.84\" rx=\"5\" fill=\"#FFFFFF\" fill-opacity=\"0.18\" stroke=\"#FFFFFF80\" stroke-width=\"0.8\"/><circle cx=\"165.28\" cy=\"220.88\" r=\"3\" fill=\"#FFFFFF60\"/><circle cx=\"210.72\" cy=\"220.88\" r=\"3\" fill=\"#FFFFFF60\"/><text x=\"188\" y=\"216.88\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Huddle Room</text><text x=\"188\" y=\"249.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">99 sf</text><path d=\"M 146 254.88 A 13 13 0 0 1 159 241.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"146\" y1=\"254.88\" x2=\"159\" y2=\"254.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"401\" y=\"89.88\" width=\"86\" height=\"70\" fill=\"#14532D\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"427.28\" y=\"116.96\" width=\"33.44\" height=\"15.84\" rx=\"5\" fill=\"#FFFFFF\" fill-opacity=\"0.18\" stroke=\"#FFFFFF80\" stroke-width=\"0.8\"/><circle cx=\"421.28\" cy=\"124.88\" r=\"3\" fill=\"#FFFFFF60\"/><circle cx=\"466.72\" cy=\"124.88\" r=\"3\" fill=\"#FFFFFF60\"/><text x=\"444\" y=\"120.88\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Huddle Room</text><text x=\"444\" y=\"153.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">99 sf</text><path d=\"M 402 158.88 A 13 13 0 0 1 415 145.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"402\" y1=\"158.88\" x2=\"415\" y2=\"158.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"81\" y=\"489.88\" width=\"86\" height=\"70\" fill=\"#14532D\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"107.28\" y=\"516.96\" width=\"33.44\" height=\"15.84\" rx=\"5\" fill=\"#FFFFFF\" fill-opacity=\"0.18\" stroke=\"#FFFFFF80\" stroke-width=\"0.8\"/><circle cx=\"101.28\" cy=\"524.88\" r=\"3\" fill=\"#FFFFFF60\"/><circle cx=\"146.72\" cy=\"524.88\" r=\"3\" fill=\"#FFFFFF60\"/><text x=\"124\" y=\"520.88\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Huddle Room</text><text x=\"124\" y=\"553.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">99 sf</text><path d=\"M 82 558.88 A 13 13 0 0 1 95 545.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"82\" y1=\"558.88\" x2=\"95\" y2=\"558.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"177\" y=\"489.88\" width=\"86\" height=\"70\" fill=\"#14532D\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"203.28\" y=\"516.96\" width=\"33.44\" height=\"15.84\" rx=\"5\" fill=\"#FFFFFF\" fill-opacity=\"0.18\" stroke=\"#FFFFFF80\" stroke-width=\"0.8\"/><circle cx=\"197.28\" cy=\"524.88\" r=\"3\" fill=\"#FFFFFF60\"/><circle cx=\"242.72\" cy=\"524.88\" r=\"3\" fill=\"#FFFFFF60\"/><text x=\"220\" y=\"520.88\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Huddle Room</text><text x=\"220\" y=\"553.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">99 sf</text><path d=\"M 178 558.88 A 13 13 0 0 1 191 545.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"178\" y1=\"558.88\" x2=\"191\" y2=\"558.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"273\" y=\"489.88\" width=\"86\" height=\"70\" fill=\"#14532D\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"299.28\" y=\"516.96\" width=\"33.44\" height=\"15.84\" rx=\"5\" fill=\"#FFFFFF\" fill-opacity=\"0.18\" stroke=\"#FFFFFF80\" stroke-width=\"0.8\"/><circle cx=\"293.28\" cy=\"524.88\" r=\"3\" fill=\"#FFFFFF60\"/><circle cx=\"338.72\" cy=\"524.88\" r=\"3\" fill=\"#FFFFFF60\"/><text x=\"316\" y=\"520.88\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Huddle Room</text><text x=\"316\" y=\"553.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">99 sf</text><path d=\"M 274 558.88 A 13 13 0 0 1 287 545.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"274\" y1=\"558.88\" x2=\"287\" y2=\"558.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"369\" y=\"489.88\" width=\"86\" height=\"70\" fill=\"#14532D\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"395.28\" y=\"516.96\" width=\"33.44\" height=\"15.84\" rx=\"5\" fill=\"#FFFFFF\" fill-opacity=\"0.18\" stroke=\"#FFFFFF80\" stroke-width=\"0.8\"/><circle cx=\"389.28\" cy=\"524.88\" r=\"3\" fill=\"#FFFFFF60\"/><circle cx=\"434.72\" cy=\"524.88\" r=\"3\" fill=\"#FFFFFF60\"/><text x=\"412\" y=\"520.88\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Huddle Room</text><text x=\"412\" y=\"553.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">99 sf</text><path d=\"M 370 558.88 A 13 13 0 0 1 383 545.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"370\" y1=\"558.88\" x2=\"383\" y2=\"558.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"417\" y=\"1.8799999999999955\" width=\"78\" height=\"78\" fill=\"#1E3A5F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"428\" y=\"15.279999999999994\" width=\"27.200000000000003\" height=\"14.399999999999999\" rx=\"2\" fill=\"#FFFFFF\" fill-opacity=\"0.16\"/><circle cx=\"462.4\" cy=\"24.879999999999995\" r=\"4\" fill=\"#FFFFFF60\"/><text x=\"456\" y=\"31.379999999999995\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Private</text><text x=\"456\" y=\"42.379999999999995\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Office</text><text x=\"456\" y=\"73.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">100 sf</text><path d=\"M 418 78.88 A 13 13 0 0 1 431 65.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"418\" y1=\"78.88\" x2=\"431\" y2=\"78.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"993\" y=\"145.88\" width=\"78\" height=\"78\" fill=\"#1E3A5F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"1004\" y=\"159.28\" width=\"27.200000000000003\" height=\"14.399999999999999\" rx=\"2\" fill=\"#FFFFFF\" fill-opacity=\"0.16\"/><circle cx=\"1038.4\" cy=\"168.88\" r=\"4\" fill=\"#FFFFFF60\"/><text x=\"1032\" y=\"175.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Private</text><text x=\"1032\" y=\"186.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Office</text><text x=\"1032\" y=\"217.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">100 sf</text><path d=\"M 994 222.88 A 13 13 0 0 1 1007 209.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"994\" y1=\"222.88\" x2=\"1007\" y2=\"222.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"1057\" y=\"225.88\" width=\"78\" height=\"78\" fill=\"#1E3A5F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"1068\" y=\"239.28\" width=\"27.200000000000003\" height=\"14.399999999999999\" rx=\"2\" fill=\"#FFFFFF\" fill-opacity=\"0.16\"/><circle cx=\"1102.4\" cy=\"248.88\" r=\"4\" fill=\"#FFFFFF60\"/><text x=\"1096\" y=\"255.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Private</text><text x=\"1096\" y=\"266.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Office</text><text x=\"1096\" y=\"297.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">100 sf</text><path d=\"M 1058 302.88 A 13 13 0 0 1 1071 289.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"1058\" y1=\"302.88\" x2=\"1071\" y2=\"302.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"1\" y=\"353.88\" width=\"78\" height=\"78\" fill=\"#1E3A5F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"12\" y=\"367.28\" width=\"27.200000000000003\" height=\"14.399999999999999\" rx=\"2\" fill=\"#FFFFFF\" fill-opacity=\"0.16\"/><circle cx=\"46.4\" cy=\"376.88\" r=\"4\" fill=\"#FFFFFF60\"/><text x=\"40\" y=\"383.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Private</text><text x=\"40\" y=\"394.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Office</text><text x=\"40\" y=\"425.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">100 sf</text><path d=\"M 2 430.88 A 13 13 0 0 1 15 417.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"2\" y1=\"430.88\" x2=\"15\" y2=\"430.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"993\" y=\"353.88\" width=\"78\" height=\"78\" fill=\"#1E3A5F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"1004\" y=\"367.28\" width=\"27.200000000000003\" height=\"14.399999999999999\" rx=\"2\" fill=\"#FFFFFF\" fill-opacity=\"0.16\"/><circle cx=\"1038.4\" cy=\"376.88\" r=\"4\" fill=\"#FFFFFF60\"/><text x=\"1032\" y=\"383.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Private</text><text x=\"1032\" y=\"394.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Office</text><text x=\"1032\" y=\"425.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">100 sf</text><path d=\"M 994 430.88 A 13 13 0 0 1 1007 417.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"994\" y1=\"430.88\" x2=\"1007\" y2=\"430.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"1\" y=\"577.88\" width=\"78\" height=\"78\" fill=\"#1E3A5F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"12\" y=\"591.28\" width=\"27.200000000000003\" height=\"14.399999999999999\" rx=\"2\" fill=\"#FFFFFF\" fill-opacity=\"0.16\"/><circle cx=\"46.4\" cy=\"600.88\" r=\"4\" fill=\"#FFFFFF60\"/><text x=\"40\" y=\"607.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Private</text><text x=\"40\" y=\"618.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Office</text><text x=\"40\" y=\"649.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">100 sf</text><path d=\"M 2 654.88 A 13 13 0 0 1 15 641.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"2\" y1=\"654.88\" x2=\"15\" y2=\"654.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"97\" y=\"577.88\" width=\"78\" height=\"78\" fill=\"#1E3A5F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"108\" y=\"591.28\" width=\"27.200000000000003\" height=\"14.399999999999999\" rx=\"2\" fill=\"#FFFFFF\" fill-opacity=\"0.16\"/><circle cx=\"142.4\" cy=\"600.88\" r=\"4\" fill=\"#FFFFFF60\"/><text x=\"136\" y=\"607.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Private</text><text x=\"136\" y=\"618.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Office</text><text x=\"136\" y=\"649.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">100 sf</text><path d=\"M 98 654.88 A 13 13 0 0 1 111 641.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"98\" y1=\"654.88\" x2=\"111\" y2=\"654.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"193\" y=\"577.88\" width=\"78\" height=\"78\" fill=\"#1E3A5F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"204\" y=\"591.28\" width=\"27.200000000000003\" height=\"14.399999999999999\" rx=\"2\" fill=\"#FFFFFF\" fill-opacity=\"0.16\"/><circle cx=\"238.4\" cy=\"600.88\" r=\"4\" fill=\"#FFFFFF60\"/><text x=\"232\" y=\"607.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Private</text><text x=\"232\" y=\"618.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Office</text><text x=\"232\" y=\"649.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">100 sf</text><path d=\"M 194 654.88 A 13 13 0 0 1 207 641.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"194\" y1=\"654.88\" x2=\"207\" y2=\"654.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"289\" y=\"577.88\" width=\"78\" height=\"78\" fill=\"#1E3A5F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"300\" y=\"591.28\" width=\"27.200000000000003\" height=\"14.399999999999999\" rx=\"2\" fill=\"#FFFFFF\" fill-opacity=\"0.16\"/><circle cx=\"334.4\" cy=\"600.88\" r=\"4\" fill=\"#FFFFFF60\"/><text x=\"328\" y=\"607.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Private</text><text x=\"328\" y=\"618.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Office</text><text x=\"328\" y=\"649.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">100 sf</text><path d=\"M 290 654.88 A 13 13 0 0 1 303 641.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"290\" y1=\"654.88\" x2=\"303\" y2=\"654.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"385\" y=\"577.88\" width=\"78\" height=\"78\" fill=\"#1E3A5F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"396\" y=\"591.28\" width=\"27.200000000000003\" height=\"14.399999999999999\" rx=\"2\" fill=\"#FFFFFF\" fill-opacity=\"0.16\"/><circle cx=\"430.4\" cy=\"600.88\" r=\"4\" fill=\"#FFFFFF60\"/><text x=\"424\" y=\"607.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Private</text><text x=\"424\" y=\"618.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Office</text><text x=\"424\" y=\"649.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">100 sf</text><path d=\"M 386 654.88 A 13 13 0 0 1 399 641.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"386\" y1=\"654.88\" x2=\"399\" y2=\"654.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"609\" y=\"577.88\" width=\"78\" height=\"78\" fill=\"#1E3A5F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"620\" y=\"591.28\" width=\"27.200000000000003\" height=\"14.399999999999999\" rx=\"2\" fill=\"#FFFFFF\" fill-opacity=\"0.16\"/><circle cx=\"654.4\" cy=\"600.88\" r=\"4\" fill=\"#FFFFFF60\"/><text x=\"648\" y=\"607.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Private</text><text x=\"648\" y=\"618.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Office</text><text x=\"648\" y=\"649.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">100 sf</text><path d=\"M 610 654.88 A 13 13 0 0 1 623 641.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"610\" y1=\"654.88\" x2=\"623\" y2=\"654.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"705\" y=\"577.88\" width=\"78\" height=\"78\" fill=\"#1E3A5F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"716\" y=\"591.28\" width=\"27.200000000000003\" height=\"14.399999999999999\" rx=\"2\" fill=\"#FFFFFF\" fill-opacity=\"0.16\"/><circle cx=\"750.4\" cy=\"600.88\" r=\"4\" fill=\"#FFFFFF60\"/><text x=\"744\" y=\"607.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Private</text><text x=\"744\" y=\"618.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Office</text><text x=\"744\" y=\"649.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">100 sf</text><path d=\"M 706 654.88 A 13 13 0 0 1 719 641.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"706\" y1=\"654.88\" x2=\"719\" y2=\"654.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"801\" y=\"577.88\" width=\"78\" height=\"78\" fill=\"#1E3A5F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"812\" y=\"591.28\" width=\"27.200000000000003\" height=\"14.399999999999999\" rx=\"2\" fill=\"#FFFFFF\" fill-opacity=\"0.16\"/><circle cx=\"846.4\" cy=\"600.88\" r=\"4\" fill=\"#FFFFFF60\"/><text x=\"840\" y=\"607.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Private</text><text x=\"840\" y=\"618.38\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Office</text><text x=\"840\" y=\"649.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">100 sf</text><path d=\"M 802 654.88 A 13 13 0 0 1 815 641.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"802\" y1=\"654.88\" x2=\"815\" y2=\"654.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"465\" y=\"513.88\" width=\"46\" height=\"46\" fill=\"#475569\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"488\" y=\"528.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Phone</text><text x=\"488\" y=\"537.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Booth</text><text x=\"488\" y=\"553.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">36 sf</text><path d=\"M 466 558.88 A 10.56 10.56 0 0 1 476.56 548.32\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"466\" y1=\"558.88\" x2=\"476.56\" y2=\"558.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"609\" y=\"513.88\" width=\"46\" height=\"46\" fill=\"#475569\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"632\" y=\"528.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Phone</text><text x=\"632\" y=\"537.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Booth</text><text x=\"632\" y=\"553.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">36 sf</text><path d=\"M 610 558.88 A 10.56 10.56 0 0 1 620.56 548.32\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"610\" y1=\"558.88\" x2=\"620.56\" y2=\"558.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"673\" y=\"513.88\" width=\"46\" height=\"46\" fill=\"#475569\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"696\" y=\"528.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Phone</text><text x=\"696\" y=\"537.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Booth</text><text x=\"696\" y=\"553.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">36 sf</text><path d=\"M 674 558.88 A 10.56 10.56 0 0 1 684.56 548.32\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"674\" y1=\"558.88\" x2=\"684.56\" y2=\"558.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"737\" y=\"513.88\" width=\"46\" height=\"46\" fill=\"#475569\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"760\" y=\"528.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Phone</text><text x=\"760\" y=\"537.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Booth</text><text x=\"760\" y=\"553.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">36 sf</text><path d=\"M 738 558.88 A 10.56 10.56 0 0 1 748.56 548.32\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"738\" y1=\"558.88\" x2=\"748.56\" y2=\"558.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"801\" y=\"513.88\" width=\"46\" height=\"46\" fill=\"#475569\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"824\" y=\"528.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Phone</text><text x=\"824\" y=\"537.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Booth</text><text x=\"824\" y=\"553.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">36 sf</text><path d=\"M 802 558.88 A 10.56 10.56 0 0 1 812.56 548.32\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"802\" y1=\"558.88\" x2=\"812.56\" y2=\"558.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"865\" y=\"513.88\" width=\"46\" height=\"46\" fill=\"#475569\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"888\" y=\"528.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Phone</text><text x=\"888\" y=\"537.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Booth</text><text x=\"888\" y=\"553.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">36 sf</text><path d=\"M 866 558.88 A 10.56 10.56 0 0 1 876.56 548.32\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"866\" y1=\"558.88\" x2=\"876.56\" y2=\"558.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"929\" y=\"513.88\" width=\"46\" height=\"46\" fill=\"#475569\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"952\" y=\"528.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Phone</text><text x=\"952\" y=\"537.38\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Booth</text><text x=\"952\" y=\"553.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">36 sf</text><path d=\"M 930 558.88 A 10.56 10.56 0 0 1 940.56 548.32\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"930\" y1=\"558.88\" x2=\"940.56\" y2=\"558.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"241\" y=\"143.90041028867287\" width=\"95.97958971132712\" height=\"95.97958971132712\" fill=\"#78350F\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><rect x=\"248\" y=\"150.90041028867287\" width=\"48.98979485566356\" height=\"7\" fill=\"#FFFFFF\" fill-opacity=\"0.22\"/><circle cx=\"288.98979485566355\" cy=\"196.89020514433645\" r=\"8\" fill=\"#FFFFFF\" fill-opacity=\"0.14\"/><text x=\"288.98979485566355\" y=\"187.89020514433645\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Break Room</text><text x=\"288.98979485566355\" y=\"233.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">150 sf</text><path d=\"M 242 238.88 A 13 13 0 0 1 255 225.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"242\" y1=\"238.88\" x2=\"255\" y2=\"238.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"641\" y=\"384.7429150101524\" width=\"111.13708498984761\" height=\"111.13708498984761\" fill=\"#0F766E\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"696.5685424949238\" y=\"436.3114575050762\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Collaboration Zone</text><text x=\"696.5685424949238\" y=\"489.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">200 sf</text><path d=\"M 642 494.88 A 13 13 0 0 1 655 481.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"642\" y1=\"494.88\" x2=\"655\" y2=\"494.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"769\" y=\"384.7429150101524\" width=\"111.13708498984761\" height=\"111.13708498984761\" fill=\"#0F766E\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"824.5685424949238\" y=\"436.3114575050762\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Collaboration Zone</text><text x=\"824.5685424949238\" y=\"489.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">200 sf</text><path d=\"M 770 494.88 A 13 13 0 0 1 783 481.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"770\" y1=\"494.88\" x2=\"783\" y2=\"494.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"97\" y=\"368.7429150101524\" width=\"111.13708498984761\" height=\"111.13708498984761\" fill=\"#0F766E\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"152.5685424949238\" y=\"420.3114575050762\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Collaboration Zone</text><text x=\"152.5685424949238\" y=\"473.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">200 sf</text><path d=\"M 98 478.88 A 13 13 0 0 1 111 465.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"98\" y1=\"478.88\" x2=\"111\" y2=\"478.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"225\" y=\"368.7429150101524\" width=\"111.13708498984761\" height=\"111.13708498984761\" fill=\"#0F766E\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"280.5685424949238\" y=\"420.3114575050762\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Collaboration Zone</text><text x=\"280.5685424949238\" y=\"473.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">200 sf</text><path d=\"M 226 478.88 A 13 13 0 0 1 239 465.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"226\" y1=\"478.88\" x2=\"239\" y2=\"478.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"993\" y=\"511.28355743730594\" width=\"62\" height=\"48.59644256269407\" fill=\"#4B5563\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"1024\" y=\"531.581778718653\" font-size=\"7\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Print Area</text><text x=\"1024\" y=\"553.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">51 sf</text><path d=\"M 994 558.88 A 11.131217363792697 11.131217363792697 0 0 1 1005.1312173637926 547.7487826362074\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"994\" y1=\"558.88\" x2=\"1005.1312173637926\" y2=\"558.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><rect x=\"481\" y=\"586.3258247200067\" width=\"70\" height=\"69.55417527999327\" fill=\"#334155\" fill-opacity=\"0.86\" stroke=\"#FFFFFF\" stroke-width=\"1\" rx=\"2\"/><text x=\"516\" y=\"611.6029123600033\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Wellness</text><text x=\"516\" y=\"622.6029123600033\" font-size=\"9\" fill=\"#FFFFFF\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"700\">Room</text><text x=\"516\" y=\"649.88\" font-size=\"7\" fill=\"#FFFFFFA0\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">80 sf</text><path d=\"M 482 654.88 A 13 13 0 0 1 495 641.88\" fill=\"none\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><line x1=\"482\" y1=\"654.88\" x2=\"495\" y2=\"654.88\" stroke=\"#FFFFFF90\" stroke-width=\"0.9\"/><circle cx=\"92\" cy=\"656.88\" r=\"7\" fill=\"#D4AF37\" stroke=\"#FFFFFF\" stroke-width=\"1.2\"/><text x=\"102\" y=\"648.88\" font-size=\"8\" fill=\"#D4AF37\" font-family=\"Inter, Arial, sans-serif\" font-weight=\"700\">Primary Suite Entry</text><circle cx=\"1057.6\" cy=\"0\" r=\"7\" fill=\"#D4AF37\" stroke=\"#FFFFFF\" stroke-width=\"1.2\"/><text x=\"1067.6\" y=\"-8\" font-size=\"8\" fill=\"#D4AF37\" font-family=\"Inter, Arial, sans-serif\" font-weight=\"700\">Secondary Egress</text><circle cx=\"1115.6\" cy=\"34\" r=\"25\" fill=\"#D4AF37\" fill-opacity=\"0.16\" stroke=\"#D4AF37\" stroke-width=\"1.6\"/><text x=\"1115.6\" y=\"31\" font-size=\"12\" fill=\"#D4AF37\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"800\">41%</text><text x=\"1115.6\" y=\"44\" font-size=\"6\" fill=\"#D4AF37AA\" font-family=\"Inter, Arial, sans-serif\" text-anchor=\"middle\">EFF</text></g><rect x=\"0\" y=\"0\" width=\"1149.6\" height=\"42\" fill=\"#3B2500\"/><text x=\"16\" y=\"18\" font-size=\"12\" fill=\"#FBBF24\" font-family=\"Inter, Arial, sans-serif\" font-weight=\"800\">NEEDS REVIEW</text><text x=\"16\" y=\"33\" font-size=\"10\" fill=\"#FDE68A\" font-family=\"Inter, Arial, sans-serif\">Needs Review: this plan uses owner-confirmable rectangular geometry until uploaded shell/core extraction is verified.</text><text x=\"574.8\" y=\"720.88\" font-size=\"10\" fill=\"#D4AF37\" fill-opacity=\"0.82\" font-family=\"Montserrat, Inter, Arial, sans-serif\" text-anchor=\"middle\" font-weight=\"800\">LEASIBILITY AI — FULL TRANSFORMATION — FULL TRANSFORMATION</text><line x1=\"18\" y1=\"738.88\" x2=\"82\" y2=\"738.88\" stroke=\"#FFFFFF\" stroke-width=\"2\"/><text x=\"18\" y=\"752.88\" font-size=\"8\" fill=\"#FFFFFF70\" font-family=\"Inter, Arial, sans-serif\">40 ft scale bar</text><path d=\"M 1107.6 750.88 L 1117.6 728.88 L 1127.6 750.88 Z\" fill=\"#FFFFFF80\"/><text x=\"1117.6\" y=\"762.88\" font-size=\"8\" fill=\"#FFFFFF80\" text-anchor=\"middle\" font-family=\"Inter, Arial, sans-serif\">N</text></svg>",
+      "budgetLow": 2065000,
+      "budgetMid": 2714000,
+      "budgetHigh": 3658000,
+      "costPerSqFtLow": 175,
+      "costPerSqFtMid": 230,
+      "costPerSqFtHigh": 310,
+      "budgetBreakdown": {
+        "construction": {
+          "low": 1239000,
+          "mid": 1628400,
+          "high": 2194800
+        },
+        "ffe": {
+          "low": 371700,
+          "mid": 488520,
+          "high": 658440
+        },
+        "itAv": {
+          "low": 206500,
+          "mid": 271400,
+          "high": 365800
+        },
+        "softCosts": {
+          "low": 165200,
+          "mid": 217120,
+          "high": 292640
+        },
+        "tiAllowance": {
+          "low": 82600,
+          "mid": 108560,
+          "high": 146320
+        }
+      },
+      "scheduleWeeksLow": 22,
+      "scheduleWeeksMid": 30,
+      "scheduleWeeksHigh": 40,
+      "schedulePhases": [
+        {
+          "phase": "Design & Permitting",
+          "weeks": "4–7",
+          "description": "Complete architectural and engineering drawings, MEP design, structural review, and full permit package. Landlord approval required."
+        },
+        {
+          "phase": "Full Demolition",
+          "weeks": "3–5",
+          "description": "Complete gut demolition — all walls, ceilings, flooring, and MEP systems removed to base building condition."
+        },
+        {
+          "phase": "MEP Rough-In",
+          "weeks": "4–6",
+          "description": "New mechanical, electrical, and plumbing systems installed from scratch. Includes HVAC, sprinkler, and data infrastructure."
+        },
+        {
+          "phase": "Construction & Finishes",
+          "weeks": "8–11",
+          "description": "Framing, drywall, specialty finishes, custom millwork, and all architectural elements."
+        },
+        {
+          "phase": "FF&E & IT/AV",
+          "weeks": "3–4",
+          "description": "Full furniture package, comprehensive technology infrastructure, audio-visual systems, and signage program."
+        },
+        {
+          "phase": "Punch List & Move-In",
+          "weeks": "2–3",
+          "description": "Final inspections, commissioning, certificate of occupancy, and phased move-in."
+        }
+      ],
+      "aiSummary": "The 'Full Transformation' scenario provides the ultimate long-term solution, achieving an 88% efficiency score by completely optimizing the space for the tenant's program and future growth. This approach involves extensive demolition and a full build-out, ensuring a bespoke design that perfectly reflects the tenant's brand and collaborative culture. While it represents the highest cost and longest timeline, it yields the best long-term outcome, offering a state-of-the-art office environment. This option allows the tenant to create a truly distinctive and highly functional space in the competitive New York market. Full Transformation achieves approximately 97% of the requested program by preserving shell/core and redesigning flexible interior zones for best long-term fit.",
+      "existingConditionsInventory": {
+        "source": "synthetic_rectangular_model",
+        "confidence": 0.46,
+        "summary": "Existing conditions indicate approximately 85 reusable workstation seats, 7 private offices, 4 meeting rooms, fixed core elements, and interior zones that can be selectively reconfigured.",
+        "reusableZones": [
+          {
+            "category": "Existing private offices",
+            "count": 7,
+            "estimatedSqFt": 140,
+            "approximateLocation": "Perimeter office bands",
+            "reusePotential": "high",
+            "confidence": 0.46,
+            "notes": "Likely reusable with finish refresh and furniture updates."
+          },
+          {
+            "category": "Existing conference / meeting rooms",
+            "count": 4,
+            "estimatedSqFt": 280,
+            "approximateLocation": "Near core and primary circulation",
+            "reusePotential": "high",
+            "confidence": 0.46,
+            "notes": "Meeting rooms can generally remain if technology and finishes are upgraded."
+          },
+          {
+            "category": "Existing pantry / break area",
+            "count": 1,
+            "estimatedSqFt": 531,
+            "approximateLocation": "Adjacent to fixed core",
+            "reusePotential": "high",
+            "confidence": 0.46,
+            "notes": "Wet-wall adjacency makes this a strong reuse candidate."
+          }
+        ],
+        "repurposableZones": [
+          {
+            "category": "Existing workstation zones",
+            "count": 85,
+            "estimatedSqFt": 4250,
+            "approximateLocation": "Open interior workspace fields",
+            "reusePotential": "medium",
+            "confidence": 0.5,
+            "notes": "Systems furniture is estimated at the current 50 SF planning target, with 36–64 SF treated as the acceptable workstation range."
+          },
+          {
+            "category": "Existing huddle / collaboration areas",
+            "count": 2,
+            "estimatedSqFt": 413,
+            "approximateLocation": "Secondary circulation nodes",
+            "reusePotential": "medium",
+            "confidence": 0.5,
+            "notes": "Can be repurposed as focus, lounge, or informal collaboration space."
+          }
+        ],
+        "fixedElements": [
+          {
+            "category": "Fixed Core / Restrooms",
+            "count": 1,
+            "estimatedSqFt": 431,
+            "approximateLocation": "Fixed building core",
+            "reusePotential": "fixed",
+            "confidence": 0.48,
+            "notes": "Preserve shell, core, restrooms, stairs, elevators, and shafts in every scenario."
+          }
+        ],
+        "ambiguousAreas": [
+          {
+            "category": "Geometry requiring confirmation",
+            "count": 1,
+            "estimatedSqFt": 944,
+            "approximateLocation": "Uploaded plan underlay / inferred tenant area",
+            "reusePotential": "ambiguous",
+            "confidence": 0.45,
+            "notes": "Shell/core confirmation is recommended before treating this as an as-built test-fit."
+          }
+        ],
+        "reconfigurationZones": [
+          {
+            "category": "Selective partition zones",
+            "count": 4,
+            "estimatedSqFt": 2124,
+            "approximateLocation": "Interior partition field",
+            "reusePotential": "medium",
+            "confidence": 0.48,
+            "notes": "Candidate walls for selective demolition or reconfiguration in Moderate Build-Out."
+          },
+          {
+            "category": "Full interior redesign field",
+            "count": 1,
+            "estimatedSqFt": 7316,
+            "approximateLocation": "Interior tenant improvement area outside fixed core",
+            "reusePotential": "low",
+            "confidence": 0.45,
+            "notes": "Full Transformation assumes these flexible zones can be rebuilt around the preserved shell/core."
+          }
+        ],
+        "existingInteriorWallCount": 4,
+        "reviewRequired": true,
+        "reviewReasons": [
+          "Uploaded plan content has not yet been machine-extracted in this V1 sandbox path; shell, core, entries, glazing, and walls are inferred placeholders requiring confirmation.",
+          "Do not treat default core/restroom/stair/elevator positions as confirmed existing conditions until the uploaded plan is reviewed.",
+          "Parser confidence is below the architectural acceptance threshold, so scenario outputs must remain needs-review until shell/core confirmation is completed."
+        ]
+      },
+      "programFit": {
+        "scenarioLabel": "Full Transformation",
+        "achievedPercent": 97,
+        "rows": [
+          {
+            "programItem": "Private Offices",
+            "requested": 13,
+            "achieved": 13,
+            "variance": 0,
+            "fitStatus": "met",
+            "notes": "Requested program achieved in this scenario."
+          },
+          {
+            "programItem": "Workstations",
+            "requested": 92,
+            "achieved": 88,
+            "variance": -4,
+            "fitStatus": "partial",
+            "notes": "Fit variance remains; item is partially accommodated within this scenario’s intervention level."
+          },
+          {
+            "programItem": "Conference Rooms",
+            "requested": 7,
+            "achieved": 7,
+            "variance": 0,
+            "fitStatus": "met",
+            "notes": "Requested program achieved in this scenario."
+          },
+          {
+            "programItem": "Phone Rooms",
+            "requested": 7,
+            "achieved": 7,
+            "variance": 0,
+            "fitStatus": "met",
+            "notes": "Requested program achieved in this scenario."
+          },
+          {
+            "programItem": "Collaboration Areas",
+            "requested": 10,
+            "achieved": 10,
+            "variance": 0,
+            "fitStatus": "met",
+            "notes": "Requested program achieved in this scenario."
+          },
+          {
+            "programItem": "Pantry / Break Areas",
+            "requested": 1,
+            "achieved": 1,
+            "variance": 0,
+            "fitStatus": "met",
+            "notes": "Requested program achieved in this scenario."
+          },
+          {
+            "programItem": "Support Spaces",
+            "requested": 2,
+            "achieved": 2,
+            "variance": 0,
+            "fitStatus": "met",
+            "notes": "Requested program achieved in this scenario."
+          }
+        ],
+        "gaps": [
+          {
+            "programItem": "Workstations",
+            "requested": 92,
+            "achieved": 88,
+            "variance": -4,
+            "fitStatus": "partial",
+            "notes": "Fit variance remains; item is partially accommodated within this scenario’s intervention level."
+          }
+        ],
+        "interpretation": "Full Transformation achieves approximately 97% of the requested program by preserving shell/core and redesigning flexible interior zones for best long-term fit."
+      },
+      "scopeSummary": {
+        "scenarioLabel": "Full Transformation",
+        "reuseStrategy": "Preserve shell/core only while removing 80–100% of removable interior partitions for optimal program alignment.",
+        "retainedElements": [
+          "Fixed Core / Restrooms",
+          "Existing private offices",
+          "Existing conference / meeting rooms",
+          "Existing pantry / break area"
+        ],
+        "repurposedElements": [
+          "Existing workstation zones",
+          "Existing huddle / collaboration areas"
+        ],
+        "reconfigurationScope": [
+          "80–100% removable interior wall removal",
+          "New partitions and finish package",
+          "Comprehensive MEP / IT / AV redesign",
+          "New furniture package"
+        ],
+        "programGaps": [
+          "Workstations: 4 not accommodated"
+        ],
+        "budgetScheduleRationale": "Highest budget and longest schedule reflect full interior redesign while preserving shell and fixed core elements."
+      },
+      "renderingStatus": {
+        "status": "needs_review",
+        "confidence": 0.46,
+        "reasons": [
+          "Uploaded plan content has not yet been machine-extracted in this V1 sandbox path; shell, core, entries, glazing, and walls are inferred placeholders requiring confirmation.",
+          "Do not treat default core/restroom/stair/elevator positions as confirmed existing conditions until the uploaded plan is reviewed.",
+          "Parser confidence is below the architectural acceptance threshold, so scenario outputs must remain needs-review until shell/core confirmation is completed."
+        ],
+        "message": "Needs Review: this plan uses owner-confirmable rectangular geometry until uploaded shell/core extraction is verified."
+      }
+    }
+  ]
+}

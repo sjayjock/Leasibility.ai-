@@ -38,7 +38,7 @@ function buildDefaultCore(floorplate: Rect): CoreElement[] {
       width: round(coreWidth),
       height: round(coreHeight),
       fixed: true,
-      confidence: 0.72,
+      confidence: 0.48,
     },
   ];
 }
@@ -89,8 +89,15 @@ export function parseFloorPlanGeometry(input: ParseFloorPlanInput): ParsedFloorP
   const floorplate = buildRectangularFloorplate(input.totalSqFt);
   const hasUploadedPlan = Boolean(input.floorPlanUrl);
   const reviewReasons = hasUploadedPlan
-    ? ["Uploaded plan parsing is represented by V1 rectangular geometry until shell/core confirmation is completed."]
-    : ["No uploaded plan was provided; using owner-confirmable rectangular baseline geometry."];
+    ? [
+        "Uploaded plan content has not yet been machine-extracted in this V1 sandbox path; shell, core, entries, glazing, and walls are inferred placeholders requiring confirmation.",
+        "Do not treat default core/restroom/stair/elevator positions as confirmed existing conditions until the uploaded plan is reviewed.",
+        "Parser confidence is below the architectural acceptance threshold, so scenario outputs must remain needs-review until shell/core confirmation is completed."
+      ]
+    : [
+        "No uploaded plan was provided; using owner-confirmable rectangular baseline geometry.",
+        "Shell/core, entries, glazing, and interior partitions are synthetic placeholders for feasibility screening only."
+      ];
 
   return {
     floorplate,
@@ -99,7 +106,7 @@ export function parseFloorPlanGeometry(input: ParseFloorPlanInput): ParsedFloorP
     entryPoints: buildDefaultEntries(floorplate),
     windows: buildDefaultWindows(floorplate),
     existingInteriorWalls: buildDefaultInteriorWalls(floorplate),
-    confidence: hasUploadedPlan ? 0.62 : 0.78,
+    confidence: hasUploadedPlan ? 0.46 : 0.68,
     source: hasUploadedPlan ? "synthetic_rectangular_model" : "synthetic_rectangular_model",
     reviewRequired: hasUploadedPlan,
     reviewReasons,
