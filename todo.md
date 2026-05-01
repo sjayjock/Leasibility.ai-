@@ -32,6 +32,6 @@
 - [x] Address observed UI/report defects: remove unnecessary SF input arrows, restore Auto Programming vs Custom Programming, add Open/Collaborative Mix/Private-Enclosed auto styles, decouple industry from sole programming driver, improve assumptions copy, and correct workstation/room quantity reporting logic.
 - [x] Generate code-path validation artifacts from one real uploaded office plan (`/home/ubuntu/upload/plan.jpg`) with parser confidence summary, existing-vs-requested program comparison, Light/Moderate/Full scenarios, achieved-vs-requested table, cost/schedule report, plan SVG visuals, and Markdown/PDF report artifacts under `docs/validation/real-plan-2026-05-01/`.
 - [ ] Complete deployed browser-level Project Detail and Shared Report validation for the same uploaded real plan after the latest branch is deployed, then capture UI/PDF review evidence for acceptance.
-- [ ] Commit and push all compliance sprint code, tests, docs, and validation artifacts to GitHub.
+- [x] Commit and push all compliance sprint code, tests, docs, and validation artifacts to GitHub. Branch: `staging/stabilize-validation-20260430`; commit: `80ee033`.
 - [ ] Save a Manus WebDev checkpoint after the compliance sprint fixes, real-plan validation, and GitHub push.
 - [ ] Deliver a compliance sprint handoff with branch, commit hash, changed files, tests, build status, migrations, environment variables, blockers, remaining limitations, and next repair priorities.
