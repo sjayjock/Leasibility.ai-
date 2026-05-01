@@ -31,13 +31,13 @@
 - [x] Add or enforce Good Layout Test Criteria checks for corridor widths, protected elements, room access, overlaps, rooms outside perimeter, and protected-core blocking, with Vitest regression coverage.
 - [x] Address observed UI/report defects: remove unnecessary SF input arrows, restore Auto Programming vs Custom Programming, add Open/Collaborative Mix/Private-Enclosed auto styles, decouple industry from sole programming driver, improve assumptions copy, and correct workstation/room quantity reporting logic.
 - [x] Generate code-path validation artifacts from one real uploaded office plan (`/home/ubuntu/upload/plan.jpg`) with parser confidence summary, existing-vs-requested program comparison, Light/Moderate/Full scenarios, achieved-vs-requested table, cost/schedule report, plan SVG visuals, and Markdown/PDF report artifacts under `docs/validation/real-plan-2026-05-01/`.
-- [ ] Complete deployed browser-level Project Detail and Shared Report validation for the same uploaded real plan after the latest branch is deployed, then capture UI/PDF review evidence for acceptance.
+- [x] Complete deployed browser-level Project Detail and Shared Report validation for the same uploaded real plan after the latest branch is deployed, then capture UI/PDF review evidence for acceptance.
 - [x] Commit and push all compliance sprint code, tests, docs, and validation artifacts to GitHub. Branch: `staging/stabilize-validation-20260430`; commit: `80ee033`.
 - [x] Save a Manus WebDev checkpoint after the compliance sprint fixes, real-plan validation, and GitHub push. Checkpoint version: `64dd2a1b`.
 - [x] Deliver a compliance sprint handoff with branch, commit hash, changed files, tests, build status, migrations, environment variables, blockers, remaining limitations, and next repair priorities.
 - [x] Record user authorization from May 1, 2026 to inspect the WebP visual references and use them for output-quality comparison.
 - [x] Inspect the authorized WebP visual references, summarize relevant report/dashboard quality expectations, and compare the current staging output against them in `docs/validation/visual-reference-findings-2026-05-01.md`.
-- [ ] After user publishes checkpoint `5f7d872c`, complete deployed Manus-hosted Project Detail and Shared Report validation for the real uploaded plan.
+- [x] After user publishes checkpoint `5f7d872c`, complete deployed Manus-hosted Project Detail and Shared Report validation for the real uploaded plan.
 - [x] Document for the user that publishing checkpoint `0dacc27f` was a deployed validation step for the active Manus-hosted site, not a declaration that the full revision is complete.
 - [x] Validate the active published domain `leasestage-htnkotpf.manus.space` and record whether Project Detail, Shared Report, and PDF/report flows meet acceptance or remain blocked.
 - [x] Update final handoff language so it clearly separates completed compliance fixes from incomplete revision/launch-readiness items.
@@ -49,3 +49,6 @@
 - [x] Add or verify regression coverage for Shared Report and PDF/report output strings, not just Project Detail and SVG renderer text.
 - [x] Re-capture Project Detail and Shared Report artifacts after the sanitization changes and verify rendered HTML/SVG no longer exposes legacy diagnostic phrases.
 - [x] Add renderer-level regression coverage proving PDF/report output and public/authenticated report surfaces use the shared client-facing text sanitizer.
+- [x] Create or identify the deployed project record definitively tied to `/home/ubuntu/upload/plan.jpg`, then document that linkage in validation notes with project ID, title, upload source, and share token.
+- [x] Re-run published Manus-hosted browser validation for Project Detail and Shared Report using that confirmed real-uploaded-plan project, and capture screenshots/DOM evidence on the active domain.
+- [x] Open the generated deployed report URL in the browser for the confirmed real-uploaded-plan project and save browser-level PDF/report review evidence, not just the tRPC response payload.

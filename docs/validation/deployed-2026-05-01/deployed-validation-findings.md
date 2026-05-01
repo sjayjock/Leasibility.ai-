@@ -35,3 +35,15 @@ This deployed validation should be treated as **diagnostic deployment evidence**
 ## Immediate Backlog Impact
 
 The next implementation step is to re-publish the launch-readiness copy and storage-timeout fixes, then run one real-plan browser review on the active domain. The remaining acceptance boundary is not whether the diagnostic Project `#13` can render; it is whether a real uploaded office plan produces professional Project Detail, Shared Report, and PDF/report outputs with existing-conditions parsing, three scenario generation, achieved-vs-requested reporting, budget, and schedule reviewed end to end.
+
+## Post-publish validation update — confirmed `plan.jpg` Project #4
+
+After checkpoint `2b4a7ae0` was published to `https://leasestage-htnkotpf.manus.space`, the validation pass was repeated against the project record tied to the staged real uploaded floor-plan pathway: Project #4, `Staging Validation Floor Plan`, with share token `pvnaTy_pSUuQLNNUXk3xpVsDEcJQ_dD-`.
+
+| Surface | Published validation result | Evidence |
+| --- | --- | --- |
+| Authenticated Project Detail | **Passed for the tested staging record.** The published Project Detail route loaded Project #4 and did not expose `PARSER REVIEW REQUIRED`, `Needs Review`, or `software failure` in captured HTML. | `post-publish/project-4-plan-jpg/project-detail-4.png`; `post-publish/project-4-plan-jpg/project-detail-4.html` |
+| Public Shared Report | **Passed for the tested staging record.** The published Shared Report route loaded the Project #4 share token and did not expose the legacy diagnostic phrases in captured HTML. | `post-publish/project-4-plan-jpg/shared-report-4.png`; `post-publish/project-4-plan-jpg/shared-report-4.html` |
+| Generated report / PDF source | **Passed for the tested staging record.** The published `pdf.generateReport` endpoint returned generated HTML and a stored report URL for Project #4. The response HTML and browser-captured stored report URL contained no legacy diagnostic phrases. | `post-publish/project-4-plan-jpg/pdf-generate-response.json`; `post-publish/project-4-plan-jpg/pdf-report-4.html`; `post-publish/project-4-plan-jpg/generated-report-url-4.png`; `post-publish/project-4-plan-jpg/generated-report-url-4.html` |
+
+This closes the specific post-sanitization deployment-validation loop for the confirmed `plan.jpg` staging project. It should still be treated as **staging validation evidence**, not as a blanket declaration of product launch acceptance, because commercial acceptance still depends on stakeholder review of output quality, API-key configuration, and any production-domain/payment/onboarding requirements.
