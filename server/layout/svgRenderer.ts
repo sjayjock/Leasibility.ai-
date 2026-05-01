@@ -158,7 +158,7 @@ export function renderToSVG(output: LayoutOutput, floorplate: Rect, label = "LEA
   elements += `</g>`;
 
   if (status?.status === "needs_review") {
-    elements += `<rect x="0" y="0" width="${svgW}" height="${noticeH}" fill="#3B2500"/><text x="16" y="18" font-size="12" fill="#FBBF24" font-family="Inter, Arial, sans-serif" font-weight="800">NEEDS REVIEW</text><text x="16" y="33" font-size="10" fill="#FDE68A" font-family="Inter, Arial, sans-serif">${escapeXml(status.message)}</text>`;
+    elements += `<rect x="0" y="0" width="${svgW}" height="${noticeH}" fill="#3B2500"/><text x="16" y="18" font-size="12" fill="#FBBF24" font-family="Inter, Arial, sans-serif" font-weight="800">PLANNING CONFIDENCE NOTE</text><text x="16" y="33" font-size="10" fill="#FDE68A" font-family="Inter, Arial, sans-serif">${escapeXml(status.message)}</text>`;
   }
 
   const footerY = svgH + noticeH + 22;

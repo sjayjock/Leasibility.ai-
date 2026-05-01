@@ -4,6 +4,7 @@ import { getLoginUrl } from "@/const";
 import { useLocation, useParams } from "wouter";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
+import { polishClientFacingText } from "../../../shared/clientFacingText";
 import {
   ArrowLeft, Building2, Users, MapPin, Loader2,
   DollarSign, Calendar, BarChart3, CheckCircle,
@@ -307,7 +308,7 @@ export default function ProjectDetail() {
                       </div>
                       <span className="text-[#D4AF37] text-xs font-['Montserrat'] font-700 uppercase tracking-wider">AI Analysis</span>
                     </div>
-                    <p className="text-white/75 font-['Inter'] text-sm leading-relaxed">{scenario.aiSummary}</p>
+                    <p className="text-white/75 font-['Inter'] text-sm leading-relaxed">{polishClientFacingText(scenario.aiSummary)}</p>
                   </div>
                 )}
 
@@ -320,13 +321,13 @@ export default function ProjectDetail() {
                     </div>
                     {renderingStatus?.status === "needs_review" && (
                       <div className="mb-3 bg-amber-500/10 border border-amber-400/30 rounded-xl p-3">
-                        <div className="text-amber-300 font-['Montserrat'] font-700 text-xs uppercase tracking-wider mb-1">Parser Review Required</div>
-                        <p className="text-amber-100/75 font-['Inter'] text-xs leading-relaxed">{renderingStatus.message}</p>
+                        <div className="text-amber-300 font-['Montserrat'] font-700 text-xs uppercase tracking-wider mb-1">Planning Confidence Note</div>
+                        <p className="text-amber-100/75 font-['Inter'] text-xs leading-relaxed">{polishClientFacingText(renderingStatus.message)}</p>
                       </div>
                     )}
                     <div
                       className="w-full rounded-xl overflow-hidden"
-                      dangerouslySetInnerHTML={{ __html: scenario.layoutSvg! }}
+                      dangerouslySetInnerHTML={{ __html: polishClientFacingText(scenario.layoutSvg) }}
                     />
                     <p className="text-white/25 text-xs font-['Inter'] mt-2 text-center">
                       {scenario.layoutDescription}
@@ -367,7 +368,7 @@ export default function ProjectDetail() {
                         </tbody>
                       </table>
                     </div>
-                    <p className="text-white/45 text-xs font-['Inter'] leading-relaxed mt-3">{programFit.interpretation}</p>
+                    <p className="text-white/45 text-xs font-['Inter'] leading-relaxed mt-3">{polishClientFacingText(programFit.interpretation)}</p>
                   </Accordion>
                 )}
 

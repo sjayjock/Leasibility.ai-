@@ -2,6 +2,7 @@ import { trpc } from "@/lib/trpc";
 import { useParams } from "wouter";
 import { Loader2, Building2, Users, MapPin, DollarSign, Calendar, BarChart3, CheckCircle, ExternalLink } from "lucide-react";
 import { useState, useEffect } from "react";
+import { polishClientFacingText } from "../../../shared/clientFacingText";
 
 const CDN_ICON = "https://d2xsxph8kpxj0f.cloudfront.net/310519663143386675/7JsZLGf4EdmB4GV6zLgWpu/leasibility_app_icon_dbb8b85e.png";
 
@@ -105,12 +106,12 @@ function ScenarioCard({ scenario, index }: { scenario: any; index: number }) {
           </div>
           {renderingStatus?.status === "needs_review" && (
             <div className="mb-3 rounded-xl border border-amber-400/30 bg-amber-500/10 p-3 text-amber-100/80 text-xs font-['Inter']">
-              {renderingStatus.message}
+              {polishClientFacingText(renderingStatus.message)}
             </div>
           )}
           <div
             className="rounded-xl overflow-hidden border border-white/10 bg-[#0A1628]"
-            dangerouslySetInnerHTML={{ __html: scenario.layoutSvg! }}
+            dangerouslySetInnerHTML={{ __html: polishClientFacingText(scenario.layoutSvg) }}
           />
         </div>
       )}
@@ -133,7 +134,7 @@ function ScenarioCard({ scenario, index }: { scenario: any; index: number }) {
               </div>
             ))}
           </div>
-          <p className="text-white/45 text-xs font-['Inter'] leading-relaxed">{programFit.interpretation}</p>
+          <p className="text-white/45 text-xs font-['Inter'] leading-relaxed">{polishClientFacingText(programFit.interpretation)}</p>
         </div>
       )}
 

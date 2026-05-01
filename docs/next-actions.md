@@ -47,3 +47,9 @@ At the end of the week, Stephen should decide whether the app is ready to move t
 ## Summary
 
 The next five actions now form a straight line: rebuild the space-planning logic and architectural renderer around existing-conditions inventory and achieved-vs-requested scenario logic, align pricing and trial behavior, preserve the approved intake layout while verifying file support, test everything end to end with real plan review, and then make a launch-readiness decision. The project no longer needs more strategic branching. It needs disciplined execution.
+
+## 2026-05-01 — Post-Publish Validation Cleanup Next Action
+
+The May 1 deployed validation confirmed that publishing was useful as a **staging validation step**, not as a declaration that the full Leasibility revision was complete. The current source now includes client-facing sanitization for Project Detail, Shared Report, and PDF/report output so legacy diagnostic phrases such as “PARSER REVIEW REQUIRED,” “Needs Review,” and “software failure” are transformed before reaching broker/client report surfaces. Automated tests and local post-sanitization browser captures passed.
+
+**Exact next action:** after the latest commit is pushed and a Manus checkpoint is saved, publish that new checkpoint, then repeat deployed browser-level validation on the active Manus-hosted domain for Project Detail, Shared Report, and PDF/report output using the same real uploaded-plan project evidence. Treat the current post-sanitization captures as local preview/regression evidence until that publish occurs.

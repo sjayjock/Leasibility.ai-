@@ -5,6 +5,7 @@ import { projects, scenarios, brokerProfiles } from "../drizzle/schema";
 import { eq } from "drizzle-orm";
 import { storagePut } from "./storage";
 import { nanoid } from "nanoid";
+import { polishClientFacingText } from "../shared/clientFacingText";
 
 // Format currency
 function fmt(n: number) {
@@ -12,7 +13,7 @@ function fmt(n: number) {
 }
 
 // Build the HTML for the branded PDF report
-function buildReportHtml(
+export function buildReportHtml(
   project: typeof projects.$inferSelect,
   scenarioList: (typeof scenarios.$inferSelect)[],
   broker: typeof brokerProfiles.$inferSelect | null
@@ -115,8 +116,8 @@ function buildReportHtml(
       ${s.layoutSvg ? `
       <div style="margin-bottom:32px;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;background:#f8fafc;padding:16px;">
         <div style="font-size:12px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Space Layout — Architectural Renderer</div>
-        ${renderingStatus?.status === "needs_review" ? `<div style="background:#fffbeb;border:1px solid #f59e0b;color:#92400e;border-radius:6px;padding:8px;font-size:11px;margin-bottom:12px;">${renderingStatus.message}</div>` : ""}
-        ${s.layoutSvg}
+        ${renderingStatus?.status === "needs_review" ? `<div style="background:#fffbeb;border:1px solid #f59e0b;color:#92400e;border-radius:6px;padding:8px;font-size:11px;margin-bottom:12px;">${polishClientFacingText(renderingStatus.message)}</div>` : ""}
+        ${polishClientFacingText(s.layoutSvg)}
       </div>` : ""}
 
       <!-- Program Fit -->
@@ -127,13 +128,13 @@ function buildReportHtml(
           <thead><tr style="background:#0F1F3D;color:white;"><th style="padding:8px;text-align:left;">Program</th><th style="padding:8px;text-align:right;">Requested</th><th style="padding:8px;text-align:right;">Achieved</th><th style="padding:8px;text-align:left;">Status</th></tr></thead>
           <tbody>${programRows}</tbody>
         </table>
-        <p style="font-size:11px;color:#6b7280;line-height:1.5;">${programFit?.interpretation ?? ""}</p>
+        <p style="font-size:11px;color:#6b7280;line-height:1.5;">${polishClientFacingText(programFit?.interpretation)}</p>
       </div>` : ""}
 
       <!-- AI Summary -->
       <div style="margin-bottom:32px;background:#f0f4ff;border-left:4px solid ${color};padding:16px;border-radius:0 8px 8px 0;">
         <div style="font-size:12px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">AI Analysis</div>
-        <p style="font-size:13px;color:#374151;line-height:1.6;margin:0;">${s.aiSummary ?? ""}</p>
+        <p style="font-size:13px;color:#374151;line-height:1.6;margin:0;">${polishClientFacingText(s.aiSummary)}</p>
       </div>
 
       <!-- Room Breakdown -->

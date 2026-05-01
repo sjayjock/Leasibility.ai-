@@ -81,3 +81,9 @@ The project should now be approached as a controlled revision sprint. The team d
 ## Bottom Line
 
 The current state of Leasibility.ai is no longer “uncertain product definition.” The current state is **clear direction with unfinished execution**. That is a much better place to be. The next step is disciplined implementation against the approved decisions, not more branching versions of the plan.
+
+## 2026-05-01 — Deployed Validation Cleanup Implemented, Re-Publish Required
+
+The active Manus-hosted staging domain was used for deployed validation of Project Detail, Shared Report, and PDF/report flows. That validation was intentionally diagnostic: it confirmed the app was reachable and exposed remaining client-facing report language issues. Source changes now sanitize legacy diagnostic phrases across Project Detail, Shared Report, and PDF/report output, including stored legacy SVG markup, and storage calls used by report export now have bounded timeouts to avoid indefinite hangs.
+
+The post-sanitization artifacts have been validated locally with automated tests, regenerated PDF/report evidence, and browser captures. These changes are **not yet active on the published domain** until the latest branch is pushed, a Manus checkpoint is saved, and the user publishes that checkpoint. After publication, deployed browser-level validation must be repeated before claiming launch readiness.

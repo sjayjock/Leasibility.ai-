@@ -315,7 +315,7 @@ describe("program-fit reporting and deterministic renderer", () => {
     });
 
     expect(output.svg).toContain("<svg");
-    expect(output.svg).toContain("Needs Review");
+    expect(output.svg).toContain("PLANNING CONFIDENCE NOTE");
     expect(output.svg).toContain("Primary Suite Entry");
     expect(output.svg).toContain("Restrooms");
     expect(output.svg).toContain("MODERATE BUILD-OUT");

@@ -184,7 +184,7 @@ export function buildProgramFitSummary(scenarioLabel: string, impactLevel: Scena
   const achievedPercent = requestedTotal > 0 ? Math.round((achievedTotal / requestedTotal) * 100) : 100;
   const gaps = rows.filter(row => row.variance < 0);
   const interpretation = impactLevel === "low"
-    ? `${scenarioLabel} achieves approximately ${achievedPercent}% of the requested program while minimizing demolition, new partitions, and schedule impact. Remaining differences are fit variance, not a software failure.`
+    ? `${scenarioLabel} achieves approximately ${achievedPercent}% of the requested program while minimizing demolition, new partitions, and schedule impact. Remaining differences indicate planning assumptions to confirm during test-fit refinement.`
     : impactLevel === "medium"
       ? `${scenarioLabel} achieves approximately ${achievedPercent}% of the requested program through targeted reconfiguration and selective reuse of existing conditions.`
       : `${scenarioLabel} achieves approximately ${achievedPercent}% of the requested program by preserving shell/core and redesigning flexible interior zones for best long-term fit.`;
@@ -220,7 +220,7 @@ export function buildRenderingStatus(geometry: ParsedFloorPlanGeometry, hasRende
       status: "needs_review",
       confidence: 0,
       reasons: ["No deterministic layout geometry was produced."],
-      message: "Needs Review: deterministic geometry was not sufficient to produce an architectural test-fit. Confirm shell/core/program inputs before sharing this plan.",
+      message: "Planning confidence note: deterministic geometry was not sufficient to produce an architectural test-fit. Confirm shell, core, and program inputs before external distribution.",
     };
   }
   if (geometry.reviewRequired) {
@@ -228,7 +228,7 @@ export function buildRenderingStatus(geometry: ParsedFloorPlanGeometry, hasRende
       status: "needs_review",
       confidence: geometry.confidence,
       reasons: geometry.reviewReasons,
-      message: "Needs Review: this plan uses owner-confirmable rectangular geometry until uploaded shell/core extraction is verified.",
+      message: "Planning confidence note: this plan uses owner-confirmable rectangular geometry until uploaded shell and core extraction is verified.",
     };
   }
   return {

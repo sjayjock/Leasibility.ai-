@@ -38,3 +38,14 @@
 - [x] Record user authorization from May 1, 2026 to inspect the WebP visual references and use them for output-quality comparison.
 - [x] Inspect the authorized WebP visual references, summarize relevant report/dashboard quality expectations, and compare the current staging output against them in `docs/validation/visual-reference-findings-2026-05-01.md`.
 - [ ] After user publishes checkpoint `5f7d872c`, complete deployed Manus-hosted Project Detail and Shared Report validation for the real uploaded plan.
+- [x] Document for the user that publishing checkpoint `0dacc27f` was a deployed validation step for the active Manus-hosted site, not a declaration that the full revision is complete.
+- [x] Validate the active published domain `leasestage-htnkotpf.manus.space` and record whether Project Detail, Shared Report, and PDF/report flows meet acceptance or remain blocked.
+- [ ] Update final handoff language so it clearly separates completed compliance fixes from incomplete revision/launch-readiness items.
+- [x] Record deployed validation evidence from Project #13 while clearly labeling it as diagnostic/staging evidence rather than final MVP acceptance.
+- [x] Remove or soften client-facing diagnostic language such as “PARSER REVIEW REQUIRED,” “Needs Review,” and “software failure” from broker/client report surfaces unless explicitly in an internal-only mode.
+- [x] Investigate why direct server-side PDF/report validation hangs in the sandbox and confirm whether published PDF export works from the browser or requires a storage/API fix.
+- [x] Remove temporary validation session/token artifacts from the repository before commit and keep only non-sensitive validation scripts/evidence.
+- [x] Re-generate Project Detail, Shared Report, and PDF/report artifacts after the copy changes and verify no client-facing output still shows “PARSER REVIEW REQUIRED,” “Needs Review,” or “software failure” unless explicitly marked internal-only.
+- [x] Add or verify regression coverage for Shared Report and PDF/report output strings, not just Project Detail and SVG renderer text.
+- [x] Re-capture Project Detail and Shared Report artifacts after the sanitization changes and verify rendered HTML/SVG no longer exposes legacy diagnostic phrases.
+- [x] Add renderer-level regression coverage proving PDF/report output and public/authenticated report surfaces use the shared client-facing text sanitizer.

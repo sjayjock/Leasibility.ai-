@@ -5,6 +5,14 @@ import { ENV } from './_core/env';
 
 type StorageConfig = { baseUrl: string; apiKey: string };
 
+const STORAGE_FETCH_TIMEOUT_MS = 15_000;
+
+function storageTimeoutSignal(): AbortSignal | undefined {
+  return typeof AbortSignal !== "undefined" && "timeout" in AbortSignal
+    ? AbortSignal.timeout(STORAGE_FETCH_TIMEOUT_MS)
+    : undefined;
+}
+
 function getStorageConfig(): StorageConfig {
   const baseUrl = ENV.forgeApiUrl;
   const apiKey = ENV.forgeApiKey;
@@ -37,6 +45,7 @@ async function buildDownloadUrl(
   const response = await fetch(downloadApiUrl, {
     method: "GET",
     headers: buildAuthHeaders(apiKey),
+    signal: storageTimeoutSignal(),
   });
   return (await response.json()).url;
 }
@@ -80,6 +89,7 @@ export async function storagePut(
     method: "POST",
     headers: buildAuthHeaders(apiKey),
     body: formData,
+    signal: storageTimeoutSignal(),
   });
 
   if (!response.ok) {
