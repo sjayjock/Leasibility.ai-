@@ -15,8 +15,8 @@
 - [x] Save a Manus WebDev checkpoint after restoration, migration, code validation, and current artifact/status documentation are complete.
 - [x] Use the provided `plan.jpg` attachment as the real floor-plan workflow input during staging validation.
 - [x] Use secondary attachments `testfit3.jpg`, `Testfit2.png`, `TestFit1.jpeg`, and `testfit4.gif` in concrete follow-up comparison or regression-upload roles, and record evidence for each.
-- [ ] Use the provided visual references `VisualReferenceReportDesktopOutputUX.webp`, `VisualReferenceDashboardMobileUX(2).webp`, and `VisualReferenceDashboardMobileUX(3).webp` as output-quality references for report/dashboard review without re-viewing them through the file viewer.
-- [x] Do not use the file viewer to open or re-view the attached images; reference their known filenames and paths only.
+- [x] Use the provided visual references `VisualReferenceReportDesktopOutputUX.webp`, `VisualReferenceDashboardMobileUX(2).webp`, and `VisualReferenceDashboardMobileUX(3).webp` as output-quality references for report/dashboard review; the earlier no-view constraint was superseded by the user's May 1 authorization to inspect the WebP references.
+- [x] Do not use the file viewer to open or re-view the attached images until explicit authorization is granted; superseded for WebP references by the user's May 1 authorization.
 - [x] Add and verify the missing `scenarios.layoutImageUrl` database column so real analysis can persist generated scenario records.
 - [x] Widen large scenario payload columns (`layoutDescription`, `layoutSvg`, `aiSummary`) to `longtext` so secondary attachment analyses with larger generated geometry/report text can persist.
 - [x] Save a fresh Manus WebDev checkpoint after the 0009 longtext migration, secondary attachment validation, tests, build, and GitHub push.
@@ -35,3 +35,6 @@
 - [x] Commit and push all compliance sprint code, tests, docs, and validation artifacts to GitHub. Branch: `staging/stabilize-validation-20260430`; commit: `80ee033`.
 - [x] Save a Manus WebDev checkpoint after the compliance sprint fixes, real-plan validation, and GitHub push. Checkpoint version: `64dd2a1b`.
 - [ ] Deliver a compliance sprint handoff with branch, commit hash, changed files, tests, build status, migrations, environment variables, blockers, remaining limitations, and next repair priorities.
+- [x] Record user authorization from May 1, 2026 to inspect the WebP visual references and use them for output-quality comparison.
+- [x] Inspect the authorized WebP visual references, summarize relevant report/dashboard quality expectations, and compare the current staging output against them in `docs/validation/visual-reference-findings-2026-05-01.md`.
+- [ ] After user publishes checkpoint `5f7d872c`, complete deployed Manus-hosted Project Detail and Shared Report validation for the real uploaded plan.
