@@ -4,6 +4,28 @@ export type FloorplateShape = "rectangle" | "L-shape" | "U-shape" | "irregular";
 export type ConfidenceLabel = "high" | "medium" | "low";
 export type Wall = "north" | "south" | "east" | "west";
 export type GeometrySource = "parsed" | "fallback";
+export type ExtractedWallType = "perimeter" | "core" | "interior";
+export type EstimatedWallThickness = "structural" | "partition";
+
+export interface ExtractedWall {
+  id: string;
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
+  type: ExtractedWallType;
+  isProtected: boolean;
+  estimatedThickness: EstimatedWallThickness;
+  linearFeet: number;
+}
+
+export interface ExistingRoom {
+  id: string;
+  boundingBox: { x: number; y: number; width: number; height: number };
+  estimatedSqFt: number;
+  label: string | null;
+  wallIds: string[];
+}
 
 export interface FloorplateGeometry {
   width: number;
@@ -14,6 +36,8 @@ export interface FloorplateGeometry {
   core: { x: number; y: number; width: number; height: number; type: "center" | "side" | "end" | "none" };
   entry: { x: number; y: number; wall: Wall };
   windows: Array<{ wall: Wall; startPct: number; endPct: number }>;
+  walls: ExtractedWall[];
+  existingRooms: ExistingRoom[];
   confidence: ConfidenceLabel;
   source: GeometrySource;
   parseWarnings: string[];
@@ -28,6 +52,25 @@ export interface ParseFloorPlanInput {
 
 type VisionShape = "rectangle" | "L-shape" | "U-shape" | "irregular" | "l_shape" | "u_shape" | "unknown";
 
+interface VisionWall {
+  id?: string;
+  x1?: number;
+  y1?: number;
+  x2?: number;
+  y2?: number;
+  type?: ExtractedWallType | string;
+  isProtected?: boolean;
+  estimatedThickness?: EstimatedWallThickness | string;
+}
+
+interface VisionRoom {
+  id?: string;
+  boundingBox?: Partial<ExistingRoom["boundingBox"]>;
+  estimatedSqFt?: number;
+  label?: string | null;
+  wallIds?: string[];
+}
+
 interface VisionFloorplateGeometry {
   width?: number;
   depth?: number;
@@ -35,25 +78,60 @@ interface VisionFloorplateGeometry {
   core?: Partial<FloorplateGeometry["core"]>;
   entry?: Partial<FloorplateGeometry["entry"]>;
   windows?: Array<Partial<FloorplateGeometry["windows"][number]>>;
+  walls?: VisionWall[];
+  existingRooms?: VisionRoom[];
   confidence?: ConfidenceLabel | string;
   parseWarnings?: string[];
 }
 
-const VISION_PROMPT = `You are an expert architectural space planner analyzing a commercial office floor plan.
-Extract the following geometry data and return ONLY valid JSON matching this schema exactly:
+const VISION_PROMPT = `You are an expert architectural space planner analyzing a commercial office floor plan image.
+Extract ALL of the following and return ONLY valid JSON matching this exact schema:
+
 {
-  "width": <building width in feet, estimate if not labeled>,
-  "depth": <building depth in feet, estimate if not labeled>,
+  "width": <building width in feet — estimate from proportions if unlabeled>,
+  "depth": <building depth in feet — estimate from proportions if unlabeled>,
   "shape": <"rectangle" | "L-shape" | "U-shape" | "irregular">,
-  "core": { "x": <0-1 normalized>, "y": <0-1 normalized>, "width": <0-1>, "height": <0-1>, "type": <"center"|"side"|"end"|"none"> },
-  "entry": { "x": <0-1 normalized>, "y": <0-1 normalized>, "wall": <"north"|"south"|"east"|"west"> },
-  "windows": [{ "wall": <"north"|"south"|"east"|"west">, "startPct": <0-1>, "endPct": <0-1> }],
-  "confidence": <"high"|"medium"|"low">,
-  "parseWarnings": [<list any issues or assumptions made>]
+  "core": {
+    "x": <0-1 normalized from left>,
+    "y": <0-1 normalized from top>,
+    "width": <0-1>,
+    "height": <0-1>,
+    "type": <"center" | "side" | "end" | "none">
+  },
+  "entry": {
+    "x": <0-1>,
+    "y": <0-1>,
+    "wall": <"north" | "south" | "east" | "west">
+  },
+  "windows": [
+    { "wall": <"north"|"south"|"east"|"west">, "startPct": <0-1>, "endPct": <0-1> }
+  ],
+  "walls": [
+    {
+      "x1": <0-1>, "y1": <0-1>, "x2": <0-1>, "y2": <0-1>,
+      "type": <"perimeter"|"core"|"interior">,
+      "isProtected": <true for perimeter/core, false for interior partitions>,
+      "estimatedThickness": <"structural" for thick/bearing walls, "partition" for thin partitions>
+    }
+  ],
+  "existingRooms": [
+    {
+      "id": <"room_1", "room_2" etc>,
+      "boundingBox": { "x": <0-1>, "y": <0-1>, "width": <0-1>, "height": <0-1> },
+      "estimatedSqFt": <number>,
+      "label": <room label text visible in plan, or null>
+    }
+  ],
+  "confidence": <"high" | "medium" | "low">,
+  "parseWarnings": [<list any assumptions or extraction issues>]
 }
-Rules: Use normalized 0-1 coordinates where 0,0 is top-left. North = top of image.
-If a dimension is labeled on the plan, use it. If not, estimate from proportions.
-For totalSqFt scaling: the authoritative area is provided separately — do not override it.`;
+
+Rules:
+- All coordinates are normalized 0-1 where 0,0 = top-left corner. North = top of image.
+- Extract EVERY visible wall segment as a separate entry in the walls array.
+- Mark perimeter and core walls as isProtected: true. Interior partitions as isProtected: false.
+- For existingRooms, estimate sqFt by scaling boundingBox dimensions against building totalSqFt.
+- If wall or room extraction is unclear, return empty arrays and set confidence to "low".`;
 
 function round(value: number, precision = 2): number {
   const factor = 10 ** precision;
@@ -87,6 +165,16 @@ function normalizeConfidence(value: unknown): ConfidenceLabel {
   return value === "high" || value === "medium" || value === "low" ? value : "medium";
 }
 
+function normalizeWallType(value: unknown): ExtractedWallType {
+  if (value === "perimeter" || value === "core" || value === "interior") return value;
+  return "interior";
+}
+
+function normalizeThickness(value: unknown, wallType: ExtractedWallType): EstimatedWallThickness {
+  if (value === "structural" || value === "partition") return value;
+  return wallType === "interior" ? "partition" : "structural";
+}
+
 function scaleDimensionsToAuthoritativeArea(width: number, depth: number, totalSqFt: number): { width: number; depth: number } {
   const safeArea = Math.max(500, totalSqFt || 5000);
   const fallback = fallbackDimensions(safeArea);
@@ -118,17 +206,67 @@ export function fallbackFloorplateGeometry(totalSqFt: number, warning?: string):
     totalSqFt: safeArea,
     shape: "rectangle",
     aspectRatio: round(width / depth, 3),
-    core: { x: 0.4, y: 0.4, width: 0.2, height: 0.2, type: "center" },
+    core: { x: 0.35, y: 0.3, width: 0.3, height: 0.4, type: "center" },
     entry: { x: 0.5, y: 1, wall: "south" },
     windows: [
-      { wall: "north", startPct: 0.05, endPct: 0.95 },
-      { wall: "east", startPct: 0.1, endPct: 0.9 },
-      { wall: "west", startPct: 0.1, endPct: 0.9 },
+      { wall: "north", startPct: 0, endPct: 1 },
+      { wall: "south", startPct: 0, endPct: 1 },
+      { wall: "east", startPct: 0, endPct: 1 },
+      { wall: "west", startPct: 0, endPct: 1 },
     ],
+    walls: [],
+    existingRooms: [],
     confidence: "low",
     source: "fallback",
     parseWarnings: [warning ?? "No confidently parseable uploaded floor plan was available; using safe rectangular fallback geometry anchored to user-provided total square footage."],
   });
+}
+
+function wallLengthFeet(wall: Pick<ExtractedWall, "x1" | "y1" | "x2" | "y2">, width: number, depth: number): number {
+  const dx = (wall.x2 - wall.x1) * width;
+  const dy = (wall.y2 - wall.y1) * depth;
+  return round(Math.hypot(dx, dy));
+}
+
+function normalizeVisionWalls(visionWalls: VisionWall[] | undefined, width: number, depth: number): ExtractedWall[] {
+  return (visionWalls ?? [])
+    .map((wall, index) => {
+      const type = normalizeWallType(wall.type);
+      const normalized: ExtractedWall = {
+        id: typeof wall.id === "string" && wall.id.trim() ? wall.id.trim() : `wall_${index + 1}`,
+        x1: clamp01(wall.x1, 0),
+        y1: clamp01(wall.y1, 0),
+        x2: clamp01(wall.x2, 0),
+        y2: clamp01(wall.y2, 0),
+        type,
+        isProtected: type === "perimeter" || type === "core" ? true : wall.isProtected === true,
+        estimatedThickness: normalizeThickness(wall.estimatedThickness, type),
+        linearFeet: 0,
+      };
+      normalized.linearFeet = wallLengthFeet(normalized, width, depth);
+      return normalized;
+    })
+    .filter(wall => wall.linearFeet >= 1);
+}
+
+function normalizeExistingRooms(rooms: VisionRoom[] | undefined, totalSqFt: number): ExistingRoom[] {
+  return (rooms ?? [])
+    .map((room, index) => {
+      const box = room.boundingBox ?? {};
+      const width = clamp01(box.width, 0);
+      const height = clamp01(box.height, 0);
+      const x = clamp(Math.min(clamp01(box.x, 0), 1 - width), 0, 1);
+      const y = clamp(Math.min(clamp01(box.y, 0), 1 - height), 0, 1);
+      const estimatedSqFt = positive(room.estimatedSqFt) ? Math.round(room.estimatedSqFt) : Math.round(width * height * totalSqFt);
+      return {
+        id: typeof room.id === "string" && room.id.trim() ? room.id.trim() : `room_${index + 1}`,
+        boundingBox: { x: round(x, 4), y: round(y, 4), width, height },
+        estimatedSqFt,
+        label: typeof room.label === "string" && room.label.trim() ? room.label.trim() : null,
+        wallIds: Array.isArray(room.wallIds) ? room.wallIds.filter(Boolean).map(String) : [],
+      };
+    })
+    .filter(room => room.boundingBox.width > 0.01 && room.boundingBox.height > 0.01 && room.estimatedSqFt >= 20);
 }
 
 function normalizeVisionGeometry(input: ParseFloorPlanInput, vision: VisionFloorplateGeometry): FloorplateGeometry {
@@ -139,6 +277,11 @@ function normalizeVisionGeometry(input: ParseFloorPlanInput, vision: VisionFloor
   }
 
   const scaled = scaleDimensionsToAuthoritativeArea(Number(vision.width), Number(vision.depth), totalSqFt);
+  const walls = normalizeVisionWalls(vision.walls, scaled.width, scaled.depth);
+  if (walls.length === 0) {
+    return fallbackFloorplateGeometry(totalSqFt, "Claude Vision did not return usable wall segments; using safe fallback geometry because wall extraction is required for the rebuild engine.");
+  }
+
   const coreType = vision.core?.type === "side" || vision.core?.type === "end" || vision.core?.type === "none" || vision.core?.type === "center" ? vision.core.type : "center";
   const windows = (vision.windows ?? [])
     .map(window => {
@@ -158,6 +301,11 @@ function normalizeVisionGeometry(input: ParseFloorPlanInput, vision: VisionFloor
     warnings.push("Parsed dimensions were proportionally scaled so width × depth remains anchored to the user-provided total square footage.");
   }
 
+  const existingRooms = normalizeExistingRooms(vision.existingRooms, totalSqFt);
+  if (existingRooms.length === 0) {
+    warnings.push("No existing room polygons were confidently extracted; layout engine will generate fresh room program while preserving extracted walls.");
+  }
+
   return attachCompatibilityAliases({
     width: scaled.width,
     depth: scaled.depth,
@@ -165,10 +313,10 @@ function normalizeVisionGeometry(input: ParseFloorPlanInput, vision: VisionFloor
     shape: normalizeShape(vision.shape),
     aspectRatio: round(scaled.width / scaled.depth, 3),
     core: {
-      x: clamp01(vision.core?.x, 0.4),
-      y: clamp01(vision.core?.y, 0.4),
-      width: clamp01(vision.core?.width, 0.2),
-      height: clamp01(vision.core?.height, 0.2),
+      x: clamp01(vision.core?.x, 0.35),
+      y: clamp01(vision.core?.y, 0.3),
+      width: clamp01(vision.core?.width, 0.3),
+      height: clamp01(vision.core?.height, 0.4),
       type: coreType,
     },
     entry: {
@@ -177,6 +325,8 @@ function normalizeVisionGeometry(input: ParseFloorPlanInput, vision: VisionFloor
       wall: normalizeWall(vision.entry?.wall, "south"),
     },
     windows: windows.length > 0 ? windows : fallbackFloorplateGeometry(totalSqFt).windows,
+    walls,
+    existingRooms,
     confidence,
     source: "parsed",
     parseWarnings: warnings,
@@ -242,7 +392,7 @@ async function callClaudeVision(input: ParseFloorPlanInput): Promise<VisionFloor
     },
     body: JSON.stringify({
       model: process.env.ANTHROPIC_VISION_MODEL ?? "claude-sonnet-4-6",
-      max_tokens: 1800,
+      max_tokens: 3200,
       temperature: 0,
       system: VISION_PROMPT,
       messages: [
@@ -252,7 +402,7 @@ async function callClaudeVision(input: ParseFloorPlanInput): Promise<VisionFloor
             mediaBlock,
             {
               type: "text",
-              text: `Analyze this uploaded office floor plan. Authoritative total square feet: ${Math.round(input.totalSqFt || 0)}. Return JSON only.`,
+              text: `Analyze this uploaded office floor plan. Authoritative total square feet: ${Math.round(input.totalSqFt || 0)}. Return JSON only with walls[] and existingRooms[].`,
             },
           ],
         },
@@ -342,6 +492,18 @@ export function windowsToSegments(geometry: FloorplateGeometry): LineSegment[] {
   });
 }
 
+function wallsToSegments(geometry: FloorplateGeometry): LineSegment[] {
+  return geometry.walls
+    .filter(wall => wall.type === "interior")
+    .map(wall => ({
+      x1: toFeetX(geometry, wall.x1),
+      y1: toFeetY(geometry, wall.y1),
+      x2: toFeetX(geometry, wall.x2),
+      y2: toFeetY(geometry, wall.y2),
+      confidence: confidenceNumber(geometry.confidence),
+    }));
+}
+
 function requiresGeometryReview(geometry: FloorplateGeometry): boolean {
   const syntheticNoUpload = geometry.source === "fallback" && geometry.parseWarnings.some(reason => reason.startsWith("No uploaded plan was provided"));
   if (syntheticNoUpload) return false;
@@ -354,7 +516,7 @@ function attachCompatibilityAliases<T extends FloorplateGeometry>(geometry: T): 
     floorplate: floorplateToRect(geometry),
     coreElements,
     entryPoints: [entryToFeet(geometry)],
-    existingInteriorWalls: [],
+    existingInteriorWalls: wallsToSegments(geometry),
     reviewRequired: requiresGeometryReview(geometry),
     reviewReasons: requiresGeometryReview(geometry) ? geometry.parseWarnings : [],
   };
@@ -369,7 +531,7 @@ export function toParsedFloorPlanGeometry(geometry: FloorplateGeometry): ParsedF
     coreElements,
     entryPoints: [entryToFeet(geometry)],
     windows: windowsToSegments(geometry),
-    existingInteriorWalls: [],
+    existingInteriorWalls: wallsToSegments(geometry),
     confidence: confidenceNumber(geometry.confidence),
     source: geometry.source === "parsed" ? "uploaded_plan" : "synthetic_rectangular_model",
     reviewRequired: requiresGeometryReview(geometry),
