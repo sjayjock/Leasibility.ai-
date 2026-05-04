@@ -370,6 +370,67 @@ function mergeUnplaced(unplaced: LayoutResult["unplacedRooms"], type: string, re
   else unplaced.push({ type, count: 1, reason });
 }
 
+function maxRoomArea(type: string, expandedProgram: RoomSpec[]): number {
+  const matching = expandedProgram.find(spec => spec.type === type);
+  if (!matching) return 240;
+  return matching.maxSqFt;
+}
+
+function rebuildOccupied(core: Rect | undefined, corridors: PlacedCorridor[], placedRooms: PlacedRoom[]): OccupiedRect[] {
+  const occupied: OccupiedRect[] = [];
+  if (core) occupied.push({ ...core, kind: "protected", id: "core" });
+  corridors.forEach(corridor => occupied.push({ ...corridor, kind: "circulation", id: corridor.id }));
+  placedRooms.forEach(room => occupied.push({ x: room.x, y: room.y, width: room.width, height: room.height, kind: "room", id: room.id }));
+  return occupied;
+}
+
+function canGrow(room: PlacedRoom, candidate: Rect, core: Rect | undefined, corridors: PlacedCorridor[], placedRooms: PlacedRoom[], geometry: FloorplateGeometry): boolean {
+  const floorplate = { x: 0, y: 0, width: geometry.width, height: geometry.depth };
+  if (!contains(floorplate, candidate)) return false;
+  const occupied = rebuildOccupied(core, corridors, placedRooms.filter(item => item.id !== room.id));
+  return !occupied.some(item => overlaps(candidate, item));
+}
+
+function compactLayout(placedRooms: PlacedRoom[], corridors: PlacedCorridor[], core: Rect | undefined, geometry: FloorplateGeometry, expandedProgram: RoomSpec[], impactLevel: ImpactLevel): void {
+  const targetEfficiency = impactLevel === "low" ? 76 : impactLevel === "medium" ? 83 : 89;
+  const targetUsable = geometry.totalSqFt * (targetEfficiency / 100);
+  const expandableTypes = ["Flexible Collaboration", "Collaboration Zone", "Workstation", "Conference Room", "Break Room"];
+  let usableSqFt = placedRooms.reduce((sum, room) => sum + room.sqFt, 0);
+  let iterations = 0;
+
+  while (usableSqFt < targetUsable && iterations < 1400) {
+    iterations += 1;
+    let grew = false;
+    const candidates = placedRooms
+      .filter(room => expandableTypes.includes(room.type) && room.sqFt < maxRoomArea(room.type, expandedProgram))
+      .sort((a, b) => expandableTypes.indexOf(a.type) - expandableTypes.indexOf(b.type));
+
+    for (const room of candidates) {
+      const maxArea = maxRoomArea(room.type, expandedProgram);
+      const growthOptions: Array<{ width: number; height: number }> = [
+        { width: room.width + 1, height: room.height },
+        { width: room.width, height: room.height + 1 },
+      ];
+      for (const option of growthOptions) {
+        const nextArea = Math.round(option.width * option.height);
+        if (nextArea > maxArea || nextArea <= room.sqFt) continue;
+        const candidate = { x: room.x, y: room.y, width: option.width, height: option.height };
+        if (!canGrow(room, candidate, core, corridors, placedRooms, geometry)) continue;
+        room.width = round(option.width);
+        room.height = round(option.height);
+        room.sqFt = nextArea;
+        room.zone = detectZone(room, geometry);
+        room.hasWindowAccess = hasWindowAccess(room, geometry);
+        usableSqFt = placedRooms.reduce((sum, item) => sum + item.sqFt, 0);
+        grew = true;
+        break;
+      }
+      if (grew || usableSqFt >= targetUsable) break;
+    }
+    if (!grew) break;
+  }
+}
+
 function addSecondaryCorridor(room: PlacedRoom, corridors: PlacedCorridor[], geometry: FloorplateGeometry): PlacedCorridor | undefined {
   const primary = corridors[0];
   if (!primary) return undefined;
@@ -439,6 +500,8 @@ export function generateLayout(geometry: FloorplateGeometry, program: RoomSpec[]
       occupied.push({ ...rect, kind: "room", id: room.id });
     }
   }
+
+  compactLayout(placedRooms, corridors, core, geometry, expandedProgram, impactLevel);
 
   const usableSqFt = Math.round(placedRooms.reduce((sum, room) => sum + room.sqFt, 0));
   const circulationSqFt = Math.round(corridors.reduce((sum, corridor) => sum + rectArea(corridor), 0));
