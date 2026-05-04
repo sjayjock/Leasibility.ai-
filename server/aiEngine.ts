@@ -204,6 +204,7 @@ function buildSchedulePhases(impactLevel: "low" | "medium" | "high", sched: { lo
 export async function generateScenarios(input: ScenarioInput): Promise<GeneratedScenario[]> {
   const allBenchmarks = getMarketBenchmarks(input.market);
   const sqFt = input.totalSqFt;
+  const geometry = await parseFloorPlanGeometry({ totalSqFt: sqFt, floorPlanUrl: input.floorPlanUrl });
   const sqFtPerPerson = sqFt / input.headcount;
 
   const systemPrompt = `You are a commercial real estate space planning expert and construction cost estimator.
@@ -217,6 +218,8 @@ Market: ${input.market}
 Tenant Headcount: ${input.headcount} people
 Industry: ${input.industry}
 Sq Ft Per Person: ${Math.round(sqFtPerPerson)}
+Parsed Floorplate: ${Math.round(geometry.floorplate.width)} ft wide × ${Math.round(geometry.floorplate.height)} ft deep
+Geometry Source: ${geometry.source}${geometry.reviewRequired ? " (needs review)" : ""}
 ${input.programNotes ? `Additional Notes: ${input.programNotes}` : ""}
 
 SCENARIO DEFINITIONS — follow these exactly:
@@ -369,7 +372,6 @@ Return JSON: { "scenarios": [ {...}, {...}, {...} ] }`;
   // ─── Build full scenario objects with deterministic geometry, program-fit, and architectural SVG rendering ─────────────────────────
   const impactLevels: Array<"low" | "medium" | "high"> = ["low", "medium", "high"];
   const impactTags = ["Light Refresh", "Moderate Build-Out", "Full Transformation"];
-  const geometry = parseFloorPlanGeometry({ totalSqFt: sqFt, floorPlanUrl: input.floorPlanUrl });
   const requestedProgram = aiResult.scenarios[Math.min(2, aiResult.scenarios.length - 1)]?.roomBreakdown ?? aiResult.scenarios[0]?.roomBreakdown ?? [];
   const existingConditionsInventory = deriveExistingConditionsInventory(geometry, requestedProgram, input.headcount);
 
@@ -380,9 +382,6 @@ Return JSON: { "scenarios": [ {...}, {...}, {...} ] }`;
     const impactLevel = impactLevels[idx];
     const benchmark = allBenchmarks[impactLevel];
     const sched = SCHEDULE_BENCHMARKS[impactLevel];
-    const eff = s.efficiencyScore / 100;
-    const usableSqFt = Math.round(sqFt * eff);
-
     // Budget percentages
     const constructionPct = 0.60;
     const ffePct = 0.18;
@@ -418,6 +417,10 @@ Return JSON: { "scenarios": [ {...}, {...}, {...} ] }`;
         renderingStatus: buildRenderingStatus(geometry, true),
       },
     });
+    const placedRoomArea = testFit.rooms.reduce((sum, room) => sum + room.area, 0);
+    const totalAreaForEfficiency = Math.max(1, geometry.totalSqFt || sqFt);
+    const computedEfficiencyScore = Math.round((placedRoomArea / totalAreaForEfficiency) * 100);
+    const usableSqFt = Math.round(placedRoomArea);
     const programFit = buildProgramFitSummary(s.label, impactLevel, requestedProgram, s.roomBreakdown, input.headcount, existingConditionsInventory);
     const scopeSummary = buildScopeSummary(s.label, impactLevel, existingConditionsInventory, programFit);
     const renderingStatus = buildRenderingStatus(geometry, testFit.svg.length > 0);
@@ -427,9 +430,9 @@ Return JSON: { "scenarios": [ {...}, {...}, {...} ] }`;
       label: s.label,
       impactLevel,
       impactTag: impactTags[idx],
-      efficiencyScore: s.efficiencyScore,
+      efficiencyScore: computedEfficiencyScore,
       usableSqFt,
-      totalSqFt: sqFt,
+      totalSqFt: totalAreaForEfficiency,
       roomBreakdown: s.roomBreakdown,
       layoutDescription: `${s.layoutDescription} ${scopeSummary.budgetScheduleRationale}`,
       layoutSvg: testFit.svg,
