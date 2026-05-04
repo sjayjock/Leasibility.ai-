@@ -1,8 +1,22 @@
 import type { CoreElement, EntryPoint, LineSegment, ParsedFloorPlanGeometry, Rect } from "./layout/types";
 
-function round(value: number, precision = 2): number {
-  const factor = 10 ** precision;
-  return Math.round(value * factor) / factor;
+export type FloorplateShape = "rectangle" | "L-shape" | "U-shape" | "irregular";
+export type ConfidenceLabel = "high" | "medium" | "low";
+export type Wall = "north" | "south" | "east" | "west";
+export type GeometrySource = "parsed" | "fallback";
+
+export interface FloorplateGeometry {
+  width: number;
+  depth: number;
+  totalSqFt: number;
+  shape: FloorplateShape;
+  aspectRatio: number;
+  core: { x: number; y: number; width: number; height: number; type: "center" | "side" | "end" | "none" };
+  entry: { x: number; y: number; wall: Wall };
+  windows: Array<{ wall: Wall; startPct: number; endPct: number }>;
+  confidence: ConfidenceLabel;
+  source: GeometrySource;
+  parseWarnings: string[];
 }
 
 export interface ParseFloorPlanInput {
@@ -12,209 +26,161 @@ export interface ParseFloorPlanInput {
   floorPlanMimeType?: string;
 }
 
-type ClaudeShape = "rectangle" | "l_shape" | "irregular" | "unknown";
+type VisionShape = "rectangle" | "L-shape" | "U-shape" | "irregular" | "l_shape" | "u_shape" | "unknown";
 
-interface ClaudeFloorPlanGeometry {
-  widthFt?: number;
-  depthFt?: number;
-  totalSqFt?: number;
-  shape?: ClaudeShape;
-  coreElements?: Array<Partial<CoreElement> & { type?: CoreElement["type"] | string }>;
-  entryPoints?: Array<Partial<EntryPoint> & { type?: EntryPoint["type"] | string }>;
-  windows?: Array<Partial<LineSegment>>;
-  existingInteriorWalls?: Array<Partial<LineSegment>>;
-  confidence?: number;
-  reviewReasons?: string[];
+interface VisionFloorplateGeometry {
+  width?: number;
+  depth?: number;
+  shape?: VisionShape;
+  core?: Partial<FloorplateGeometry["core"]>;
+  entry?: Partial<FloorplateGeometry["entry"]>;
+  windows?: Array<Partial<FloorplateGeometry["windows"][number]>>;
+  confidence?: ConfidenceLabel | string;
+  parseWarnings?: string[];
 }
 
-export function buildRectangularFloorplate(totalSqFt: number): Rect {
+const VISION_PROMPT = `You are an expert architectural space planner analyzing a commercial office floor plan.
+Extract the following geometry data and return ONLY valid JSON matching this schema exactly:
+{
+  "width": <building width in feet, estimate if not labeled>,
+  "depth": <building depth in feet, estimate if not labeled>,
+  "shape": <"rectangle" | "L-shape" | "U-shape" | "irregular">,
+  "core": { "x": <0-1 normalized>, "y": <0-1 normalized>, "width": <0-1>, "height": <0-1>, "type": <"center"|"side"|"end"|"none"> },
+  "entry": { "x": <0-1 normalized>, "y": <0-1 normalized>, "wall": <"north"|"south"|"east"|"west"> },
+  "windows": [{ "wall": <"north"|"south"|"east"|"west">, "startPct": <0-1>, "endPct": <0-1> }],
+  "confidence": <"high"|"medium"|"low">,
+  "parseWarnings": [<list any issues or assumptions made>]
+}
+Rules: Use normalized 0-1 coordinates where 0,0 is top-left. North = top of image.
+If a dimension is labeled on the plan, use it. If not, estimate from proportions.
+For totalSqFt scaling: the authoritative area is provided separately — do not override it.`;
+
+function round(value: number, precision = 2): number {
+  const factor = 10 ** precision;
+  return Math.round(value * factor) / factor;
+}
+
+function positive(value: unknown): value is number {
+  return typeof value === "number" && Number.isFinite(value) && value > 0;
+}
+
+function clamp(value: number, min: number, max: number): number {
+  return Math.max(min, Math.min(max, value));
+}
+
+function clamp01(value: unknown, fallback: number): number {
+  return round(clamp(positive(value) || value === 0 ? Number(value) : fallback, 0, 1), 4);
+}
+
+function normalizeWall(value: unknown, fallback: Wall): Wall {
+  return value === "north" || value === "south" || value === "east" || value === "west" ? value : fallback;
+}
+
+function normalizeShape(value: unknown): FloorplateShape {
+  if (value === "L-shape" || value === "l_shape") return "L-shape";
+  if (value === "U-shape" || value === "u_shape") return "U-shape";
+  if (value === "irregular") return "irregular";
+  return "rectangle";
+}
+
+function normalizeConfidence(value: unknown): ConfidenceLabel {
+  return value === "high" || value === "medium" || value === "low" ? value : "medium";
+}
+
+function scaleDimensionsToAuthoritativeArea(width: number, depth: number, totalSqFt: number): { width: number; depth: number } {
   const safeArea = Math.max(500, totalSqFt || 5000);
-  const aspectRatio = safeArea > 18000 ? 2.05 : safeArea > 9000 ? 1.75 : 1.55;
-  const width = Math.sqrt(safeArea * aspectRatio);
-  const height = safeArea / width;
+  const fallback = fallbackDimensions(safeArea);
+  const safeWidth = positive(width) ? width : fallback.width;
+  const safeDepth = positive(depth) ? depth : fallback.depth;
+  const parsedArea = safeWidth * safeDepth;
+  if (!Number.isFinite(parsedArea) || parsedArea <= 0) return fallback;
+  const scale = Math.sqrt(safeArea / parsedArea);
   return {
-    x: 0,
-    y: 0,
-    width: round(width),
-    height: round(height),
+    width: round(Math.max(20, safeWidth * scale)),
+    depth: round(Math.max(20, safeDepth * scale)),
   };
 }
 
-function buildDefaultCore(floorplate: Rect): CoreElement[] {
-  const coreWidth = Math.max(18, floorplate.width * 0.15);
-  const coreHeight = Math.max(20, floorplate.height * 0.24);
-  const coreX = floorplate.x + floorplate.width * 0.48 - coreWidth / 2;
-  const coreY = floorplate.y + floorplate.height * 0.52 - coreHeight / 2;
-  return [
-    {
-      id: "core-1",
-      type: "core",
-      label: "Fixed Core / Restrooms",
-      x: round(coreX),
-      y: round(coreY),
-      width: round(coreWidth),
-      height: round(coreHeight),
-      fixed: true,
-      confidence: 0.72,
-    },
-  ];
-}
-
-function buildDefaultEntries(floorplate: Rect): EntryPoint[] {
-  return [
-    {
-      id: "entry-primary",
-      type: "primary",
-      label: "Primary Suite Entry",
-      x: round(floorplate.x + floorplate.width * 0.08),
-      y: floorplate.y,
-      confidence: 0.7,
-    },
-    {
-      id: "entry-egress",
-      type: "egress",
-      label: "Secondary Egress",
-      x: round(floorplate.x + floorplate.width * 0.92),
-      y: round(floorplate.y + floorplate.height),
-      confidence: 0.66,
-    },
-  ];
-}
-
-function buildDefaultWindows(floorplate: Rect): LineSegment[] {
-  return [
-    { x1: floorplate.x + 8, y1: floorplate.y + floorplate.height, x2: floorplate.x + floorplate.width * 0.45, y2: floorplate.y + floorplate.height, confidence: 0.64 },
-    { x1: floorplate.x + floorplate.width * 0.55, y1: floorplate.y + floorplate.height, x2: floorplate.x + floorplate.width - 8, y2: floorplate.y + floorplate.height, confidence: 0.64 },
-    { x1: floorplate.x + floorplate.width, y1: floorplate.y + floorplate.height * 0.18, x2: floorplate.x + floorplate.width, y2: floorplate.y + floorplate.height * 0.82, confidence: 0.58 },
-  ];
-}
-
-function buildDefaultInteriorWalls(floorplate: Rect): LineSegment[] {
-  const yA = floorplate.y + floorplate.height * 0.32;
-  const yB = floorplate.y + floorplate.height * 0.68;
-  const xA = floorplate.x + floorplate.width * 0.26;
-  const xB = floorplate.x + floorplate.width * 0.72;
-  return [
-    { x1: xA, y1: floorplate.y + 6, x2: xA, y2: yB, confidence: 0.55 },
-    { x1: xB, y1: yA, x2: xB, y2: floorplate.y + floorplate.height - 6, confidence: 0.55 },
-    { x1: floorplate.x + 6, y1: yA, x2: floorplate.x + floorplate.width - 6, y2: yA, confidence: 0.5 },
-    { x1: floorplate.x + 6, y1: yB, x2: floorplate.x + floorplate.width - 6, y2: yB, confidence: 0.5 },
-  ].map(w => ({ x1: round(w.x1), y1: round(w.y1), x2: round(w.x2), y2: round(w.y2), confidence: w.confidence }));
-}
-
-function fallbackGeometry(input: ParseFloorPlanInput, reason?: string): ParsedFloorPlanGeometry {
-  const floorplate = buildRectangularFloorplate(input.totalSqFt);
-  const hasUploadedPlan = Boolean(input.floorPlanUrl || input.floorPlanBase64);
-  const reviewReasons = hasUploadedPlan
-    ? [reason ?? "Uploaded plan could not be confidently parsed; using owner-confirmable rectangular baseline geometry anchored to the project square footage."]
-    : ["No uploaded plan was provided; using owner-confirmable rectangular baseline geometry."];
-
+function fallbackDimensions(totalSqFt: number): { width: number; depth: number } {
+  const safeArea = Math.max(500, totalSqFt || 5000);
   return {
-    floorplate,
-    totalSqFt: Math.round(input.totalSqFt || floorplate.width * floorplate.height),
-    coreElements: buildDefaultCore(floorplate),
-    entryPoints: buildDefaultEntries(floorplate),
-    windows: buildDefaultWindows(floorplate),
-    existingInteriorWalls: buildDefaultInteriorWalls(floorplate),
-    confidence: hasUploadedPlan ? 0.58 : 0.78,
-    source: "synthetic_rectangular_model",
-    reviewRequired: hasUploadedPlan,
-    reviewReasons,
+    width: round(Math.sqrt(safeArea * 1.5)),
+    depth: round(Math.sqrt(safeArea / 1.5)),
   };
 }
 
-function clampToFloorplate(value: number | undefined, max: number): number {
-  if (!Number.isFinite(value)) return 0;
-  return round(Math.max(0, Math.min(max, value ?? 0)));
+export function fallbackFloorplateGeometry(totalSqFt: number, warning?: string): FloorplateGeometry {
+  const safeArea = Math.max(500, Math.round(totalSqFt || 5000));
+  const { width, depth } = fallbackDimensions(safeArea);
+  return attachCompatibilityAliases({
+    width,
+    depth,
+    totalSqFt: safeArea,
+    shape: "rectangle",
+    aspectRatio: round(width / depth, 3),
+    core: { x: 0.4, y: 0.4, width: 0.2, height: 0.2, type: "center" },
+    entry: { x: 0.5, y: 1, wall: "south" },
+    windows: [
+      { wall: "north", startPct: 0.05, endPct: 0.95 },
+      { wall: "east", startPct: 0.1, endPct: 0.9 },
+      { wall: "west", startPct: 0.1, endPct: 0.9 },
+    ],
+    confidence: "low",
+    source: "fallback",
+    parseWarnings: [warning ?? "No confidently parseable uploaded floor plan was available; using safe rectangular fallback geometry anchored to user-provided total square footage."],
+  });
 }
 
-function normalizeConfidence(value: number | undefined, fallback: number): number {
-  if (!Number.isFinite(value)) return fallback;
-  return round(Math.max(0.1, Math.min(0.98, value ?? fallback)), 2);
-}
+function normalizeVisionGeometry(input: ParseFloorPlanInput, vision: VisionFloorplateGeometry): FloorplateGeometry {
+  const totalSqFt = Math.max(500, Math.round(input.totalSqFt || 5000));
+  const confidence = normalizeConfidence(vision.confidence);
+  if (confidence === "low") {
+    return fallbackFloorplateGeometry(totalSqFt, "Claude Vision returned low confidence; using safe fallback geometry as required by parser rules.");
+  }
 
-function normalizeCoreElements(items: ClaudeFloorPlanGeometry["coreElements"], floorplate: Rect): CoreElement[] {
-  const allowedTypes = new Set(["restrooms", "stairs", "elevators", "shaft", "service", "core"]);
-  const normalized = (items ?? [])
-    .filter(item => Number.isFinite(item.x) && Number.isFinite(item.y) && Number.isFinite(item.width) && Number.isFinite(item.height))
-    .slice(0, 12)
-    .map((item, index): CoreElement => {
-      const x = clampToFloorplate(item.x, floorplate.width);
-      const y = clampToFloorplate(item.y, floorplate.height);
-      const maxWidth = Math.max(4, floorplate.width - x);
-      const maxHeight = Math.max(4, floorplate.height - y);
-      const type = allowedTypes.has(String(item.type)) ? item.type as CoreElement["type"] : "core";
+  const scaled = scaleDimensionsToAuthoritativeArea(Number(vision.width), Number(vision.depth), totalSqFt);
+  const coreType = vision.core?.type === "side" || vision.core?.type === "end" || vision.core?.type === "none" || vision.core?.type === "center" ? vision.core.type : "center";
+  const windows = (vision.windows ?? [])
+    .map(window => {
+      const startPct = clamp01(window.startPct, 0.05);
+      const endPct = clamp01(window.endPct, 0.95);
       return {
-        id: item.id ?? `vision-core-${index + 1}`,
-        type,
-        label: item.label ?? (type === "core" ? "Fixed Core" : String(type)),
-        x,
-        y,
-        width: round(Math.max(4, Math.min(maxWidth, item.width ?? 4))),
-        height: round(Math.max(4, Math.min(maxHeight, item.height ?? 4))),
-        fixed: true,
-        confidence: normalizeConfidence(item.confidence, 0.68),
+        wall: normalizeWall(window.wall, "north"),
+        startPct: Math.min(startPct, endPct),
+        endPct: Math.max(startPct, endPct),
       };
-    });
+    })
+    .filter(window => window.endPct - window.startPct >= 0.05)
+    .slice(0, 12);
 
-  return normalized.length > 0 ? normalized : buildDefaultCore(floorplate);
-}
+  const warnings = Array.isArray(vision.parseWarnings) ? vision.parseWarnings.filter(Boolean).map(String) : [];
+  if (Math.abs(scaled.width * scaled.depth - totalSqFt) / totalSqFt > 0.04) {
+    warnings.push("Parsed dimensions were proportionally scaled so width × depth remains anchored to the user-provided total square footage.");
+  }
 
-function normalizeEntryPoints(items: ClaudeFloorPlanGeometry["entryPoints"], floorplate: Rect): EntryPoint[] {
-  const normalized = (items ?? [])
-    .filter(item => Number.isFinite(item.x) && Number.isFinite(item.y))
-    .slice(0, 6)
-    .map((item, index): EntryPoint => ({
-      id: item.id ?? `vision-entry-${index + 1}`,
-      type: item.type === "egress" ? "egress" : "primary",
-      label: item.label ?? (item.type === "egress" ? "Egress Door" : "Primary Entry"),
-      x: clampToFloorplate(item.x, floorplate.width),
-      y: clampToFloorplate(item.y, floorplate.height),
-      confidence: normalizeConfidence(item.confidence, 0.66),
-    }));
-
-  return normalized.length > 0 ? normalized : buildDefaultEntries(floorplate);
-}
-
-function normalizeLineSegments(items: ClaudeFloorPlanGeometry["windows"] | ClaudeFloorPlanGeometry["existingInteriorWalls"], floorplate: Rect): LineSegment[] {
-  return (items ?? [])
-    .filter(item => Number.isFinite(item.x1) && Number.isFinite(item.y1) && Number.isFinite(item.x2) && Number.isFinite(item.y2))
-    .slice(0, 40)
-    .map(item => ({
-      x1: clampToFloorplate(item.x1, floorplate.width),
-      y1: clampToFloorplate(item.y1, floorplate.height),
-      x2: clampToFloorplate(item.x2, floorplate.width),
-      y2: clampToFloorplate(item.y2, floorplate.height),
-      confidence: normalizeConfidence(item.confidence, 0.58),
-    }));
-}
-
-function normalizeVisionGeometry(input: ParseFloorPlanInput, vision: ClaudeFloorPlanGeometry): ParsedFloorPlanGeometry {
-  const fallback = fallbackGeometry(input);
-  const width = Number.isFinite(vision.widthFt) && (vision.widthFt ?? 0) > 10 ? vision.widthFt as number : fallback.floorplate.width;
-  const depth = Number.isFinite(vision.depthFt) && (vision.depthFt ?? 0) > 10 ? vision.depthFt as number : fallback.floorplate.height;
-  const parsedArea = Math.round(width * depth);
-  const anchoredSqFt = Math.round(input.totalSqFt || vision.totalSqFt || parsedArea || fallback.totalSqFt);
-  const floorplate: Rect = { x: 0, y: 0, width: round(width), height: round(depth) };
-  const confidence = normalizeConfidence(vision.confidence, 0.72);
-  const reviewReasons = [
-    ...(vision.reviewReasons ?? []),
-    ...(vision.shape && vision.shape !== "rectangle" ? [`Claude Vision classified the floorplate shape as ${vision.shape}; V1 rendering uses its rectangular bounding box for placement.`] : []),
-    ...(Math.abs(parsedArea - anchoredSqFt) / Math.max(anchoredSqFt, 1) > 0.18 ? ["Parsed dimensional area differs from project square footage, so the project square footage remains the area anchor."] : []),
-  ];
-
-  return {
-    floorplate,
-    totalSqFt: anchoredSqFt,
-    coreElements: normalizeCoreElements(vision.coreElements, floorplate),
-    entryPoints: normalizeEntryPoints(vision.entryPoints, floorplate),
-    windows: normalizeLineSegments(vision.windows, floorplate),
-    existingInteriorWalls: normalizeLineSegments(vision.existingInteriorWalls, floorplate),
+  return attachCompatibilityAliases({
+    width: scaled.width,
+    depth: scaled.depth,
+    totalSqFt,
+    shape: normalizeShape(vision.shape),
+    aspectRatio: round(scaled.width / scaled.depth, 3),
+    core: {
+      x: clamp01(vision.core?.x, 0.4),
+      y: clamp01(vision.core?.y, 0.4),
+      width: clamp01(vision.core?.width, 0.2),
+      height: clamp01(vision.core?.height, 0.2),
+      type: coreType,
+    },
+    entry: {
+      x: clamp01(vision.entry?.x, 0.5),
+      y: clamp01(vision.entry?.y, 1),
+      wall: normalizeWall(vision.entry?.wall, "south"),
+    },
+    windows: windows.length > 0 ? windows : fallbackFloorplateGeometry(totalSqFt).windows,
     confidence,
-    source: "uploaded_plan",
-    reviewRequired: confidence < 0.76 || reviewReasons.length > 0,
-    reviewReasons: reviewReasons.length > 0 ? reviewReasons : ["Claude Vision parsed the uploaded plan geometry; verify dimensions before issuing construction guidance."],
-  };
+    source: "parsed",
+    parseWarnings: warnings,
+  });
 }
 
 function inferMimeType(url: string | undefined, provided?: string): string {
@@ -246,7 +212,7 @@ async function fetchFloorPlanAsBase64(input: ParseFloorPlanInput): Promise<{ bas
   }
 }
 
-function extractJson(text: string): ClaudeFloorPlanGeometry {
+function extractJson(text: string): VisionFloorplateGeometry {
   const fenced = text.match(/```(?:json)?\s*([\s\S]*?)```/i)?.[1];
   const candidate = fenced ?? text;
   const start = candidate.indexOf("{");
@@ -255,7 +221,7 @@ function extractJson(text: string): ClaudeFloorPlanGeometry {
   return JSON.parse(candidate.slice(start, end + 1));
 }
 
-async function callClaudeVision(input: ParseFloorPlanInput): Promise<ClaudeFloorPlanGeometry | undefined> {
+async function callClaudeVision(input: ParseFloorPlanInput): Promise<VisionFloorplateGeometry | undefined> {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) return undefined;
 
@@ -278,6 +244,7 @@ async function callClaudeVision(input: ParseFloorPlanInput): Promise<ClaudeFloor
       model: process.env.ANTHROPIC_VISION_MODEL ?? "claude-sonnet-4-6",
       max_tokens: 1800,
       temperature: 0,
+      system: VISION_PROMPT,
       messages: [
         {
           role: "user",
@@ -285,7 +252,7 @@ async function callClaudeVision(input: ParseFloorPlanInput): Promise<ClaudeFloor
             mediaBlock,
             {
               type: "text",
-              text: `You are parsing a commercial office floor plan for a PropTech test-fit application. Extract only objective plan geometry and return JSON only. Anchor scale to the user-provided total square feet when exact plan dimensions are unclear. Use feet as units. Keep coordinates in a simple top-left origin system bounded by widthFt and depthFt. Return this exact shape: {"widthFt": number, "depthFt": number, "totalSqFt": number, "shape": "rectangle" | "l_shape" | "irregular" | "unknown", "coreElements": [{"id": string, "type": "restrooms" | "stairs" | "elevators" | "shaft" | "service" | "core", "label": string, "x": number, "y": number, "width": number, "height": number, "confidence": number}], "entryPoints": [{"id": string, "type": "primary" | "egress", "label": string, "x": number, "y": number, "confidence": number}], "windows": [{"x1": number, "y1": number, "x2": number, "y2": number, "confidence": number}], "existingInteriorWalls": [{"x1": number, "y1": number, "x2": number, "y2": number, "confidence": number}], "confidence": number, "reviewReasons": string[]}. Project total square feet: ${Math.round(input.totalSqFt || 0)}. If the plan is too ambiguous, return best-effort bounding dimensions and explain uncertainty in reviewReasons rather than inventing certainty.`,
+              text: `Analyze this uploaded office floor plan. Authoritative total square feet: ${Math.round(input.totalSqFt || 0)}. Return JSON only.`,
             },
           ],
         },
@@ -304,15 +271,108 @@ async function callClaudeVision(input: ParseFloorPlanInput): Promise<ClaudeFloor
   return extractJson(text);
 }
 
-export async function parseFloorPlanGeometry(input: ParseFloorPlanInput): Promise<ParsedFloorPlanGeometry> {
-  if (!input.floorPlanUrl && !input.floorPlanBase64) return fallbackGeometry(input);
+export async function parseFloorPlanGeometry(input: ParseFloorPlanInput): Promise<FloorplateGeometry> {
+  if (!input.floorPlanUrl && !input.floorPlanBase64) {
+    return fallbackFloorplateGeometry(input.totalSqFt, "No uploaded plan was provided; using safe rectangular fallback geometry anchored to user-provided square footage.");
+  }
 
   try {
     const vision = await callClaudeVision(input);
-    if (!vision) return fallbackGeometry(input, "Claude Vision was not configured; using owner-confirmable rectangular baseline geometry anchored to project square footage.");
+    if (!vision) {
+      return fallbackFloorplateGeometry(input.totalSqFt, "Claude Vision was not configured or no plan media was available; using safe fallback geometry.");
+    }
     return normalizeVisionGeometry(input, vision);
   } catch (error) {
     console.error("[FloorPlanParser] Claude Vision parsing failed, using fallback geometry:", error);
-    return fallbackGeometry(input, "Claude Vision parsing failed; using owner-confirmable rectangular baseline geometry anchored to project square footage.");
+    return fallbackFloorplateGeometry(input.totalSqFt, "Claude Vision parsing failed; using safe fallback geometry anchored to user-provided square footage.");
   }
+}
+
+function toFeetX(geometry: FloorplateGeometry, normalized: number): number {
+  return round(clamp(normalized, 0, 1) * geometry.width);
+}
+
+function toFeetY(geometry: FloorplateGeometry, normalized: number): number {
+  return round(clamp(normalized, 0, 1) * geometry.depth);
+}
+
+function confidenceNumber(confidence: ConfidenceLabel): number {
+  return confidence === "high" ? 0.86 : confidence === "medium" ? 0.72 : 0.58;
+}
+
+export function floorplateToRect(geometry: FloorplateGeometry): Rect {
+  return { x: 0, y: 0, width: geometry.width, height: geometry.depth };
+}
+
+export function coreToFeet(geometry: FloorplateGeometry): CoreElement {
+  const width = round(Math.max(0, Math.min(geometry.width, geometry.core.width * geometry.width)));
+  const height = round(Math.max(0, Math.min(geometry.depth, geometry.core.height * geometry.depth)));
+  const x = round(Math.max(0, Math.min(geometry.width - width, geometry.core.x * geometry.width)));
+  const y = round(Math.max(0, Math.min(geometry.depth - height, geometry.core.y * geometry.depth)));
+  return {
+    id: "core-1",
+    type: "core",
+    label: geometry.core.type === "none" ? "No Visible Core" : "Fixed Core / Restrooms",
+    x,
+    y,
+    width,
+    height,
+    fixed: true,
+    confidence: confidenceNumber(geometry.confidence),
+  };
+}
+
+export function entryToFeet(geometry: FloorplateGeometry): EntryPoint {
+  return {
+    id: "entry-primary",
+    type: "primary",
+    label: "Primary Suite Entry",
+    x: toFeetX(geometry, geometry.entry.x),
+    y: toFeetY(geometry, geometry.entry.y),
+    confidence: confidenceNumber(geometry.confidence),
+  };
+}
+
+export function windowsToSegments(geometry: FloorplateGeometry): LineSegment[] {
+  return geometry.windows.map(window => {
+    if (window.wall === "north") return { x1: round(window.startPct * geometry.width), y1: 0, x2: round(window.endPct * geometry.width), y2: 0, confidence: confidenceNumber(geometry.confidence) };
+    if (window.wall === "south") return { x1: round(window.startPct * geometry.width), y1: geometry.depth, x2: round(window.endPct * geometry.width), y2: geometry.depth, confidence: confidenceNumber(geometry.confidence) };
+    if (window.wall === "east") return { x1: geometry.width, y1: round(window.startPct * geometry.depth), x2: geometry.width, y2: round(window.endPct * geometry.depth), confidence: confidenceNumber(geometry.confidence) };
+    return { x1: 0, y1: round(window.startPct * geometry.depth), x2: 0, y2: round(window.endPct * geometry.depth), confidence: confidenceNumber(geometry.confidence) };
+  });
+}
+
+function requiresGeometryReview(geometry: FloorplateGeometry): boolean {
+  const syntheticNoUpload = geometry.source === "fallback" && geometry.parseWarnings.some(reason => reason.startsWith("No uploaded plan was provided"));
+  if (syntheticNoUpload) return false;
+  return geometry.source === "fallback" || geometry.confidence !== "high" || geometry.parseWarnings.length > 0;
+}
+
+function attachCompatibilityAliases<T extends FloorplateGeometry>(geometry: T): T {
+  const coreElements = geometry.core.type === "none" ? [] : [coreToFeet(geometry)];
+  const legacy = {
+    floorplate: floorplateToRect(geometry),
+    coreElements,
+    entryPoints: [entryToFeet(geometry)],
+    existingInteriorWalls: [],
+    reviewRequired: requiresGeometryReview(geometry),
+    reviewReasons: requiresGeometryReview(geometry) ? geometry.parseWarnings : [],
+  };
+  return Object.assign(geometry, legacy);
+}
+
+export function toParsedFloorPlanGeometry(geometry: FloorplateGeometry): ParsedFloorPlanGeometry {
+  const coreElements = geometry.core.type === "none" ? [] : [coreToFeet(geometry)];
+  return {
+    floorplate: floorplateToRect(geometry),
+    totalSqFt: geometry.totalSqFt,
+    coreElements,
+    entryPoints: [entryToFeet(geometry)],
+    windows: windowsToSegments(geometry),
+    existingInteriorWalls: [],
+    confidence: confidenceNumber(geometry.confidence),
+    source: geometry.source === "parsed" ? "uploaded_plan" : "synthetic_rectangular_model",
+    reviewRequired: requiresGeometryReview(geometry),
+    reviewReasons: requiresGeometryReview(geometry) ? geometry.parseWarnings : [],
+  };
 }
