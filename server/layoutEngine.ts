@@ -58,6 +58,7 @@ export interface LayoutResult {
   residualSqFt: number;
   demolitionPct: number;
   programFitPct: number;
+  scenarioMode: "minimum-intervention" | "selective-reconfiguration" | "full-transformation";
   scenarioNarrative: string;
 }
 
@@ -543,7 +544,7 @@ function selectWallsForDemo(geometry: FloorplateGeometry, program: RoomSpec[], i
   const demolishedWalls: ExtractedWall[] = [];
   const keptInterior = new Set(interiorWalls.map(wall => wall.id));
   let demoLF = 0;
-  const targetMinLF = impactLevel === "medium" && programFit < 0.98 ? totalLF * range.min : 0;
+  const targetMinLF = impactLevel === "medium" ? totalLF * range.min : 0;
 
   for (const { wall, score } of scoredWalls) {
     if (demoLF >= maxDemoLF) break;
@@ -588,6 +589,7 @@ function buildMetrics(geometry: FloorplateGeometry, placedRooms: PlacedRoom[], c
   const programFitPct = Math.round(calculateProgramFit(placedRooms, program) * 100);
   const fit = fitVariance(placedRooms, program);
   const newWalls = generateNewWalls(placedRooms, impactLevel);
+  const scenarioMode = impactLevel === "low" ? "minimum-intervention" : impactLevel === "medium" ? "selective-reconfiguration" : "full-transformation";
   const scenarioNarrative = impactLevel === "low"
     ? `Light Refresh retains existing shell, core, and most interior partitions. It uses ${wallPlan.demolishedWalls.length} targeted wall removals only where they materially improve fit.`
     : impactLevel === "medium"
@@ -608,6 +610,7 @@ function buildMetrics(geometry: FloorplateGeometry, placedRooms: PlacedRoom[], c
     residualSqFt,
     demolitionPct: wallPlan.demolitionPct,
     programFitPct,
+    scenarioMode,
     scenarioNarrative,
   };
 }

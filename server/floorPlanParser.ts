@@ -197,6 +197,59 @@ function fallbackDimensions(totalSqFt: number): { width: number; depth: number }
   };
 }
 
+function fallbackWall(id: string, x1: number, y1: number, x2: number, y2: number, type: ExtractedWallType, width: number, depth: number): ExtractedWall {
+  const isProtected = type === "perimeter" || type === "core";
+  return {
+    id,
+    x1,
+    y1,
+    x2,
+    y2,
+    type,
+    isProtected,
+    estimatedThickness: isProtected ? "structural" : "partition",
+    linearFeet: wallLengthFeet({ x1, y1, x2, y2 }, width, depth),
+  };
+}
+
+function fallbackWalls(width: number, depth: number): ExtractedWall[] {
+  return [
+    fallbackWall("perimeter-north", 0, 0, 1, 0, "perimeter", width, depth),
+    fallbackWall("perimeter-east", 1, 0, 1, 1, "perimeter", width, depth),
+    fallbackWall("perimeter-south", 1, 1, 0, 1, "perimeter", width, depth),
+    fallbackWall("perimeter-west", 0, 1, 0, 0, "perimeter", width, depth),
+    fallbackWall("core-north", 0.35, 0.3, 0.65, 0.3, "core", width, depth),
+    fallbackWall("core-east", 0.65, 0.3, 0.65, 0.7, "core", width, depth),
+    fallbackWall("core-south", 0.65, 0.7, 0.35, 0.7, "core", width, depth),
+    fallbackWall("core-west", 0.35, 0.7, 0.35, 0.3, "core", width, depth),
+    fallbackWall("interior-west-office-band", 0.18, 0.08, 0.18, 0.92, "interior", width, depth),
+    fallbackWall("interior-east-office-band", 0.82, 0.08, 0.82, 0.92, "interior", width, depth),
+    fallbackWall("interior-north-meeting-band", 0.08, 0.22, 0.92, 0.22, "interior", width, depth),
+    fallbackWall("interior-south-support-band", 0.08, 0.78, 0.92, 0.78, "interior", width, depth),
+    fallbackWall("interior-core-west-cross", 0.18, 0.5, 0.35, 0.5, "interior", width, depth),
+    fallbackWall("interior-core-east-cross", 0.65, 0.5, 0.82, 0.5, "interior", width, depth),
+  ];
+}
+
+function fallbackRooms(totalSqFt: number): ExistingRoom[] {
+  const room = (id: string, x: number, y: number, width: number, height: number, label: string, wallIds: string[]): ExistingRoom => ({
+    id,
+    boundingBox: { x, y, width, height },
+    estimatedSqFt: Math.round(totalSqFt * width * height),
+    label,
+    wallIds,
+  });
+  return [
+    room("fallback-reception", 0.38, 0.78, 0.24, 0.16, "Reception", ["interior-south-support-band"]),
+    room("fallback-large-conference", 0.08, 0.08, 0.28, 0.14, "Large Conference", ["interior-north-meeting-band"]),
+    room("fallback-conference", 0.64, 0.08, 0.22, 0.14, "Conference Room", ["interior-north-meeting-band"]),
+    room("fallback-break", 0.66, 0.58, 0.16, 0.2, "Break Room", ["interior-south-support-band", "interior-east-office-band"]),
+    room("fallback-private-office", 0.02, 0.26, 0.14, 0.13, "Private Office", ["interior-west-office-band"]),
+    room("fallback-workstations", 0.2, 0.24, 0.24, 0.22, "Workstation", ["interior-west-office-band", "interior-core-west-cross"]),
+    room("fallback-support", 0.2, 0.58, 0.14, 0.2, "Storage", ["interior-south-support-band", "interior-core-west-cross"]),
+  ];
+}
+
 export function fallbackFloorplateGeometry(totalSqFt: number, warning?: string): FloorplateGeometry {
   const safeArea = Math.max(500, Math.round(totalSqFt || 5000));
   const { width, depth } = fallbackDimensions(safeArea);
@@ -214,8 +267,8 @@ export function fallbackFloorplateGeometry(totalSqFt: number, warning?: string):
       { wall: "east", startPct: 0, endPct: 1 },
       { wall: "west", startPct: 0, endPct: 1 },
     ],
-    walls: [],
-    existingRooms: [],
+    walls: fallbackWalls(width, depth),
+    existingRooms: fallbackRooms(safeArea),
     confidence: "low",
     source: "fallback",
     parseWarnings: [warning ?? "No confidently parseable uploaded floor plan was available; using safe rectangular fallback geometry anchored to user-provided total square footage."],

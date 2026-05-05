@@ -237,16 +237,21 @@ export function renderLayoutSvg(options: RenderSvgOptions): string {
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${totalWidth}" height="${totalHeight}" viewBox="0 0 ${totalWidth} ${totalHeight}" role="img" aria-label="${title}">
   <rect width="100%" height="100%" fill="#ffffff" />
-  <text x="${margin}" y="28" font-family="Arial, sans-serif" font-size="19" font-weight="800" fill="#0f172a">${title}</text>
-  <text x="${margin}" y="50" font-family="Arial, sans-serif" font-size="12" fill="#475569">Efficiency ${layout.efficiencyScore}% • Program Fit ${layout.programFitPct}% • Demo ${Math.round(layout.demolitionPct * 100)}% • Usable ${layout.usableSqFt.toLocaleString()} SF</text>
-  <text x="${margin}" y="68" font-family="Arial, sans-serif" font-size="10" fill="#64748b">${escapeXml(layout.scenarioNarrative)}</text>
+  <g id="title-block">
+    <text x="${margin}" y="28" font-family="Arial, sans-serif" font-size="19" font-weight="800" fill="#0f172a">${title}</text>
+    <text x="${margin}" y="50" font-family="Arial, sans-serif" font-size="12" fill="#475569">Efficiency ${layout.efficiencyScore}% • Program Fit ${layout.programFitPct}% • Demo ${Math.round(layout.demolitionPct * 100)}% • Usable ${layout.usableSqFt.toLocaleString()} SF</text>
+    <text x="${margin}" y="68" font-family="Arial, sans-serif" font-size="10" fill="#64748b">${escapeXml(layout.scenarioNarrative)}</text>
+  </g>
   ${reviewMarkup}
   <g transform="translate(${margin} ${headerHeight + reviewHeight})">
-    <rect x="0" y="0" width="${planWidth}" height="${planHeight}" fill="#fafafa" stroke="#111827" stroke-width="2.4" />
+    <rect id="floor-fill" x="0" y="0" width="${planWidth}" height="${planHeight}" fill="#fafafa" />
+    <rect id="perimeter" x="0" y="0" width="${planWidth}" height="${planHeight}" fill="none" stroke="#111827" stroke-width="2.4" />
     <g id="existing-room-reference">${renderExistingRooms(geometry, scale)}</g>
     ${renderWindows(geometry, scale)}
     ${corridorMarkup}
-    ${roomMarkup}
+    <g id="rooms">
+      ${roomMarkup}
+    </g>
     ${coreMarkup}
     ${renderWallLayers(geometry, layout, scale)}
     ${renderEntry(geometry, scale)}
