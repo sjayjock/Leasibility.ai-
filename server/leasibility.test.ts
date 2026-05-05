@@ -155,8 +155,8 @@ describe("projects.analyze", () => {
 });
 
 describe("program-fit reporting and deterministic renderer", () => {
-  it("derives inventory, fit rows, scope summary, and ready render status from synthetic geometry", () => {
-    const geometry = parseFloorPlanGeometry({ totalSqFt: 12000 });
+  it("derives inventory, fit rows, scope summary, and ready render status from synthetic geometry", async () => {
+    const geometry = await parseFloorPlanGeometry({ totalSqFt: 12000 });
     const requested = [
       { type: "Open Workspace", count: 1, sqFt: 5200 },
       { type: "Conference Room", count: 4, sqFt: 300 },
@@ -182,8 +182,8 @@ describe("program-fit reporting and deterministic renderer", () => {
     expect(status.status).toBe("ready");
   });
 
-  it("renders architectural SVG with shell, core, entries, windows, rooms, and review banner when uploaded geometry needs review", () => {
-    const geometry = parseFloorPlanGeometry({ totalSqFt: 10000, floorPlanUrl: "https://example.com/floorplan.pdf" });
+  it("renders architectural SVG with shell, core, entries, windows, rooms, and review banner when uploaded geometry needs review", async () => {
+    const geometry = await parseFloorPlanGeometry({ totalSqFt: 10000, floorPlanUrl: "https://example.com/floorplan.pdf" });
     const renderStatus = buildRenderingStatus(geometry, true);
     const output = generateTestFit({
       floorplate: geometry.floorplate,
