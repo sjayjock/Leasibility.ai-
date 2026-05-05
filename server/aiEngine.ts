@@ -15,6 +15,7 @@ export interface ScenarioInput {
   market: string;
   floorPlanUrl?: string;
   programNotes?: string;
+  workplaceStrategy?: "Collaborative" | "Balanced" | "Privacy" | "Hybrid" | string;
 }
 
 export interface GeneratedScenario {
@@ -92,10 +93,23 @@ function combineProgram(items: ProgramItem[]): ProgramItem[] {
   return Array.from(map.values());
 }
 
+export function getDeskRatio(workplaceStrategy?: string): number {
+  const strategy = (workplaceStrategy ?? "Balanced").toLowerCase();
+  if (strategy.includes("collaborative")) return 0.7;
+  if (strategy.includes("hybrid")) return 0.7;
+  if (strategy.includes("privacy")) return 1.1;
+  return 1.0;
+}
+
+function workstationCountFor(input: ScenarioInput): number {
+  return Math.max(1, Math.round(Math.max(1, input.headcount) * getDeskRatio(input.workplaceStrategy)));
+}
+
 function deterministicProgram(input: ScenarioInput): ProgramItem[] {
   const headcount = Math.max(1, input.headcount);
+  const workstationCount = workstationCountFor(input);
   const conferenceRooms = Math.max(1, Math.ceil(headcount / 18));
-  const privateOffices = Math.max(1, Math.round(headcount * 0.12));
+  const privateOffices = Math.max(1, Math.round(headcount * (getDeskRatio(input.workplaceStrategy) > 1 ? 0.16 : 0.10)));
   const phoneBooths = Math.max(1, Math.ceil(headcount / 8));
   const huddleRooms = Math.max(1, Math.ceil(headcount / 12));
   const collaborationZones = Math.max(1, Math.ceil(headcount / 35));
@@ -105,7 +119,7 @@ function deterministicProgram(input: ScenarioInput): ProgramItem[] {
     { type: "Conference Room", count: conferenceRooms },
     { type: "Break Room", count: 1, sqFt: Math.max(160, Math.min(420, Math.round(headcount * 8))) },
     { type: "Private Office", count: privateOffices },
-    { type: "Workstation", count: Math.max(Math.ceil(headcount * 0.8), headcount - privateOffices) },
+    { type: "Workstation", count: workstationCount },
     { type: "Phone Booth", count: phoneBooths },
     { type: "Huddle Room", count: huddleRooms },
     { type: "Print/Copy", count: 1 },
@@ -125,13 +139,20 @@ function targetProgramArea(items: ProgramItem[]): number {
   }, 0);
 }
 
+function applyDeskRatioToProgram(input: ScenarioInput, items: ProgramItem[]): ProgramItem[] {
+  const target = workstationCountFor(input);
+  const withoutWorkstations = items.filter(item => normalizeRoomType(item.type) !== "Workstation");
+  return combineProgram([...withoutWorkstations, { type: "Workstation", count: target }]);
+}
+
 function ensureProgramFillsSellableSuite(input: ScenarioInput, items: ProgramItem[]): ProgramItem[] {
-  const current = targetProgramArea(items);
+  const ratioAdjusted = applyDeskRatioToProgram(input, items);
+  const current = targetProgramArea(ratioAdjusted);
   const target = input.totalSqFt * 0.83;
   const remaining = Math.max(0, Math.round(target - current));
-  if (remaining < 150) return combineProgram(items);
+  if (remaining < 150) return combineProgram(ratioAdjusted);
   return combineProgram([
-    ...items,
+    ...ratioAdjusted,
     { type: "Flexible Collaboration", count: 1, sqFt: Math.min(Math.max(remaining, 300), Math.max(300, Math.round(input.totalSqFt * 0.28))) },
   ]);
 }
@@ -155,10 +176,11 @@ function specsToRoomBreakdown(specs: RoomSpec[]): Array<{ type: string; count: n
 
 async function generateTenantProgram(input: ScenarioInput, geometry: FloorplateGeometry): Promise<ProgramItem[]> {
   const fallback = ensureProgramFillsSellableSuite(input, deterministicProgram(input));
+  const workstationCount = workstationCountFor(input);
   try {
-    const prompt = `Create one tenant program for all three Leasibility scenarios. Return only JSON {"rooms":[{"type":string,"count":number,"sqFt":number}],"notes":string}.
+    const prompt = `Create one tenant room-count program for all three Leasibility scenarios. Return only JSON {"rooms":[{"type":string,"count":number}],"notes":string}.
 Use exactly these room type names when applicable: Reception, Large Conference, Conference Room, Break Room, Private Office, Workstation, Phone Booth, Huddle Room, Print/Copy, Storage, IT Closet, Wellness Room, Collaboration Zone, Flexible Collaboration.
-Requirements: same tenant program for every scenario; Workstation count must support at least 80% of headcount after private offices; include Wellness Room and IT Closet; keep total target room area near 80-86% of suite area; use Workstation not Open Workspace.
+Requirements: same tenant program for every scenario; do not return efficiency scores, room sizes, coordinates, budgets, or schedules; include exactly ${workstationCount} Workstations based on workplace strategy ${input.workplaceStrategy ?? "Balanced"}; include Wellness Room and IT Closet; use Workstation not Open Workspace.
 Property: ${input.propertyName}; Market: ${input.market}; Industry: ${input.industry}; Headcount: ${input.headcount}; Total SF: ${input.totalSqFt}; Floorplate: ${Math.round(geometry.width)} ft × ${Math.round(geometry.depth)} ft; Shape: ${geometry.shape}; Parser confidence: ${geometry.confidence}. ${input.programNotes ? `User notes: ${input.programNotes}` : ""}`;
 
     const response = await invokeLLM({
@@ -181,9 +203,9 @@ Property: ${input.propertyName}; Market: ${input.market}; Industry: ${input.indu
                   properties: {
                     type: { type: "string" },
                     count: { type: "number" },
-                    sqFt: { type: "number" },
+
                   },
-                  required: ["type", "count", "sqFt"],
+                  required: ["type", "count"],
                   additionalProperties: false,
                 },
               },
@@ -197,7 +219,7 @@ Property: ${input.propertyName}; Market: ${input.market}; Industry: ${input.indu
     });
     const content = response.choices[0]?.message?.content;
     const parsed = typeof content === "string" ? JSON.parse(content) as ProgramResponse : content as unknown as ProgramResponse;
-    const rooms = ensureProgramFillsSellableSuite(input, combineProgram(parsed.rooms ?? []));
+    const rooms = ensureProgramFillsSellableSuite(input, applyDeskRatioToProgram(input, combineProgram(parsed.rooms ?? [])));
     if (rooms.length < 8) return fallback;
     return rooms;
   } catch (error) {
@@ -269,12 +291,13 @@ export async function generateScenarios(input: ScenarioInput): Promise<Generated
   const programSpecs = programItemsToSpecs(programItems);
   const requestedProgram = specsToRoomBreakdown(programSpecs);
   const existingConditionsInventory = deriveExistingConditionsInventory(compatibilityGeometry, requestedProgram, input.headcount);
+  const layouts = await Promise.all(IMPACT_LEVELS.map(impactLevel => Promise.resolve(generateLayout(geometry, programSpecs, impactLevel))));
 
   const scenarios: GeneratedScenario[] = [];
   for (let index = 0; index < 3; index += 1) {
     const impactLevel = IMPACT_LEVELS[index];
     const label = SCENARIO_LABELS[index];
-    const layout = generateLayout(geometry, programSpecs, impactLevel);
+    const layout = layouts[index];
     const achievedProgram = achievedBreakdown(layout);
     const programFit = buildProgramFitSummary(label, impactLevel, requestedProgram, achievedProgram, input.headcount, existingConditionsInventory);
     const legacyScope = buildScopeSummary(label, impactLevel, existingConditionsInventory, programFit);
