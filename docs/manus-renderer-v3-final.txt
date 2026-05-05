@@ -1,0 +1,667 @@
+﻿# LEASIBILITY.AI — DEFINITIVE ARCHITECTURAL RENDERER V3
+## Final Instruction | No Compromises | Unicorn-Level Output
+### Branch: staging-renderer-program-fit-rebuild | May 2026
+
+---
+
+## MANDATORY: READ ALL SOURCE-OF-TRUTH DOCS FIRST
+1. `docs/spatial-rules-hierarchy-v1.2.md`
+2. `docs/floorplate-parsing-spec-v1.2.md`
+3. `docs/good-layout-test-criteria-v1.2.md`
+
+---
+
+## WHAT YOU ARE BUILDING
+
+The output must match this standard: professional commercial real estate test fit deliverable as used by Corgan, Gensler, and JLL brokers. Color-coded pastel zones, real wall lines, schematic furniture at scale, room labels with SF, legend, north arrow, scale bar, professional title block. White paper background.
+
+The three reference visual standards:
+- **Plan quality**: Test Fit 3 (Corgan/Comscore) and Test Fit 4 (Rockefeller Plaza) — color zones, wall lines, furniture, legend
+- **App UI**: Visual Reference 2 (mobile dashboard thumbnails) and Visual Reference 3 (scenario cards)
+- **PDF report**: Visual Reference 1 (desktop report page with plan + efficiency gauge + budget table)
+
+---
+
+## PART 1 — VERIFY PARSER IS RETURNING REAL WALL DATA
+
+Add a temporary debug log to aiEngine.ts:
+
+```typescript
+const geometry = await floorPlanParser(floorPlanUrl, totalSqFt);
+console.log('[LEASIBILITY DEBUG] Parser output:', JSON.stringify({
+  confidence: geometry.confidence,
+  source: geometry.source,
+  width: geometry.width,
+  depth: geometry.depth,
+  wallCount: geometry.walls?.length ?? 0,
+  existingRoomCount: geometry.existingRooms?.length ?? 0,
+  hasColumns: !!(geometry as any).columns,
+  sampleWalls: geometry.walls?.slice(0, 2)
+}, null, 2));
+```
+
+Run one test analysis with a real uploaded floor plan. If `wallCount` is 0 and `source` is `'fallback'`, the parser is not extracting geometry from the image. Fix the parser first before touching the renderer.
+
+**Parser fix if walls are empty:** The Claude Vision prompt must explicitly request wall segment extraction. Update the prompt in floorPlanParser.ts to include:
+
+```
+Extract ALL visible wall lines as individual segments in the "walls" array.
+For each wall segment provide: x1, y1, x2, y2 (normalized 0-1 coordinates),
+type ("perimeter"|"core"|"interior"), isProtected (true for perimeter/core),
+estimatedThickness ("structural"|"partition").
+
+Also extract: "columns" array — only if structural columns are CLEARLY VISIBLE
+as solid squares or circles in the uploaded plan. If columns are not clearly
+visible do NOT invent them. Format: [{x, y, size, shape: "square"|"circle"}]
+where x,y are normalized 0-1 center coordinates and size is normalized width.
+
+If you cannot confidently extract walls (blurry image, photo of screen, etc.),
+return empty walls array and set confidence to "low".
+```
+
+---
+
+## PART 2 — COMPLETE svgRenderer.ts REPLACEMENT
+
+Replace the ENTIRE svgRenderer.ts file with the implementation below.
+
+### Design Standards (from reference image analysis)
+
+```
+Background:        #FFFFFF (white — all professional test fits are on white paper)
+Perimeter walls:   #1A1A1A fill, 10px thick (solid black mass)
+Interior walls:    #333333 stroke, 3-4px (thin dark lines)
+Core:              #CCCCCC fill + diagonal hatch pattern (medium gray)
+Room fills:        Pastel colors (see ROOM_COLORS below), 0.75 opacity
+Room stroke:       #555555, 0.5px (thin outline on each room)
+Furniture:         #555555 stroke, no fill, 0.7-0.8 opacity
+Door swings:       #666666 stroke, 0.8px, dashed arc
+Labels:            #1A1A1A bold 8px (room name) + #555 regular 7px (SF)
+Columns:           #1A1A1A solid — ONLY when detected in uploaded plan
+Legend:            Top-right panel, white bg, 1px gray border
+Title block:       Dark navy #1B3A5C background, full width, 50px height
+```
+
+### Pastel Room Color Palette (matches professional test fit standards)
+
+```typescript
+const ROOM_COLORS: Record<string, string> = {
+  // Client-facing / Welcome
+  'Reception':              '#E8C07D',  // warm gold
+  'Lobby':                  '#E8C07D',
+
+  // Conference / Meeting
+  'Large Conference':       '#9EC5E0',  // medium blue
+  'Medium Conference':      '#B8D8EE',  // light blue
+  'Huddle Room':            '#C5E8C5',  // light green
+  'Phone Booth':            '#FFF0A0',  // pale yellow
+
+  // Work Zones
+  'Private Office':         '#D4EAF5',  // very light blue
+  'Workstation':            '#F0F5E8',  // very pale green
+  'Open Workspace':         '#F0F5E8',  // very pale green
+  'Collaboration Zone':     '#D5EAF0',  // pale cyan
+
+  // Support / Amenity
+  'Break Room':             '#F5D5B5',  // light peach/orange
+  'Print/Copy':             '#E0E0E0',  // light gray
+  'Storage':                '#D8D8D8',  // gray
+  'IT/Server':              '#CCCCCC',  // medium gray
+  'Wellness Room':          '#E8D5EA',  // lavender
+  'Corridor':               '#F5F5F3',  // near-white
+
+  // Fallback
+  'default':                '#EAE8E0',  // warm off-white
+};
+```
+
+### Furniture Symbol Library
+
+```typescript
+// All furniture is SCHEMATIC — simple outlines, no detail
+// Drawn at architectural scale: 1 foot = scaleFactor SVG pixels
+
+function drawConferenceTable(svg: string[], cx: number, cy: number, w: number, h: number): void {
+  // Rounded rectangle table
+  const rx = 4;
+  svg.push(`<rect x="${cx-w/2}" y="${cy-h/2}" width="${w}" height="${h}" rx="${rx}" fill="none" stroke="#555" stroke-width="0.8" opacity="0.75"/>`);
+  // Chairs: circles around table perimeter
+  const chairR = Math.min(w, h) * 0.08;
+  const chairCount = Math.max(4, Math.floor(w / 15) * 2);
+  const spacing = w / Math.ceil(chairCount / 2);
+  for (let i = 0; i < Math.ceil(chairCount / 2); i++) {
+    const chx = cx - w/2 + spacing * (i + 0.5);
+    svg.push(`<circle cx="${chx}" cy="${cy - h/2 - chairR - 1}" r="${chairR}" fill="none" stroke="#555" stroke-width="0.7" opacity="0.6"/>`);
+    svg.push(`<circle cx="${chx}" cy="${cy + h/2 + chairR + 1}" r="${chairR}" fill="none" stroke="#555" stroke-width="0.7" opacity="0.6"/>`);
+  }
+  // End chairs
+  svg.push(`<circle cx="${cx - w/2 - chairR - 1}" cy="${cy}" r="${chairR}" fill="none" stroke="#555" stroke-width="0.7" opacity="0.6"/>`);
+  svg.push(`<circle cx="${cx + w/2 + chairR + 1}" cy="${cy}" r="${chairR}" fill="none" stroke="#555" stroke-width="0.7" opacity="0.6"/>`);
+}
+
+function drawWorkstationCluster(svg: string[], roomX: number, roomY: number, roomW: number, roomH: number, scaleFactor: number): void {
+  // 6x6 or 6x8 desk modules based on Test Fit 6 and Test Fit 2
+  const deskW = Math.min(scaleFactor * 6, roomW * 0.45);
+  const deskH = Math.min(scaleFactor * 5, roomH * 0.35);
+  const cols = Math.max(1, Math.floor(roomW / (deskW + 4)));
+  const rows = Math.max(1, Math.floor(roomH / (deskH + 8)));
+  const margin = 6;
+  for (let r = 0; r < Math.min(rows, 3); r++) {
+    for (let c = 0; c < Math.min(cols, 4); c++) {
+      const dx = roomX + margin + c * (deskW + 4);
+      const dy = roomY + margin + r * (deskH + 8);
+      if (dx + deskW > roomX + roomW - margin || dy + deskH > roomY + roomH - margin) continue;
+      // Desk surface
+      svg.push(`<rect x="${dx}" y="${dy}" width="${deskW}" height="${deskH * 0.65}" fill="none" stroke="#555" stroke-width="0.7" opacity="0.6"/>`);
+      // Pedestal
+      svg.push(`<rect x="${dx}" y="${dy + deskH * 0.65}" width="${deskW * 0.35}" height="${deskH * 0.35}" fill="none" stroke="#555" stroke-width="0.5" opacity="0.5"/>`);
+      // Chair
+      const chR = Math.min(deskW, deskH) * 0.12;
+      svg.push(`<circle cx="${dx + deskW * 0.5}" cy="${dy + deskH + chR + 1}" r="${chR}" fill="none" stroke="#555" stroke-width="0.6" opacity="0.5"/>`);
+    }
+  }
+}
+
+function drawReceptionDesk(svg: string[], roomX: number, roomY: number, roomW: number, roomH: number): void {
+  // L-shaped reception desk
+  const deskLen = Math.min(roomW * 0.6, 60);
+  const deskD = Math.min(roomH * 0.25, 15);
+  const cx = roomX + roomW * 0.2;
+  const cy = roomY + roomH * 0.45;
+  svg.push(`<rect x="${cx}" y="${cy}" width="${deskLen}" height="${deskD}" fill="none" stroke="#555" stroke-width="0.9" opacity="0.75"/>`);
+  svg.push(`<rect x="${cx}" y="${cy - deskD}" width="${deskD}" height="${deskD * 2}" fill="none" stroke="#555" stroke-width="0.9" opacity="0.75"/>`);
+}
+
+function drawPrivateOfficeDesk(svg: string[], roomX: number, roomY: number, roomW: number, roomH: number): void {
+  const deskW = Math.min(roomW * 0.55, 40);
+  const deskH = Math.min(roomH * 0.3, 20);
+  const dx = roomX + (roomW - deskW) / 2;
+  const dy = roomY + roomH * 0.35;
+  svg.push(`<rect x="${dx}" y="${dy}" width="${deskW}" height="${deskH}" fill="none" stroke="#555" stroke-width="0.8" opacity="0.7"/>`);
+  const chR = Math.min(deskW, deskH) * 0.18;
+  svg.push(`<circle cx="${dx + deskW * 0.5}" cy="${dy + deskH + chR + 2}" r="${chR}" fill="none" stroke="#555" stroke-width="0.6" opacity="0.6"/>`);
+}
+
+function drawBreakRoom(svg: string[], roomX: number, roomY: number, roomW: number, roomH: number): void {
+  // Counter along one wall + small round table
+  svg.push(`<rect x="${roomX + 4}" y="${roomY + 4}" width="${roomW * 0.35}" height="${roomH * 0.18}" fill="none" stroke="#555" stroke-width="0.8" opacity="0.7"/>`);
+  // Small round table
+  const tableR = Math.min(roomW, roomH) * 0.15;
+  const tx = roomX + roomW * 0.65;
+  const ty = roomY + roomH * 0.55;
+  svg.push(`<circle cx="${tx}" cy="${ty}" r="${tableR}" fill="none" stroke="#555" stroke-width="0.8" opacity="0.7"/>`);
+  // Chairs around table
+  const numChairs = 4;
+  for (let i = 0; i < numChairs; i++) {
+    const angle = (i / numChairs) * Math.PI * 2;
+    const chx = tx + Math.cos(angle) * (tableR + 5);
+    const chy = ty + Math.sin(angle) * (tableR + 5);
+    svg.push(`<circle cx="${chx}" cy="${chy}" r="4" fill="none" stroke="#555" stroke-width="0.6" opacity="0.55"/>`);
+  }
+}
+```
+
+### Main Renderer Function
+
+```typescript
+export function renderToSVG(
+  layoutResult: LayoutResult,
+  geometry: FloorplateGeometry,
+  scenarioName: string,
+  propertyName: string,
+  impactLevel: 'low' | 'medium' | 'high'
+): string {
+
+  const SVG_WIDTH = 900;
+  const SVG_HEIGHT = 700;
+  const MARGIN = 45;
+  const TITLE_H = 52;
+  const LEGEND_W = 145;
+  const BANNER_H = 20;
+
+  // Usable drawing area
+  const drawW = SVG_WIDTH - MARGIN * 2 - LEGEND_W;
+  const drawH = SVG_HEIGHT - MARGIN * 2 - TITLE_H - BANNER_H;
+
+  // Scale to fit building
+  const scaleX = drawW / geometry.width;
+  const scaleY = drawH / geometry.depth;
+  const SF = Math.min(scaleX, scaleY) * 0.88;
+
+  // Building offset (centered in draw area)
+  const buildingPixelW = geometry.width * SF;
+  const buildingPixelH = geometry.depth * SF;
+  const BLDG_X = MARGIN + (drawW - buildingPixelW) / 2;
+  const BLDG_Y = MARGIN + BANNER_H + (drawH - buildingPixelH) / 2;
+
+  // Coordinate helpers
+  const px = (feet: number) => feet * SF;
+  const bx = (normX: number) => BLDG_X + normX * geometry.width * SF;
+  const by = (normY: number) => BLDG_Y + normY * geometry.depth * SF;
+  const rx = (roomX: number) => BLDG_X + roomX * SF;
+  const ry = (roomY: number) => BLDG_Y + roomY * SF;
+
+  const PERIM_THICK = 10;
+  const INTERIOR_THICK = 3.5;
+
+  const svg: string[] = [];
+
+  // ─────────────────────────────────────────────
+  // SVG HEADER
+  // ─────────────────────────────────────────────
+  svg.push(`<svg viewBox="0 0 ${SVG_WIDTH} ${SVG_HEIGHT}" xmlns="http://www.w3.org/2000/svg">`);
+
+  svg.push(`<defs>
+    <pattern id="core-hatch" patternUnits="userSpaceOnUse" width="8" height="8">
+      <line x1="0" y1="8" x2="8" y2="0" stroke="#999" stroke-width="0.8"/>
+    </pattern>
+    <pattern id="demo-hatch" patternUnits="userSpaceOnUse" width="6" height="6">
+      <line x1="0" y1="0" x2="6" y2="6" stroke="#FF4444" stroke-width="0.5" opacity="0.35"/>
+    </pattern>
+  </defs>`);
+
+  // ─────────────────────────────────────────────
+  // LAYER 1: WHITE BACKGROUND
+  // ─────────────────────────────────────────────
+  svg.push(`<rect width="${SVG_WIDTH}" height="${SVG_HEIGHT}" fill="#FFFFFF"/>`);
+
+  // ─────────────────────────────────────────────
+  // LAYER 2: FLOOR PLATE FILL (cream inside perimeter)
+  // ─────────────────────────────────────────────
+  svg.push(`<rect x="${BLDG_X}" y="${BLDG_Y}" width="${buildingPixelW}" height="${buildingPixelH}" fill="#F9F8F5"/>`);
+
+  // ─────────────────────────────────────────────
+  // LAYER 3: CORE (hatched gray)
+  // ─────────────────────────────────────────────
+  if (geometry.core && geometry.core.type !== 'none') {
+    const cx = bx(geometry.core.x);
+    const cy = by(geometry.core.y);
+    const cw = px(geometry.core.width * geometry.width);
+    const ch = px(geometry.core.height * geometry.depth);
+    svg.push(`<rect x="${cx}" y="${cy}" width="${cw}" height="${ch}" fill="url(#core-hatch)" stroke="#888" stroke-width="1.5"/>`);
+    svg.push(`<text x="${cx + cw/2}" y="${cy + ch/2 + 4}" text-anchor="middle" dominant-baseline="middle" font-family="Arial,Helvetica,sans-serif" font-size="8" fill="#666" font-weight="bold" letter-spacing="1">CORE</text>`);
+  }
+
+  // ─────────────────────────────────────────────
+  // LAYER 4: ROOM COLOR FILLS
+  // Draw BEFORE walls so wall lines appear on top
+  // ─────────────────────────────────────────────
+  for (const room of layoutResult.placedRooms) {
+    const color = ROOM_COLORS[room.type] ?? ROOM_COLORS['default'];
+    const inset = INTERIOR_THICK / 2;
+    const roomPxX = rx(room.x) + inset;
+    const roomPxY = ry(room.y) + inset;
+    const roomPxW = px(room.width) - inset * 2;
+    const roomPxH = px(room.height) - inset * 2;
+    if (roomPxW < 2 || roomPxH < 2) continue;
+    svg.push(`<rect x="${roomPxX}" y="${roomPxY}" width="${roomPxW}" height="${roomPxH}" fill="${color}" fill-opacity="0.78" stroke="#777" stroke-width="0.4"/>`);
+  }
+
+  // ─────────────────────────────────────────────
+  // LAYER 5: DEMOLISHED WALLS (dashed red — Moderate only)
+  // ─────────────────────────────────────────────
+  if (impactLevel === 'medium' && layoutResult.demolishedWalls?.length > 0) {
+    for (const wall of layoutResult.demolishedWalls) {
+      svg.push(`<line x1="${bx(wall.x1)}" y1="${by(wall.y1)}" x2="${bx(wall.x2)}" y2="${by(wall.y2)}"
+        stroke="#EE3333" stroke-width="2.5" stroke-dasharray="7,4" opacity="0.85" stroke-linecap="round"/>`);
+    }
+  }
+
+  // ─────────────────────────────────────────────
+  // LAYER 6: KEPT INTERIOR WALLS (solid dark lines)
+  // ─────────────────────────────────────────────
+  if (layoutResult.keptWalls?.length > 0) {
+    for (const wall of layoutResult.keptWalls) {
+      if (wall.isProtected) continue; // perimeter drawn separately
+      const thick = wall.estimatedThickness === 'structural' ? 6 : INTERIOR_THICK;
+      svg.push(`<line x1="${bx(wall.x1)}" y1="${by(wall.y1)}" x2="${bx(wall.x2)}" y2="${by(wall.y2)}"
+        stroke="#2A2A2A" stroke-width="${thick}" stroke-linecap="square"/>`);
+    }
+  }
+
+  // ─────────────────────────────────────────────
+  // LAYER 7: NEW WALLS (dashed blue — Moderate and Full)
+  // ─────────────────────────────────────────────
+  if (layoutResult.newWalls?.length > 0 && impactLevel !== 'low') {
+    for (const wall of layoutResult.newWalls) {
+      const style = impactLevel === 'high'
+        ? `stroke="#1B3A5C" stroke-width="${INTERIOR_THICK + 0.5}" stroke-linecap="square"`
+        : `stroke="#2255AA" stroke-width="${INTERIOR_THICK}" stroke-dasharray="6,3" stroke-linecap="round"`;
+      svg.push(`<line x1="${rx(wall.x1)}" y1="${ry(wall.y1)}" x2="${rx(wall.x2)}" y2="${ry(wall.y2)}" ${style}/>`);
+    }
+  }
+
+  // ─────────────────────────────────────────────
+  // LAYER 8: PERIMETER WALLS (thick black mass — always on top)
+  // ─────────────────────────────────────────────
+  const HT = PERIM_THICK / 2;
+  // North wall
+  svg.push(`<rect x="${BLDG_X - HT}" y="${BLDG_Y - HT}" width="${buildingPixelW + PERIM_THICK}" height="${PERIM_THICK}" fill="#1A1A1A"/>`);
+  // South wall
+  svg.push(`<rect x="${BLDG_X - HT}" y="${BLDG_Y + buildingPixelH - HT}" width="${buildingPixelW + PERIM_THICK}" height="${PERIM_THICK}" fill="#1A1A1A"/>`);
+  // West wall
+  svg.push(`<rect x="${BLDG_X - HT}" y="${BLDG_Y - HT}" width="${PERIM_THICK}" height="${buildingPixelH + PERIM_THICK}" fill="#1A1A1A"/>`);
+  // East wall
+  svg.push(`<rect x="${BLDG_X + buildingPixelW - HT}" y="${BLDG_Y - HT}" width="${PERIM_THICK}" height="${buildingPixelH + PERIM_THICK}" fill="#1A1A1A"/>`);
+
+  // ─────────────────────────────────────────────
+  // LAYER 9: STRUCTURAL COLUMNS
+  // ONLY draw if geometry.columns exists AND has data (case-by-case from uploaded plan)
+  // ─────────────────────────────────────────────
+  const columns = (geometry as any).columns as Array<{x: number; y: number; size: number; shape?: string}> | undefined;
+  if (columns && columns.length > 0) {
+    for (const col of columns) {
+      const colPxX = bx(col.x);
+      const colPxY = by(col.y);
+      const colSize = px(col.size * geometry.width);
+      if (col.shape === 'circle') {
+        svg.push(`<circle cx="${colPxX}" cy="${colPxY}" r="${colSize / 2}" fill="#1A1A1A"/>`);
+      } else {
+        svg.push(`<rect x="${colPxX - colSize/2}" y="${colPxY - colSize/2}" width="${colSize}" height="${colSize}" fill="#1A1A1A"/>`);
+      }
+    }
+  }
+
+  // ─────────────────────────────────────────────
+  // LAYER 10: FURNITURE SYMBOLS
+  // ─────────────────────────────────────────────
+  for (const room of layoutResult.placedRooms) {
+    const roomPxX = rx(room.x) + INTERIOR_THICK + 3;
+    const roomPxY = ry(room.y) + INTERIOR_THICK + 3;
+    const roomPxW = px(room.width) - (INTERIOR_THICK + 3) * 2;
+    const roomPxH = px(room.height) - (INTERIOR_THICK + 3) * 2;
+
+    if (roomPxW < 20 || roomPxH < 15) continue;
+
+    const roomCX = roomPxX + roomPxW / 2;
+    const roomCY = roomPxY + roomPxH / 2;
+
+    switch (room.type) {
+      case 'Large Conference':
+      case 'Medium Conference': {
+        const tw = roomPxW * 0.72;
+        const th = roomPxH * 0.52;
+        drawConferenceTable(svg, roomCX, roomCY, tw, th);
+        break;
+      }
+      case 'Huddle Room': {
+        const tableR = Math.min(roomPxW, roomPxH) * 0.22;
+        svg.push(`<circle cx="${roomCX}" cy="${roomCY}" r="${tableR}" fill="none" stroke="#555" stroke-width="0.8" opacity="0.7"/>`);
+        for (let i = 0; i < 4; i++) {
+          const angle = (i / 4) * Math.PI * 2 - Math.PI / 4;
+          const chx = roomCX + Math.cos(angle) * (tableR + 4);
+          const chy = roomCY + Math.sin(angle) * (tableR + 4);
+          svg.push(`<circle cx="${chx}" cy="${chy}" r="3.5" fill="none" stroke="#555" stroke-width="0.6" opacity="0.6"/>`);
+        }
+        break;
+      }
+      case 'Reception':
+        drawReceptionDesk(svg, roomPxX, roomPxY, roomPxW, roomPxH);
+        break;
+      case 'Private Office':
+        drawPrivateOfficeDesk(svg, roomPxX, roomPxY, roomPxW, roomPxH);
+        break;
+      case 'Break Room':
+        drawBreakRoom(svg, roomPxX, roomPxY, roomPxW, roomPxH);
+        break;
+      case 'Workstation':
+      case 'Open Workspace':
+        drawWorkstationCluster(svg, roomPxX, roomPxY, roomPxW, roomPxH, SF);
+        break;
+      case 'Phone Booth': {
+        // Single chair
+        svg.push(`<circle cx="${roomCX}" cy="${roomCY}" r="${Math.min(roomPxW, roomPxH) * 0.22}" fill="none" stroke="#555" stroke-width="0.7" opacity="0.6"/>`);
+        break;
+      }
+    }
+  }
+
+  // ─────────────────────────────────────────────
+  // LAYER 11: DOOR SWINGS
+  // ─────────────────────────────────────────────
+  for (const room of layoutResult.placedRooms) {
+    if (['Corridor', 'Open Workspace', 'Workstation'].includes(room.type)) continue;
+    const roomPxW = px(room.width);
+    const roomPxH = px(room.height);
+    if (roomPxW < 20 || roomPxH < 15) continue;
+
+    const doorLen = Math.min(px(3), roomPxW * 0.35, 28);
+    const doorX = rx(room.x) + PERIM_THICK;
+    const doorY = ry(room.y + room.height) - INTERIOR_THICK;
+
+    svg.push(`<g stroke="#555" stroke-width="0.7" fill="none" opacity="0.75">`);
+    svg.push(`  <line x1="${doorX}" y1="${doorY}" x2="${doorX + doorLen}" y2="${doorY}"/>`);
+    svg.push(`  <path d="M ${doorX} ${doorY} A ${doorLen} ${doorLen} 0 0 0 ${doorX + doorLen} ${doorY - doorLen}" stroke-dasharray="2,2" opacity="0.5"/>`);
+    svg.push(`</g>`);
+  }
+
+  // ─────────────────────────────────────────────
+  // LAYER 12: ROOM LABELS (name + SF)
+  // ─────────────────────────────────────────────
+  for (const room of layoutResult.placedRooms) {
+    const roomPxW = px(room.width);
+    const roomPxH = px(room.height);
+    if (roomPxW < 22 || roomPxH < 16) continue;
+
+    const labelX = rx(room.x + room.width / 2);
+    const labelY = ry(room.y + room.height / 2);
+    const fontSize = roomPxW < 50 ? 6 : roomPxW < 80 ? 7 : 8;
+    const sfFontSize = fontSize - 1;
+
+    // Room name — ALL CAPS matches professional test fit standard
+    const displayName = room.type.toUpperCase();
+    svg.push(`<text x="${labelX}" y="${labelY - sfFontSize/2 - 1}" text-anchor="middle" dominant-baseline="middle" font-family="Arial,Helvetica,sans-serif" font-size="${fontSize}" font-weight="bold" fill="#1A1A1A">${displayName}</text>`);
+
+    // SF below name
+    if (roomPxH > 24) {
+      svg.push(`<text x="${labelX}" y="${labelY + fontSize/2 + 2}" text-anchor="middle" dominant-baseline="middle" font-family="Arial,Helvetica,sans-serif" font-size="${sfFontSize}" fill="#555">${Math.round(room.sqFt)} SF</text>`);
+    }
+  }
+
+  // ─────────────────────────────────────────────
+  // LAYER 13: ENTRY POINT MARKER
+  // ─────────────────────────────────────────────
+  if (geometry.entry) {
+    const entX = bx(geometry.entry.x);
+    const entY = by(geometry.entry.y);
+    svg.push(`<circle cx="${entX}" cy="${entY}" r="5" fill="#C9A84C" stroke="white" stroke-width="1.5" opacity="0.9"/>`);
+    svg.push(`<text x="${entX + 8}" y="${entY + 4}" font-family="Arial,sans-serif" font-size="6.5" fill="#C9A84C" font-weight="bold">PRIMARY ENTRY</text>`);
+  }
+
+  // ─────────────────────────────────────────────
+  // LAYER 14: DIMENSION LINES
+  // ─────────────────────────────────────────────
+  // Width (above building)
+  const dimY = BLDG_Y - 18;
+  svg.push(`<g stroke="#444" stroke-width="0.7" fill="none">`);
+  svg.push(`  <line x1="${BLDG_X}" y1="${dimY}" x2="${BLDG_X + buildingPixelW}" y2="${dimY}"/>`);
+  svg.push(`  <line x1="${BLDG_X}" y1="${dimY - 4}" x2="${BLDG_X}" y2="${dimY + 4}"/>`);
+  svg.push(`  <line x1="${BLDG_X + buildingPixelW}" y1="${dimY - 4}" x2="${BLDG_X + buildingPixelW}" y2="${dimY + 4}"/>`);
+  svg.push(`</g>`);
+  svg.push(`<text x="${BLDG_X + buildingPixelW/2}" y="${dimY - 5}" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" fill="#333">${Math.round(geometry.width)}'-0"</text>`);
+
+  // Depth (right of building)
+  const dimX2 = BLDG_X + buildingPixelW + 16;
+  svg.push(`<g stroke="#444" stroke-width="0.7" fill="none">`);
+  svg.push(`  <line x1="${dimX2}" y1="${BLDG_Y}" x2="${dimX2}" y2="${BLDG_Y + buildingPixelH}"/>`);
+  svg.push(`  <line x1="${dimX2 - 4}" y1="${BLDG_Y}" x2="${dimX2 + 4}" y2="${BLDG_Y}"/>`);
+  svg.push(`  <line x1="${dimX2 - 4}" y1="${BLDG_Y + buildingPixelH}" x2="${dimX2 + 4}" y2="${BLDG_Y + buildingPixelH}"/>`);
+  svg.push(`</g>`);
+  svg.push(`<text x="${dimX2 + 6}" y="${BLDG_Y + buildingPixelH/2 + 3}" font-family="Arial,sans-serif" font-size="8" fill="#333">${Math.round(geometry.depth)}'-0"</text>`);
+
+  // ─────────────────────────────────────────────
+  // LAYER 15: SCENARIO BANNER (top)
+  // ─────────────────────────────────────────────
+  const bannerColors = { low: '#2D6A2D', medium: '#8B6914', high: '#8B3A1A' };
+  const bannerLabels = {
+    low: 'LIGHT REFRESH  —  EXISTING WALLS RETAINED  —  0–20% DEMOLITION',
+    medium: `MODERATE BUILD-OUT  —  SELECTIVE DEMOLITION  —  ${Math.round((layoutResult.demolitionPct ?? 0.35) * 100)}% DEMOLITION`,
+    high: 'FULL TRANSFORMATION  —  COMPLETE INTERIOR REDESIGN  —  70–100% DEMOLITION'
+  };
+  svg.push(`<rect x="0" y="0" width="${SVG_WIDTH}" height="${BANNER_H}" fill="${bannerColors[impactLevel]}"/>`);
+  svg.push(`<text x="${SVG_WIDTH / 2}" y="${BANNER_H * 0.68}" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="9" font-weight="bold" fill="white" letter-spacing="0.5">${bannerLabels[impactLevel]}</text>`);
+
+  // ─────────────────────────────────────────────
+  // LAYER 16: PLANNING CONFIDENCE NOTE (once, only if fallback)
+  // ─────────────────────────────────────────────
+  if (geometry.source === 'fallback') {
+    const noteY = BLDG_Y + 4;
+    svg.push(`<rect x="${BLDG_X + 2}" y="${noteY}" width="${buildingPixelW - 4}" height="14" fill="#FFFBE6" opacity="0.92" rx="2"/>`);
+    svg.push(`<text x="${BLDG_X + 8}" y="${noteY + 10}" font-family="Arial,sans-serif" font-size="6.5" fill="#7A6000" font-style="italic">Planning note: layout uses estimated geometry. Upload a legible floor plan for precise wall-based results.</text>`);
+  }
+
+  // ─────────────────────────────────────────────
+  // LAYER 17: LEGEND (top-right panel)
+  // ─────────────────────────────────────────────
+  const legendX = SVG_WIDTH - LEGEND_W + 4;
+  const legendY = BANNER_H + 8;
+  const presentTypes = [...new Set(layoutResult.placedRooms.map(r => r.type))].filter(t => t !== 'Corridor');
+  const legendHeight = presentTypes.length * 13 + 24;
+
+  svg.push(`<rect x="${legendX - 4}" y="${legendY}" width="${LEGEND_W}" height="${legendHeight}" fill="white" stroke="#CCCCCC" stroke-width="0.8" rx="2"/>`);
+  svg.push(`<text x="${legendX + 2}" y="${legendY + 12}" font-family="Arial,Helvetica,sans-serif" font-size="8" font-weight="bold" fill="#333333" letter-spacing="1">LEGEND</text>`);
+  svg.push(`<line x1="${legendX - 4}" y1="${legendY + 16}" x2="${legendX + LEGEND_W - 4}" y2="${legendY + 16}" stroke="#DDD" stroke-width="0.5"/>`);
+
+  presentTypes.forEach((type, i) => {
+    const color = ROOM_COLORS[type] ?? ROOM_COLORS['default'];
+    const ly = legendY + 22 + i * 13;
+    svg.push(`<rect x="${legendX + 2}" y="${ly}" width="11" height="11" fill="${color}" fill-opacity="0.85" stroke="#777" stroke-width="0.4" rx="1"/>`);
+    const labelText = type.length > 17 ? type.slice(0, 16) + '.' : type;
+    svg.push(`<text x="${legendX + 17}" y="${ly + 8.5}" font-family="Arial,Helvetica,sans-serif" font-size="7.5" fill="#333">${labelText}</text>`);
+  });
+
+  // ─────────────────────────────────────────────
+  // LAYER 18: TITLE BLOCK
+  // ─────────────────────────────────────────────
+  const tbY = SVG_HEIGHT - TITLE_H;
+  svg.push(`<rect x="0" y="${tbY}" width="${SVG_WIDTH}" height="${TITLE_H}" fill="#1B3A5C"/>`);
+
+  // Brand name
+  svg.push(`<text x="16" y="${tbY + 19}" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#C9A84C" letter-spacing="1">LEASIBILITY AI</text>`);
+  // Scenario + property
+  svg.push(`<text x="16" y="${tbY + 33}" font-family="Arial,Helvetica,sans-serif" font-size="9" fill="#FFFFFF">${scenarioName.toUpperCase()}  ·  ${propertyName}</text>`);
+  // Metadata
+  svg.push(`<text x="16" y="${tbY + 45}" font-family="Arial,Helvetica,sans-serif" font-size="7.5" fill="#AAAAAA">${Math.round(geometry.totalSqFt).toLocaleString()} RSF  ·  Deterministic Architectural Renderer  ·  Leasibility.AI</text>`);
+
+  // Efficiency badge (right side of title block)
+  const efficiency = layoutResult.efficiencyScore ?? 0;
+  const badgeColor = efficiency >= 87 ? '#28A745' : efficiency >= 80 ? '#C9A84C' : '#D46B1A';
+  const badgeX = SVG_WIDTH - 68;
+  const badgeY = tbY + TITLE_H / 2;
+  svg.push(`<circle cx="${badgeX}" cy="${badgeY}" r="22" fill="${badgeColor}" stroke="white" stroke-width="2"/>`);
+  svg.push(`<text x="${badgeX}" y="${badgeY + 5}" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="white">${efficiency}%</text>`);
+  svg.push(`<text x="${badgeX}" y="${badgeY + 17}" text-anchor="middle" font-family="Arial,sans-serif" font-size="6.5" fill="white" opacity="0.85">EFFICIENCY</text>`);
+
+  // Scale bar
+  const sbX = 16;
+  const sbY = tbY + 18;
+  const sb20 = px(20);
+  const sb40 = px(40);
+  svg.push(`<rect x="${sbX}" y="${sbY}" width="${sb20}" height="5" fill="white"/>`);
+  svg.push(`<rect x="${sbX + sb20}" y="${sbY}" width="${sb20}" height="5" fill="#555"/>`);
+  svg.push(`<text x="${sbX}" y="${sbY + 13}" font-family="Arial,sans-serif" font-size="6.5" fill="#AAA">0</text>`);
+  svg.push(`<text x="${sbX + sb20 - 3}" y="${sbY + 13}" font-family="Arial,sans-serif" font-size="6.5" fill="#AAA">20'</text>`);
+  svg.push(`<text x="${sbX + sb40 - 3}" y="${sbY + 13}" font-family="Arial,sans-serif" font-size="6.5" fill="#AAA">40' ft</text>`);
+
+  // North arrow
+  const naX = SVG_WIDTH - 140;
+  const naY = tbY + 16;
+  svg.push(`<text x="${naX}" y="${naY}" font-family="Arial,sans-serif" font-size="10" font-weight="bold" fill="white">N</text>`);
+  svg.push(`<line x1="${naX + 5}" y1="${naY + 2}" x2="${naX + 5}" y2="${naY + 16}" stroke="white" stroke-width="1.5"/>`);
+  svg.push(`<polygon points="${naX+5},${naY+2} ${naX+2},${naY+10} ${naX+8},${naY+10}" fill="white"/>`);
+
+  svg.push(`</svg>`);
+  return svg.join('\n');
+}
+```
+
+---
+
+## PART 3 — UPDATE aiEngine.ts CALL SIGNATURE
+
+Verify the SVG renderer is called with the correct parameters including impactLevel:
+
+```typescript
+// In aiEngine.ts generateScenarios():
+// Ensure these three calls exist with correct impactLevel values:
+
+const svgLight = renderToSVG(lightResult, geometry, 'Light Refresh', project.propertyAddress ?? 'Leasibility AI', 'low');
+const svgModerate = renderToSVG(moderateResult, geometry, 'Moderate Build-Out', project.propertyAddress ?? 'Leasibility AI', 'medium');
+const svgFull = renderToSVG(fullResult, geometry, 'Full Transformation', project.propertyAddress ?? 'Leasibility AI', 'high');
+
+// Store each scenario's SVG in the database scenario rows
+// efficiencyScore MUST come from layoutResult.efficiencyScore (computed number)
+// NOT from the LLM response
+```
+
+---
+
+## PART 4 — VERIFY THREE SCENARIOS LOOK VISUALLY DIFFERENT
+
+Add this verification log to aiEngine.ts:
+
+```typescript
+console.log('[LEASIBILITY DEBUG] Scenario wall counts:', {
+  light_kept: lightResult.keptWalls?.length,
+  light_demo: lightResult.demolishedWalls?.length,
+  light_new: lightResult.newWalls?.length,
+  moderate_kept: moderateResult.keptWalls?.length,
+  moderate_demo: moderateResult.demolishedWalls?.length,
+  moderate_new: moderateResult.newWalls?.length,
+  full_kept: fullResult.keptWalls?.length,
+  full_demo: fullResult.demolishedWalls?.length,
+  full_new: fullResult.newWalls?.length,
+  light_efficiency: lightResult.efficiencyScore,
+  moderate_efficiency: moderateResult.efficiencyScore,
+  full_efficiency: fullResult.efficiencyScore,
+});
+```
+
+If all three scenarios return identical wall counts, the layoutEngine scenario modes are broken.
+Fix layoutEngine.ts so:
+- `impactLevel = 'low'` returns all extracted walls in keptWalls[], demolishedWalls = []
+- `impactLevel = 'medium'` returns partial keptWalls[], demolishedWalls[] with highest-scored walls removed
+- `impactLevel = 'high'` returns keptWalls = [], all interior walls treated as gone
+
+---
+
+## PART 5 — TESTS AND COMMIT
+
+Run: `pnpm test` — all 22 tests must pass.
+
+Then commit:
+```bash
+git add server/svgRenderer.ts server/aiEngine.ts server/floorPlanParser.ts
+git commit -m "V3 renderer: white paper, wall lines, pastel fills, furniture symbols, door swings, columns conditional on detection, three visually distinct scenarios"
+git push origin staging-renderer-program-fit-rebuild
+```
+
+Confirm commit hash appears at:
+https://github.com/sjayjock/Leasibility.ai-/commits/staging-renderer-program-fit-rebuild
+
+---
+
+## QUALITY STANDARD
+
+The output SVG must match this checklist:
+- [ ] White background (#FFFFFF)
+- [ ] Thick black perimeter walls (10px)
+- [ ] Gray hatched core zone
+- [ ] Pastel color fills per room type matching ROOM_COLORS table
+- [ ] Thin dark wall lines between rooms
+- [ ] Schematic furniture in every room large enough (conference tables with chairs, workstation grids, reception desk, private office desk, break room counter)
+- [ ] Door swing arcs on all enclosed rooms
+- [ ] Structural columns ONLY if detected in uploaded plan (not hardcoded)
+- [ ] Room labels: ALL CAPS name + SF below
+- [ ] Legend panel top-right with color swatches
+- [ ] Scenario banner top with correct color and label
+- [ ] Dimension lines showing building width and depth
+- [ ] Scale bar and north arrow in title block
+- [ ] Title block: dark navy, LEASIBILITY AI in gold, scenario name, RSF, efficiency badge
+- [ ] THREE SCENARIOS LOOK VISUALLY DIFFERENT: different wall density, different banner color
+- [ ] Efficiency badge shows correct computed percentage (not LLM-declared)
+- [ ] Planning confidence note shown ONCE ONLY if fallback geometry
+
+---
+*Leasibility.AI SVG Renderer V3 — Final | May 2026 | No Compromises*
+
