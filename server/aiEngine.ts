@@ -3,7 +3,7 @@ import { generateImage } from "./_core/imageGeneration";
 import { parseFloorPlanGeometry, toParsedFloorPlanGeometry, type FloorplateGeometry } from "./floorPlanParser";
 import { estimateBudget } from "./budgetEngine";
 import { generateLayout, getCanonicalRoomSpec, type ImpactLevel, type LayoutResult, type RoomSpec } from "./layoutEngine";
-import { renderLayoutSvg } from "./svgRenderer";
+import { renderToSVG } from "./svgRenderer";
 import { buildProgramFitSummary, buildRenderingStatus, buildScopeSummary, deriveExistingConditionsInventory } from "./programFit";
 import type { ExistingConditionsInventory, ProgramFitSummary, RenderingStatus, ScopeSummary } from "./layout/types";
 
@@ -303,13 +303,8 @@ export async function generateScenarios(input: ScenarioInput): Promise<Generated
     const legacyScope = buildScopeSummary(label, impactLevel, existingConditionsInventory, programFit);
     const renderingStatus = buildRenderingStatus(compatibilityGeometry, layout.placedRooms.length > 0);
     const budget = estimateBudget(layout, impactLevel, input.market);
-    const layoutSvg = renderLayoutSvg({
-      geometry,
-      layout,
-      scenarioName: label,
-      impactLevel,
-      reviewMessage: reviewMessage(geometry, renderingStatus),
-    });
+    console.log(`[Renderer V3] ${label}: walls=${geometry.walls?.length ?? 0}, existingRooms=${geometry.existingRooms?.length ?? 0}, placedRooms=${layout.placedRooms.length}`);
+    const layoutSvg = renderToSVG(layout, geometry, label, input.propertyName, impactLevel, reviewMessage(geometry, renderingStatus));
     const layoutImageUrl = await tryGenerateLayoutImage(input, label, layout, geometry);
     const mergedScope: ScopeSummary = {
       ...legacyScope,

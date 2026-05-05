@@ -27,6 +27,15 @@ export interface ExistingRoom {
   wallIds: string[];
 }
 
+export interface StructuralColumn {
+  x: number;
+  y: number;
+  radius?: number;
+  width?: number;
+  height?: number;
+  label?: string;
+}
+
 export interface FloorplateGeometry {
   width: number;
   depth: number;
@@ -38,6 +47,7 @@ export interface FloorplateGeometry {
   windows: Array<{ wall: Wall; startPct: number; endPct: number }>;
   walls: ExtractedWall[];
   existingRooms: ExistingRoom[];
+  columns?: StructuralColumn[];
   confidence: ConfidenceLabel;
   source: GeometrySource;
   parseWarnings: string[];
@@ -71,6 +81,15 @@ interface VisionRoom {
   wallIds?: string[];
 }
 
+interface VisionColumn {
+  x?: number;
+  y?: number;
+  radius?: number;
+  width?: number;
+  height?: number;
+  label?: string;
+}
+
 interface VisionFloorplateGeometry {
   width?: number;
   depth?: number;
@@ -80,6 +99,7 @@ interface VisionFloorplateGeometry {
   windows?: Array<Partial<FloorplateGeometry["windows"][number]>>;
   walls?: VisionWall[];
   existingRooms?: VisionRoom[];
+  columns?: VisionColumn[];
   confidence?: ConfidenceLabel | string;
   parseWarnings?: string[];
 }
@@ -122,6 +142,9 @@ Extract ALL of the following and return ONLY valid JSON matching this exact sche
       "label": <room label text visible in plan, or null>
     }
   ],
+  "columns": [
+    { "x": <0-1>, "y": <0-1>, "radius": <0-1 optional>, "width": <0-1 optional>, "height": <0-1 optional>, "label": <column label or null> }
+  ],
   "confidence": <"high" | "medium" | "low">,
   "parseWarnings": [<list any assumptions or extraction issues>]
 }
@@ -131,6 +154,7 @@ Rules:
 - Extract EVERY visible wall segment as a separate entry in the walls array.
 - Mark perimeter and core walls as isProtected: true. Interior partitions as isProtected: false.
 - For existingRooms, estimate sqFt by scaling boundingBox dimensions against building totalSqFt.
+- Extract visible structural columns as normalized points or rectangles in columns; omit uncertain decorative symbols.
 - If wall or room extraction is unclear, return empty arrays and set confidence to "low".`;
 
 function round(value: number, precision = 2): number {
@@ -302,6 +326,25 @@ function normalizeVisionWalls(visionWalls: VisionWall[] | undefined, width: numb
     .filter(wall => wall.linearFeet >= 1);
 }
 
+function normalizeVisionColumns(columns: VisionColumn[] | undefined): StructuralColumn[] {
+  return (columns ?? [])
+    .map((column, index) => {
+      const x = clamp01(column.x, Number.NaN);
+      const y = clamp01(column.y, Number.NaN);
+      if (!Number.isFinite(x) || !Number.isFinite(y)) return undefined;
+      const normalized: StructuralColumn = {
+        x,
+        y,
+        label: typeof column.label === "string" && column.label.trim() ? column.label.trim() : `C${index + 1}`,
+      };
+      if (positive(column.radius)) normalized.radius = round(clamp(Number(column.radius), 0.004, 0.03), 4);
+      if (positive(column.width)) normalized.width = round(clamp(Number(column.width), 0.006, 0.05), 4);
+      if (positive(column.height)) normalized.height = round(clamp(Number(column.height), 0.006, 0.05), 4);
+      return normalized;
+    })
+    .filter(Boolean) as StructuralColumn[];
+}
+
 function normalizeExistingRooms(rooms: VisionRoom[] | undefined, totalSqFt: number): ExistingRoom[] {
   return (rooms ?? [])
     .map((room, index) => {
@@ -354,6 +397,7 @@ function normalizeVisionGeometry(input: ParseFloorPlanInput, vision: VisionFloor
     warnings.push("Parsed dimensions were proportionally scaled so width × depth remains anchored to the user-provided total square footage.");
   }
 
+  const columns = normalizeVisionColumns(vision.columns);
   const existingRooms = normalizeExistingRooms(vision.existingRooms, totalSqFt);
   if (existingRooms.length === 0) {
     warnings.push("No existing room polygons were confidently extracted; layout engine will generate fresh room program while preserving extracted walls.");
@@ -380,6 +424,7 @@ function normalizeVisionGeometry(input: ParseFloorPlanInput, vision: VisionFloor
     windows: windows.length > 0 ? windows : fallbackFloorplateGeometry(totalSqFt).windows,
     walls,
     existingRooms,
+    columns,
     confidence,
     source: "parsed",
     parseWarnings: warnings,
