@@ -26,99 +26,225 @@ export interface BudgetEstimate {
   };
 }
 
-const IMPACT_BASE_COST: Record<ImpactLevel, { low: number; mid: number; high: number; weeks: [number, number, number]; demolitionLevel: BudgetEstimate["scopeSummary"]["demolitionLevel"] }> = {
-  low: { low: 65, mid: 85, high: 115, weeks: [6, 9, 12], demolitionLevel: "minimal" },
-  medium: { low: 110, mid: 145, high: 195, weeks: [10, 14, 19], demolitionLevel: "selective" },
-  high: { low: 170, mid: 225, high: 305, weeks: [16, 22, 30], demolitionLevel: "substantial" },
+type CostRange = { low: number; mid: number; high: number };
+
+const RATES: Record<ImpactLevel, {
+  construction: CostRange;
+  ffe: CostRange;
+  itav: CostRange;
+  softCosts: CostRange;
+  contingency: number;
+  scheduleWeeks: { min: number; max: number };
+  demolitionLevel: BudgetEstimate["scopeSummary"]["demolitionLevel"];
+}> = {
+  low: {
+    construction: { low: 15, mid: 22, high: 30 },
+    ffe: { low: 10, mid: 15, high: 22 },
+    itav: { low: 5, mid: 8, high: 12 },
+    softCosts: { low: 4, mid: 6, high: 9 },
+    contingency: 0.10,
+    scheduleWeeks: { min: 8, max: 14 },
+    demolitionLevel: "minimal",
+  },
+  medium: {
+    construction: { low: 55, mid: 80, high: 110 },
+    ffe: { low: 25, mid: 38, high: 55 },
+    itav: { low: 15, mid: 22, high: 35 },
+    softCosts: { low: 12, mid: 18, high: 28 },
+    contingency: 0.12,
+    scheduleWeeks: { min: 14, max: 22 },
+    demolitionLevel: "selective",
+  },
+  high: {
+    construction: { low: 90, mid: 130, high: 180 },
+    ffe: { low: 45, mid: 65, high: 95 },
+    itav: { low: 25, mid: 38, high: 60 },
+    softCosts: { low: 20, mid: 30, high: 45 },
+    contingency: 0.15,
+    scheduleWeeks: { min: 20, max: 32 },
+    demolitionLevel: "substantial",
+  },
+};
+
+const MARKET_FACTORS: Record<string, number> = {
+  "new york": 1.35,
+  nyc: 1.35,
+  "san francisco": 1.30,
+  sf: 1.30,
+  boston: 1.25,
+  seattle: 1.20,
+  "los angeles": 1.18,
+  la: 1.18,
+  "washington dc": 1.15,
+  dc: 1.15,
+  chicago: 1.05,
+  miami: 1.02,
+  austin: 0.98,
+  dallas: 0.92,
+  atlanta: 0.90,
+  phoenix: 0.88,
+  "san diego": 0.95,
+  denver: 0.95,
+  default: 1.00,
 };
 
 function marketFactor(market: string | undefined): number {
-  const value = (market ?? "").toLowerCase();
-  if (/new york|nyc|san francisco|sf|boston|seattle|los angeles|la\b/.test(value)) return 1.3;
-  if (/austin|dallas|phoenix|atlanta|charlotte|nashville|tampa|orlando|miami/.test(value)) return 0.92;
-  if (/chicago|denver|dc|washington|philadelphia/.test(value)) return 1.08;
-  return 1;
+  const normalized = (market ?? "default").trim().toLowerCase();
+  if (MARKET_FACTORS[normalized]) return MARKET_FACTORS[normalized];
+  const matched = Object.entries(MARKET_FACTORS).find(([key]) => key !== "default" && normalized.includes(key));
+  return matched?.[1] ?? MARKET_FACTORS.default;
 }
 
 function roundToNearest(value: number, nearest = 1000): number {
   return Math.round(value / nearest) * nearest;
 }
 
-function allocate(total: number, ratios: Record<string, number>) {
-  return Object.fromEntries(Object.entries(ratios).map(([key, ratio]) => [key, Math.round(total * ratio)]));
-}
-
-function range(low: number, mid: number, high: number) {
+function range(low: number, mid: number, high: number): CostRange {
   return { low, mid, high };
 }
 
+function applyMarket(rangeValue: CostRange, factor: number): CostRange {
+  return {
+    low: Math.round(rangeValue.low * factor),
+    mid: Math.round(rangeValue.mid * factor),
+    high: Math.round(rangeValue.high * factor),
+  };
+}
+
+function categoryBudget(costBase: number, rates: CostRange): CostRange {
+  return {
+    low: roundToNearest(costBase * rates.low),
+    mid: roundToNearest(costBase * rates.mid),
+    high: roundToNearest(costBase * rates.high),
+  };
+}
+
+function totalCostPerSqFt(rates: { construction: CostRange; ffe: CostRange; itav: CostRange; softCosts: CostRange; contingency: number }, key: keyof CostRange): number {
+  const subtotal = rates.construction[key] + rates.ffe[key] + rates.itav[key] + rates.softCosts[key];
+  return Math.round(subtotal * (1 + rates.contingency));
+}
+
+function schedulePhases(impactLevel: ImpactLevel): BudgetEstimate["schedulePhases"] {
+  if (impactLevel === "low") {
+    return [
+      { phase: "Field Verification", weeks: "1–2", description: "Confirm existing partitions, protected walls, retained rooms, furniture reuse, and finish scope before pricing." },
+      { phase: "Light Refresh", weeks: "5–9", description: "Cosmetic construction, furniture planning, limited data/power adjustments, and targeted make-ready work." },
+      { phase: "Move-In Readiness", weeks: "2–3", description: "Furniture, signage, IT/AV, punch work, and final broker/tenant walk-through." },
+    ];
+  }
+
+  if (impactLevel === "medium") {
+    return [
+      { phase: "Schematic Test Fit + Pricing", weeks: "2–3", description: "Validate selective demolition, wall-retention logic, adjacency strategy, and contractor budget range." },
+      { phase: "Permits + Construction Documents", weeks: "4–6", description: "Document modified rooms, code items, ADA clearances, MEP coordination, and finish package." },
+      { phase: "Selective Build-Out", weeks: "8–13", description: "Selective demolition, new partitions, doors, finishes, lighting/data coordination, inspections, and closeout." },
+    ];
+  }
+
+  return [
+    { phase: "Design + Permit Strategy", weeks: "5–7", description: "Full redesign, stakeholder review, permit drawings, engineering coordination, and value engineering." },
+    { phase: "Demolition + Rough-In", weeks: "6–10", description: "Substantial interior demolition, MEP rough-in, framing, inspections, and fixed-core coordination." },
+    { phase: "Full Build-Out + Commissioning", weeks: "9–15", description: "New partitions, finishes, millwork, furniture, IT/AV, life-safety inspections, and tenant turnover." },
+  ];
+}
+
+function scopeItems(impactLevel: ImpactLevel, layout: LayoutResult): string[] {
+  if (impactLevel === "low") {
+    return [
+      "Furniture reconfiguration",
+      "cosmetic finish refresh",
+      `${layout.demolishedWalls.length} targeted interior partition removals`,
+      "limited data/power adjustments",
+    ];
+  }
+
+  if (impactLevel === "medium") {
+    return [
+      "Selective new partitions",
+      `${layout.demolishedWalls.length} prioritized partition removals`,
+      `${layout.newWalls.length} new wall segments for conference/support rooms`,
+      "workstation neighborhoods",
+      "targeted finish and MEP adjustments",
+    ];
+  }
+
+  return [
+    "Comprehensive partition layout",
+    "full workplace neighborhood strategy",
+    `${layout.demolishedWalls.length} demolished interior wall segments`,
+    `${layout.newWalls.length} new wall segments`,
+    "complete finish and MEP coordination",
+  ];
+}
+
+function riskFlags(layout: LayoutResult, impactLevel: ImpactLevel): string[] {
+  const flags: string[] = [];
+  if (layout.unplacedRooms.length > 0) flags.push("Some requested program items could not be placed within hard spatial constraints.");
+  if (layout.efficiencyScore < 72) flags.push("Efficiency is below the target broker benchmark and should be reviewed with an architect.");
+  if (layout.programFitPct < 95) flags.push("Program fit is below the preferred 95% threshold; review achieved-vs-requested variance before quoting.");
+  if (layout.residualSqFt < 0.05 * (layout.usableSqFt + layout.circulationSqFt)) flags.push("Very low residual area may limit future growth or furniture flexibility.");
+  if (impactLevel === "low" && layout.demolitionPct > 0.2) flags.push("Light Refresh demolition exceeds the V1.2 20% ceiling.");
+  if (impactLevel === "medium" && (layout.demolitionPct < 0.3 || layout.demolitionPct > 0.6)) flags.push("Moderate Build-Out demolition is outside the V1.2 30–60% target band.");
+  if (impactLevel === "high" && layout.demolitionPct > 0 && layout.demolitionPct < 0.7) flags.push("Full Transformation demolition is below the V1.2 70% target band for parsed interior walls.");
+  return flags;
+}
+
 export function estimateBudget(layout: LayoutResult, impactLevel: ImpactLevel, market?: string): BudgetEstimate {
-  const base = IMPACT_BASE_COST[impactLevel];
+  const baseRates = RATES[impactLevel];
   const factor = marketFactor(market);
-  const costPerSqFtLow = Math.round(base.low * factor);
-  const costPerSqFtMid = Math.round(base.mid * factor);
-  const costPerSqFtHigh = Math.round(base.high * factor);
+  const rates = {
+    construction: applyMarket(baseRates.construction, factor),
+    ffe: applyMarket(baseRates.ffe, factor),
+    itav: applyMarket(baseRates.itav, factor),
+    softCosts: applyMarket(baseRates.softCosts, factor),
+    contingency: baseRates.contingency,
+  };
   const costBase = Math.max(layout.usableSqFt + layout.circulationSqFt, 1);
 
-  const budgetLow = roundToNearest(costBase * costPerSqFtLow);
-  const budgetMid = roundToNearest(costBase * costPerSqFtMid);
-  const budgetHigh = roundToNearest(costBase * costPerSqFtHigh);
+  const construction = categoryBudget(costBase, rates.construction);
+  const ffe = categoryBudget(costBase, rates.ffe);
+  const itAv = categoryBudget(costBase, rates.itav);
+  const softCosts = categoryBudget(costBase, rates.softCosts);
+  const subtotal = {
+    low: construction.low + ffe.low + itAv.low + softCosts.low,
+    mid: construction.mid + ffe.mid + itAv.mid + softCosts.mid,
+    high: construction.high + ffe.high + itAv.high + softCosts.high,
+  };
+  const contingency = {
+    low: roundToNearest(subtotal.low * baseRates.contingency),
+    mid: roundToNearest(subtotal.mid * baseRates.contingency),
+    high: roundToNearest(subtotal.high * baseRates.contingency),
+  };
 
-  const ratios = { construction: 0.6, ffe: 0.18, itAv: 0.1, softCosts: 0.08, tiAllowance: 0.04 };
-  const low = allocate(budgetLow, ratios);
-  const mid = allocate(budgetMid, ratios);
-  const high = allocate(budgetHigh, ratios);
-
-  const schedulePhases = impactLevel === "low"
-    ? [
-        { phase: "Field Verification", weeks: "1", description: "Confirm existing conditions, retained walls, and finish scope before pricing." },
-        { phase: "Light Refresh", weeks: "3–6", description: "Paint, finish updates, furniture planning, minor electrical/data adjustments, and reuse-focused punch work." },
-        { phase: "Move-In Readiness", weeks: "1–2", description: "Install furniture, signage, IT/AV devices, and final broker/tenant walk-through." },
-      ]
-    : impactLevel === "medium"
-      ? [
-          { phase: "Schematic Test Fit + Pricing", weeks: "2–3", description: "Validate selective demolition, adjacency strategy, and contractor budget range." },
-          { phase: "Permits + Construction Documents", weeks: "3–5", description: "Document modified rooms, egress, ADA clearances, MEP coordination, and finish package." },
-          { phase: "Selective Build-Out", weeks: "6–10", description: "Selective demolition, new partitions, doors, finishes, lighting/data coordination, and inspection closeout." },
-        ]
-      : [
-          { phase: "Design + Permit Strategy", weeks: "4–6", description: "Full redesign, stakeholder review, permit drawings, engineering coordination, and value engineering." },
-          { phase: "Demolition + Rough-In", weeks: "5–8", description: "Substantial interior demolition, MEP rough-in, framing, inspections, and core coordination." },
-          { phase: "Full Build-Out + Commissioning", weeks: "8–14", description: "New partitions, finishes, millwork, furniture, IT/AV, life-safety inspections, and tenant turnover." },
-        ];
-
-  const riskFlags: string[] = [];
-  if (layout.unplacedRooms.length > 0) riskFlags.push("Some requested program items could not be placed within hard spatial constraints.");
-  if (layout.efficiencyScore < 72) riskFlags.push("Efficiency is below the target broker benchmark and should be reviewed with an architect.");
-  if (layout.residualSqFt < 0.05 * (layout.usableSqFt + layout.circulationSqFt)) riskFlags.push("Very low residual area may limit future growth or furniture flexibility.");
+  const budgetLow = roundToNearest(subtotal.low + contingency.low);
+  const budgetMid = roundToNearest(subtotal.mid + contingency.mid);
+  const budgetHigh = roundToNearest(subtotal.high + contingency.high);
+  const scheduleLow = baseRates.scheduleWeeks.min;
+  const scheduleHigh = baseRates.scheduleWeeks.max;
 
   return {
     budgetLow,
     budgetMid,
     budgetHigh,
-    costPerSqFtLow,
-    costPerSqFtMid,
-    costPerSqFtHigh,
+    costPerSqFtLow: totalCostPerSqFt(rates, "low"),
+    costPerSqFtMid: totalCostPerSqFt(rates, "mid"),
+    costPerSqFtHigh: totalCostPerSqFt(rates, "high"),
     budgetBreakdown: {
-      construction: range(low.construction, mid.construction, high.construction),
-      ffe: range(low.ffe, mid.ffe, high.ffe),
-      itAv: range(low.itAv, mid.itAv, high.itAv),
-      softCosts: range(low.softCosts, mid.softCosts, high.softCosts),
-      tiAllowance: range(low.tiAllowance, mid.tiAllowance, high.tiAllowance),
+      construction,
+      ffe,
+      itAv,
+      softCosts,
+      tiAllowance: contingency,
     },
-    scheduleWeeksLow: base.weeks[0],
-    scheduleWeeksMid: base.weeks[1],
-    scheduleWeeksHigh: base.weeks[2],
-    schedulePhases,
+    scheduleWeeksLow: scheduleLow,
+    scheduleWeeksMid: Math.round((scheduleLow + scheduleHigh) / 2),
+    scheduleWeeksHigh: scheduleHigh,
+    schedulePhases: schedulePhases(impactLevel),
     scopeSummary: {
-      retainedElements: ["Building perimeter", "primary suite entry", "window line", "fixed core/restrooms", "ADA circulation intent"],
-      newConstruction: impactLevel === "low"
-        ? ["Furniture reconfiguration", "minor finish refresh", "limited data/power adjustments"]
-        : impactLevel === "medium"
-          ? ["Selective new partitions", "conference and support rooms", "workstation neighborhoods", "targeted finish and MEP adjustments"]
-          : ["Comprehensive partition layout", "full workplace neighborhood strategy", "new collaboration/support suite", "complete finish and MEP coordination"],
-      demolitionLevel: base.demolitionLevel,
-      riskFlags,
+      retainedElements: ["Building perimeter", "primary suite entry", "window line", "fixed core/restrooms", `${layout.keptWalls.length} retained/protected wall segments`, "ADA circulation intent"],
+      newConstruction: scopeItems(impactLevel, layout),
+      demolitionLevel: baseRates.demolitionLevel,
+      riskFlags: riskFlags(layout, impactLevel),
     },
   };
 }
