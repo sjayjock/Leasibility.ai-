@@ -24,6 +24,25 @@ function fmtSqFt(n: number | null) {
   return n.toLocaleString() + " sq ft";
 }
 
+function parsePersistedJson(value: any) {
+  if (typeof value !== "string") return value;
+  try {
+    return JSON.parse(value);
+  } catch {
+    return value;
+  }
+}
+
+function asArray<T = any>(value: any): T[] {
+  const parsed = parsePersistedJson(value);
+  return Array.isArray(parsed) ? parsed : [];
+}
+
+function asObject<T extends Record<string, any> = Record<string, any>>(value: any): T | null {
+  const parsed = parsePersistedJson(value);
+  return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? (parsed as T) : null;
+}
+
 type RoomRow = { type: string; count: number; sqFt: number };
 type SchedulePhase = { phase: string; weeks: string; description: string };
 type BudgetBreakdown = {
@@ -122,14 +141,14 @@ export default function ProjectDetail() {
 
   const { project, scenarios } = data;
   const scenario = scenarios[activeScenario];
-  const rooms = (scenario?.roomBreakdown as RoomRow[] | null) ?? [];
-  const schedulePhases = (scenario?.schedulePhases as SchedulePhase[] | null) ?? [];
-  const budgetBreakdown = (scenario?.budgetBreakdown as BudgetBreakdown | null);
-  const fitVariance = (scenario?.fitVariance as FitVarianceRow[] | null) ?? [];
-  const achievedProgram = scenario?.achievedProgram as { fitScore?: number } | null;
-  const existingConditions = scenario?.existingConditions as ExistingConditions | null;
-  const changeSummary = scenario?.changeSummary as ChangeSummary | null;
-  const qaWarnings = (scenario?.qaWarnings as string[] | null) ?? [];
+  const rooms = asArray<RoomRow>(scenario?.roomBreakdown);
+  const schedulePhases = asArray<SchedulePhase>(scenario?.schedulePhases);
+  const budgetBreakdown = asObject<BudgetBreakdown>(scenario?.budgetBreakdown);
+  const fitVariance = asArray<FitVarianceRow>(scenario?.fitVariance);
+  const achievedProgram = asObject<{ fitScore?: number }>(scenario?.achievedProgram);
+  const existingConditions = asObject<ExistingConditions>(scenario?.existingConditions);
+  const changeSummary = asObject<ChangeSummary>(scenario?.changeSummary);
+  const qaWarnings = asArray<string>(scenario?.qaWarnings);
 
   const isAnalyzing = project.status === "analyzing";
   const hasScenarios = scenarios.length > 0;

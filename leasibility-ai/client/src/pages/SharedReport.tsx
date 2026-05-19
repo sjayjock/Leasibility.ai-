@@ -41,15 +41,35 @@ function fmtSqFt(n: number | null | undefined) {
   return n.toLocaleString() + " sq ft";
 }
 
+function parsePersistedJson(value: any) {
+  if (typeof value !== "string") return value;
+  try {
+    return JSON.parse(value);
+  } catch {
+    return value;
+  }
+}
+
+function asArray<T = any>(value: any): T[] {
+  const parsed = parsePersistedJson(value);
+  return Array.isArray(parsed) ? parsed : [];
+}
+
+function asObject<T extends Record<string, any> = Record<string, any>>(value: any): T | null {
+  const parsed = parsePersistedJson(value);
+  return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? (parsed as T) : null;
+}
+
 function normalizeBudgetRows(breakdown: any) {
-  if (Array.isArray(breakdown)) return breakdown;
-  if (!breakdown || typeof breakdown !== "object") return [];
+  const parsed = parsePersistedJson(breakdown);
+  if (Array.isArray(parsed)) return parsed;
+  if (!parsed || typeof parsed !== "object") return [];
   return [
-    { category: "Construction", ...breakdown.construction },
-    { category: "Furniture, Fixtures & Equipment", ...breakdown.ffe },
-    { category: "IT / Audio-Visual", ...breakdown.itAv },
-    { category: "Soft Costs", ...breakdown.softCosts },
-    { category: "TI Allowance", ...breakdown.tiAllowance },
+    { category: "Construction", ...parsed.construction },
+    { category: "Furniture, Fixtures & Equipment", ...parsed.ffe },
+    { category: "IT / Audio-Visual", ...parsed.itAv },
+    { category: "Soft Costs", ...parsed.softCosts },
+    { category: "TI Allowance", ...parsed.tiAllowance },
   ].filter((row) => row.low != null && row.mid != null && row.high != null);
 }
 
@@ -59,10 +79,11 @@ function ScenarioCard({ scenario, index }: { scenario: any; index: number }) {
 
   const cfg = IMPACT_CONFIG[scenario.impactLevel as keyof typeof IMPACT_CONFIG] ?? IMPACT_CONFIG.medium;
   const breakdown = normalizeBudgetRows(scenario.budgetBreakdown) as Array<{ category: string; low: number; mid: number; high: number }>;
-  const phases = (scenario.schedulePhases as Array<{ phase: string; weeks: number | string; description: string }>) ?? [];
-  const rooms = (scenario.roomBreakdown as Array<{ type: string; count: number; sqFt: number }>) ?? [];
-  const fitVariance = (scenario.fitVariance as Array<{ label: string; requested: number; achieved: number; status: string }>) ?? [];
-  const existingConditions = scenario.existingConditions as { extractionStatus?: string; confidence?: number; narrative?: string; qaWarnings?: string[] } | null;
+  const phases = asArray<{ phase: string; weeks: number | string; description: string }>(scenario.schedulePhases);
+  const rooms = asArray<{ type: string; count: number; sqFt: number }>(scenario.roomBreakdown);
+  const fitVariance = asArray<{ label: string; requested: number; achieved: number; status: string }>(scenario.fitVariance);
+  const existingConditions = asObject<{ extractionStatus?: string; confidence?: number; narrative?: string; qaWarnings?: string[] }>(scenario.existingConditions);
+  const achievedProgram = asObject<{ fitScore?: number }>(scenario.achievedProgram);
 
   return (
     <div
@@ -97,7 +118,7 @@ function ScenarioCard({ scenario, index }: { scenario: any; index: number }) {
             { icon: DollarSign, label: "Budget Range", value: `${fmt$(scenario.budgetLow ?? 0)} – ${fmt$(scenario.budgetHigh ?? 0)}` },
             { icon: DollarSign, label: "Cost / Sq Ft", value: `$${scenario.costPerSqFtLow ?? 0} – $${scenario.costPerSqFtHigh ?? 0}` },
             { icon: Calendar, label: "Timeline", value: `${scenario.scheduleWeeksLow ?? 0}–${scenario.scheduleWeeksHigh ?? 0} weeks` },
-            { icon: CheckCircle, label: "Program Fit", value: scenario.achievedProgram?.fitScore != null ? `${scenario.achievedProgram.fitScore}%` : "Needs review" },
+            { icon: CheckCircle, label: "Program Fit", value: achievedProgram?.fitScore != null ? `${achievedProgram.fitScore}%` : "Needs review" },
           ].map((m, i) => (
             <div key={i} className="bg-white/5 rounded-xl p-3">
               <div className="text-white/40 text-xs font-['Inter'] mb-1 flex items-center gap-1">
@@ -314,6 +335,7 @@ export default function SharedReport() {
   const brokerCompany = broker?.brokerCompany ?? "CREEL Solutions LLC";
   const brokerPhone = broker?.brokerPhone ?? "";
   const brokerEmail = broker?.brokerEmail ?? brokerUser?.email ?? "";
+  const scenarios = asArray<any>(scenarioList).sort((a, b) => (a.scenarioNumber ?? 0) - (b.scenarioNumber ?? 0));
 
   return (
     <div className="min-h-screen bg-[#0A1628] text-white">
@@ -377,11 +399,9 @@ export default function SharedReport() {
         </div>
 
         {/* Scenarios */}
-        {scenarioList
-          .sort((a, b) => a.scenarioNumber - b.scenarioNumber)
-          .map((s, i) => (
-            <ScenarioCard key={s.id} scenario={s} index={i} />
-          ))}
+        {scenarios.map((s, i) => (
+          <ScenarioCard key={s.id} scenario={s} index={i} />
+        ))}
 
         {/* Disclaimer */}
         <div className="bg-white/3 border border-white/8 rounded-xl p-5 mb-8">
