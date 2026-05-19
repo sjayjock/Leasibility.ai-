@@ -31,6 +31,16 @@ async function findAvailablePort(startPort: number = 3000): Promise<number> {
 async function startServer() {
   const app = express();
   const server = createServer(app);
+  // Health check endpoint for persistent hosts and uptime monitoring.
+  app.get("/api/health", (_req, res) => {
+    res.json({
+      ok: true,
+      service: "leasibility-ai",
+      environment: process.env.NODE_ENV || "development",
+      timestamp: new Date().toISOString(),
+    });
+  });
+
   // Stripe webhook MUST use raw body — register BEFORE json middleware
   app.post("/api/stripe/webhook", express.raw({ type: "application/json" }), handleStripeWebhook);
 
